@@ -3,7 +3,18 @@
     
         "post0": {
             "title": "Bert Notebook Blog Post",
-            "content": "! pip install pytorch-pretrained-bert . Collecting pytorch-pretrained-bert Downloading https://files.pythonhosted.org/packages/d7/e0/c08d5553b89973d9a240605b9c12404bcf8227590de62bae27acbcfe076b/pytorch_pretrained_bert-0.6.2-py3-none-any.whl (123kB) |████████████████████████████████| 133kB 10.0MB/s Requirement already satisfied: boto3 in /usr/local/lib/python3.6/dist-packages (from pytorch-pretrained-bert) (1.12.27) Requirement already satisfied: tqdm in /usr/local/lib/python3.6/dist-packages (from pytorch-pretrained-bert) (4.38.0) Requirement already satisfied: numpy in /usr/local/lib/python3.6/dist-packages (from pytorch-pretrained-bert) (1.18.2) Requirement already satisfied: torch&gt;=0.4.1 in /usr/local/lib/python3.6/dist-packages (from pytorch-pretrained-bert) (1.4.0) Requirement already satisfied: regex in /usr/local/lib/python3.6/dist-packages (from pytorch-pretrained-bert) (2019.12.20) Requirement already satisfied: requests in /usr/local/lib/python3.6/dist-packages (from pytorch-pretrained-bert) (2.21.0) Requirement already satisfied: s3transfer&lt;0.4.0,&gt;=0.3.0 in /usr/local/lib/python3.6/dist-packages (from boto3-&gt;pytorch-pretrained-bert) (0.3.3) Requirement already satisfied: jmespath&lt;1.0.0,&gt;=0.7.1 in /usr/local/lib/python3.6/dist-packages (from boto3-&gt;pytorch-pretrained-bert) (0.9.5) Requirement already satisfied: botocore&lt;1.16.0,&gt;=1.15.27 in /usr/local/lib/python3.6/dist-packages (from boto3-&gt;pytorch-pretrained-bert) (1.15.27) Requirement already satisfied: chardet&lt;3.1.0,&gt;=3.0.2 in /usr/local/lib/python3.6/dist-packages (from requests-&gt;pytorch-pretrained-bert) (3.0.4) Requirement already satisfied: idna&lt;2.9,&gt;=2.5 in /usr/local/lib/python3.6/dist-packages (from requests-&gt;pytorch-pretrained-bert) (2.8) Requirement already satisfied: urllib3&lt;1.25,&gt;=1.21.1 in /usr/local/lib/python3.6/dist-packages (from requests-&gt;pytorch-pretrained-bert) (1.24.3) Requirement already satisfied: certifi&gt;=2017.4.17 in /usr/local/lib/python3.6/dist-packages (from requests-&gt;pytorch-pretrained-bert) (2019.11.28) Requirement already satisfied: docutils&lt;0.16,&gt;=0.10 in /usr/local/lib/python3.6/dist-packages (from botocore&lt;1.16.0,&gt;=1.15.27-&gt;boto3-&gt;pytorch-pretrained-bert) (0.15.2) Requirement already satisfied: python-dateutil&lt;3.0.0,&gt;=2.1 in /usr/local/lib/python3.6/dist-packages (from botocore&lt;1.16.0,&gt;=1.15.27-&gt;boto3-&gt;pytorch-pretrained-bert) (2.8.1) Requirement already satisfied: six&gt;=1.5 in /usr/local/lib/python3.6/dist-packages (from python-dateutil&lt;3.0.0,&gt;=2.1-&gt;botocore&lt;1.16.0,&gt;=1.15.27-&gt;boto3-&gt;pytorch-pretrained-bert) (1.12.0) Installing collected packages: pytorch-pretrained-bert Successfully installed pytorch-pretrained-bert-0.6.2 . import torch from pytorch_pretrained_bert import BertTokenizer # Load pre-trained model tokenizer (vocabulary) tokenizer = BertTokenizer.from_pretrained(&#39;bert-base-uncased&#39;) . with open(&quot;vocabulary.txt&quot;, &quot;w&quot;) as f: for token in tokenizer.vocab.keys(): f.write(token + &quot; n&quot;) .",
+            "content": "",
+            "url": "https://sparklingness.github.io/blog/bert/jupyter/2020/04/11/Bert-Word-Embedding-Tutorial.html",
+            "relUrl": "/bert/jupyter/2020/04/11/Bert-Word-Embedding-Tutorial.html",
+            "date": " • Apr 11, 2020"
+        }
+        
+    
+  
+    
+        ,"post1": {
+            "title": "Bert Notebook Blog Post",
+            "content": "",
             "url": "https://sparklingness.github.io/blog/bert/jupyter/2020/03/29/Inspect-Bert-Vocabulary.html",
             "relUrl": "/bert/jupyter/2020/03/29/Inspect-Bert-Vocabulary.html",
             "date": " • Mar 29, 2020"
