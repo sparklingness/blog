@@ -1,0 +1,1483 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Inspect Bert Vocabulary | wAIz NLP</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="Inspect Bert Vocabulary" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="A tutorial of BERT Vocabulary for Jupyter notebooks." />
+<meta property="og:description" content="A tutorial of BERT Vocabulary for Jupyter notebooks." />
+<link rel="canonical" href="https://sparklingness.github.io/blog/bert/jupyter/2020/04/18/Inspect-Bert-Vocabulary.html" />
+<meta property="og:url" content="https://sparklingness.github.io/blog/bert/jupyter/2020/04/18/Inspect-Bert-Vocabulary.html" />
+<meta property="og:site_name" content="wAIz NLP" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-04-18T00:00:00-05:00" />
+<script type="application/ld+json">
+{"description":"A tutorial of BERT Vocabulary for Jupyter notebooks.","@type":"BlogPosting","headline":"Inspect Bert Vocabulary","dateModified":"2020-04-18T00:00:00-05:00","datePublished":"2020-04-18T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://sparklingness.github.io/blog/bert/jupyter/2020/04/18/Inspect-Bert-Vocabulary.html"},"url":"https://sparklingness.github.io/blog/bert/jupyter/2020/04/18/Inspect-Bert-Vocabulary.html","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/blog/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://sparklingness.github.io/blog/feed.xml" title="wAIz NLP" /><link rel="shortcut icon" type="image/x-icon" href="/blog/images/favicon.ico"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Inspect Bert Vocabulary | wAIz NLP</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="Inspect Bert Vocabulary" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="A tutorial of BERT Vocabulary for Jupyter notebooks." />
+<meta property="og:description" content="A tutorial of BERT Vocabulary for Jupyter notebooks." />
+<link rel="canonical" href="https://sparklingness.github.io/blog/bert/jupyter/2020/04/18/Inspect-Bert-Vocabulary.html" />
+<meta property="og:url" content="https://sparklingness.github.io/blog/bert/jupyter/2020/04/18/Inspect-Bert-Vocabulary.html" />
+<meta property="og:site_name" content="wAIz NLP" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-04-18T00:00:00-05:00" />
+<script type="application/ld+json">
+{"description":"A tutorial of BERT Vocabulary for Jupyter notebooks.","@type":"BlogPosting","headline":"Inspect Bert Vocabulary","dateModified":"2020-04-18T00:00:00-05:00","datePublished":"2020-04-18T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://sparklingness.github.io/blog/bert/jupyter/2020/04/18/Inspect-Bert-Vocabulary.html"},"url":"https://sparklingness.github.io/blog/bert/jupyter/2020/04/18/Inspect-Bert-Vocabulary.html","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+<link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" />
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css"><link type="application/atom+xml" rel="alternate" href="https://sparklingness.github.io/blog/feed.xml" title="wAIz NLP" />
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head><body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/blog/">wAIz NLP</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/blog/about/">About Me</a><a class="page-link" href="/blog/search/">Search</a><a class="page-link" href="/blog/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Inspect Bert Vocabulary</h1><p class="page-description">A tutorial of BERT Vocabulary for Jupyter notebooks.</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2020-04-18T00:00:00-05:00" itemprop="datePublished">
+        Apr 18, 2020
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      16 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/blog/categories/#bert">bert</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/blog/categories/#jupyter">jupyter</a>
+        
+      
+      </p>
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-wrap flex-justify-end">
+          <div class="px-2">
+
+    <a href="https://github.com/sparklingness/blog/tree/master/_notebooks/2020-04-18-Inspect-Bert-Vocabulary.ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/blog/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/sparklingness/blog/master?filepath=_notebooks%2F2020-04-18-Inspect-Bert-Vocabulary.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/blog/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/sparklingness/blog/blob/master/_notebooks/2020-04-18-Inspect-Bert-Vocabulary.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/blog/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#Load-the-model">Load the model </a></li>
+<li class="toc-entry toc-h2"><a href="#Inspect-BERT-Vocabulary">Inspect BERT Vocabulary </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#Vocab-Dump">Vocab Dump </a></li>
+<li class="toc-entry toc-h3"><a href="#Single-Characters">Single Characters </a></li>
+<li class="toc-entry toc-h3"><a href="#Subwords-vs.-Whole-words">Subwords vs. Whole-words </a></li>
+<li class="toc-entry toc-h3"><a href="#Misspellings">Misspellings </a></li>
+<li class="toc-entry toc-h3"><a href="#Start-vs.-Mid-Subwords">Start vs. Mid Subwords </a></li>
+<li class="toc-entry toc-h3"><a href="#Names">Names </a></li>
+<li class="toc-entry toc-h3"><a href="#Numbers">Numbers </a></li>
+</ul>
+</li>
+</ul><!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2020-04-18-Inspect-Bert-Vocabulary.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Load-the-model">
+<a class="anchor" href="#Load-the-model" aria-hidden="true"><span class="octicon octicon-link"></span></a>Load the model<a class="anchor-link" href="#Load-the-model"> </a>
+</h2>
+<p>Install the huggingface implementation.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>pip install pytorch-pretrained-bert
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Requirement already satisfied: pytorch-pretrained-bert in /usr/local/anaconda3/lib/python3.6/site-packages (0.6.2)
+Requirement already satisfied: tqdm in /usr/local/anaconda3/lib/python3.6/site-packages (from pytorch-pretrained-bert) (4.26.0)
+Requirement already satisfied: regex in /usr/local/anaconda3/lib/python3.6/site-packages (from pytorch-pretrained-bert) (2017.4.5)
+Requirement already satisfied: torch&gt;=0.4.1 in /usr/local/anaconda3/lib/python3.6/site-packages (from pytorch-pretrained-bert) (0.4.1)
+Requirement already satisfied: requests in /usr/local/anaconda3/lib/python3.6/site-packages (from pytorch-pretrained-bert) (2.19.1)
+Requirement already satisfied: boto3 in /usr/local/anaconda3/lib/python3.6/site-packages (from pytorch-pretrained-bert) (1.7.78)
+Requirement already satisfied: numpy in /usr/local/anaconda3/lib/python3.6/site-packages (from pytorch-pretrained-bert) (1.15.4)
+Requirement already satisfied: chardet&lt;3.1.0,&gt;=3.0.2 in /usr/local/anaconda3/lib/python3.6/site-packages (from requests-&gt;pytorch-pretrained-bert) (3.0.4)
+Requirement already satisfied: idna&lt;2.8,&gt;=2.5 in /usr/local/anaconda3/lib/python3.6/site-packages (from requests-&gt;pytorch-pretrained-bert) (2.7)
+Requirement already satisfied: certifi&gt;=2017.4.17 in /usr/local/anaconda3/lib/python3.6/site-packages (from requests-&gt;pytorch-pretrained-bert) (2019.3.9)
+Requirement already satisfied: urllib3&lt;1.24,&gt;=1.21.1 in /usr/local/anaconda3/lib/python3.6/site-packages (from requests-&gt;pytorch-pretrained-bert) (1.23)
+Requirement already satisfied: botocore&lt;1.11.0,&gt;=1.10.78 in /usr/local/anaconda3/lib/python3.6/site-packages (from boto3-&gt;pytorch-pretrained-bert) (1.10.78)
+Requirement already satisfied: s3transfer&lt;0.2.0,&gt;=0.1.10 in /usr/local/anaconda3/lib/python3.6/site-packages (from boto3-&gt;pytorch-pretrained-bert) (0.1.13)
+Requirement already satisfied: jmespath&lt;1.0.0,&gt;=0.7.1 in /usr/local/anaconda3/lib/python3.6/site-packages (from boto3-&gt;pytorch-pretrained-bert) (0.9.3)
+Requirement already satisfied: python-dateutil&lt;3.0.0,&gt;=2.1; python_version &gt;= "2.7" in /usr/local/anaconda3/lib/python3.6/site-packages (from botocore&lt;1.11.0,&gt;=1.10.78-&gt;boto3-&gt;pytorch-pretrained-bert) (2.6.1)
+Requirement already satisfied: docutils&gt;=0.10 in /usr/local/anaconda3/lib/python3.6/site-packages (from botocore&lt;1.11.0,&gt;=1.10.78-&gt;boto3-&gt;pytorch-pretrained-bert) (0.14)
+Requirement already satisfied: six&gt;=1.5 in /usr/local/anaconda3/lib/python3.6/site-packages (from python-dateutil&lt;3.0.0,&gt;=2.1; python_version &gt;= "2.7"-&gt;botocore&lt;1.11.0,&gt;=1.10.78-&gt;boto3-&gt;pytorch-pretrained-bert) (1.11.0)
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">pytorch_pretrained_bert</span> <span class="kn">import</span> <span class="n">BertTokenizer</span>
+
+<span class="c1"># Load pre-trained model tokenizer (vocabulary)</span>
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">BertTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s1">'bert-base-uncased'</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Inspect-BERT-Vocabulary">
+<a class="anchor" href="#Inspect-BERT-Vocabulary" aria-hidden="true"><span class="octicon octicon-link"></span></a>Inspect BERT Vocabulary<a class="anchor-link" href="#Inspect-BERT-Vocabulary"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Vocab-Dump">
+<a class="anchor" href="#Vocab-Dump" aria-hidden="true"><span class="octicon octicon-link"></span></a>Vocab Dump<a class="anchor-link" href="#Vocab-Dump"> </a>
+</h3>
+<p>Retrieve the entire list of "tokens" and write these out to text files so we can peruse them.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"vocabulary.txt"</span><span class="p">,</span> <span class="s1">'w'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">vocab</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">token</span><span class="o">+</span><span class="s1">'</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Single-Characters">
+<a class="anchor" href="#Single-Characters" aria-hidden="true"><span class="octicon octicon-link"></span></a>Single Characters<a class="anchor-link" href="#Single-Characters"> </a>
+</h3>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">one_chars</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">one_chars_hashes</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1"># For each token in the vocabulary,</span>
+<span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">vocab</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+    
+    <span class="c1"># Record any single-character tokens.</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">token</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">one_chars</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
+        
+    <span class="c1"># Record single-character tokens preceded by the two hashes.</span>
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">token</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span> <span class="ow">and</span> <span class="n">token</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'##'</span><span class="p">:</span>
+        <span class="n">one_chars_hashes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">'Number of single character tokens:'</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">one_chars</span><span class="p">),</span> <span class="s1">'</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
+
+<span class="c1"># Print all of the single characters, 40 per row.</span>
+
+<span class="c1"># For every batch of 40 tokens,</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">one_chars</span><span class="p">),</span> <span class="mi">40</span><span class="p">):</span>
+    
+    <span class="c1"># Limit the end index so we don't go past the end of the list.</span>
+    <span class="n">end</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">40</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">one_chars</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+    
+    <span class="c1"># Print out the tokens, seperated by a space.</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">' '</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">one_chars</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">end</span><span class="p">]))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Number of single character tokens: 997 
+
+! " # $ % &amp; ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; &lt; = &gt; ? @ [ \ ] ^ _ ` a b
+c d e f g h i j k l m n o p q r s t u v w x y z { | } ~ ¡ ¢ £ ¤ ¥ ¦ § ¨ © ª « ¬
+® ° ± ² ³ ´ µ ¶ · ¹ º » ¼ ½ ¾ ¿ × ß æ ð ÷ ø þ đ ħ ı ł ŋ œ ƒ ɐ ɑ ɒ ɔ ɕ ə ɛ ɡ ɣ ɨ
+ɪ ɫ ɬ ɯ ɲ ɴ ɹ ɾ ʀ ʁ ʂ ʃ ʉ ʊ ʋ ʌ ʎ ʐ ʑ ʒ ʔ ʰ ʲ ʳ ʷ ʸ ʻ ʼ ʾ ʿ ˈ ː ˡ ˢ ˣ ˤ α β γ δ
+ε ζ η θ ι κ λ μ ν ξ ο π ρ ς σ τ υ φ χ ψ ω а б в г д е ж з и к л м н о п р с т у
+ф х ц ч ш щ ъ ы ь э ю я ђ є і ј љ њ ћ ӏ ա բ գ դ ե թ ի լ կ հ մ յ ն ո պ ս վ տ ր ւ
+ք ־ א ב ג ד ה ו ז ח ט י ך כ ל ם מ ן נ ס ע ף פ ץ צ ק ר ש ת ، ء ا ب ة ت ث ج ح خ د
+ذ ر ز س ش ص ض ط ظ ع غ ـ ف ق ك ل م ن ه و ى ي ٹ پ چ ک گ ں ھ ہ ی ے अ आ उ ए क ख ग च
+ज ट ड ण त थ द ध न प ब भ म य र ल व श ष स ह ा ि ी ो । ॥ ং অ আ ই উ এ ও ক খ গ চ ছ জ
+ট ড ণ ত থ দ ধ ন প ব ভ ম য র ল শ ষ স হ া ি ী ে க ச ட த ந ன ப ம ய ர ல ள வ ா ி ு ே
+ை ನ ರ ಾ ක ය ර ල ව ා ก ง ต ท น พ ม ย ร ล ว ส อ า เ ་ ། ག ང ད ན པ བ མ འ ར ལ ས မ ა
+ბ გ დ ე ვ თ ი კ ლ მ ნ ო რ ს ტ უ ᄀ ᄂ ᄃ ᄅ ᄆ ᄇ ᄉ ᄊ ᄋ ᄌ ᄎ ᄏ ᄐ ᄑ ᄒ ᅡ ᅢ ᅥ ᅦ ᅧ ᅩ ᅪ ᅭ ᅮ
+ᅯ ᅲ ᅳ ᅴ ᅵ ᆨ ᆫ ᆯ ᆷ ᆸ ᆼ ᴬ ᴮ ᴰ ᴵ ᴺ ᵀ ᵃ ᵇ ᵈ ᵉ ᵍ ᵏ ᵐ ᵒ ᵖ ᵗ ᵘ ᵢ ᵣ ᵤ ᵥ ᶜ ᶠ ‐ ‑ ‒ – — ―
+‖ ‘ ’ ‚ “ ” „ † ‡ • … ‰ ′ ″ › ‿ ⁄ ⁰ ⁱ ⁴ ⁵ ⁶ ⁷ ⁸ ⁹ ⁺ ⁻ ⁿ ₀ ₁ ₂ ₃ ₄ ₅ ₆ ₇ ₈ ₉ ₊ ₍
+₎ ₐ ₑ ₒ ₓ ₕ ₖ ₗ ₘ ₙ ₚ ₛ ₜ ₤ ₩ € ₱ ₹ ℓ № ℝ ™ ⅓ ⅔ ← ↑ → ↓ ↔ ↦ ⇄ ⇌ ⇒ ∂ ∅ ∆ ∇ ∈ − ∗
+∘ √ ∞ ∧ ∨ ∩ ∪ ≈ ≡ ≤ ≥ ⊂ ⊆ ⊕ ⊗ ⋅ ─ │ ■ ▪ ● ★ ☆ ☉ ♠ ♣ ♥ ♦ ♭ ♯ ⟨ ⟩ ⱼ ⺩ ⺼ ⽥ 、 。 〈 〉
+《 》 「 」 『 』 〜 あ い う え お か き く け こ さ し す せ そ た ち っ つ て と な に ぬ ね の は ひ ふ へ ほ ま み
+む め も や ゆ よ ら り る れ ろ を ん ァ ア ィ イ ウ ェ エ オ カ キ ク ケ コ サ シ ス セ タ チ ッ ツ テ ト ナ ニ ノ ハ
+ヒ フ ヘ ホ マ ミ ム メ モ ャ ュ ョ ラ リ ル レ ロ ワ ン ・ ー 一 三 上 下 不 世 中 主 久 之 也 事 二 五 井 京 人 亻 仁
+介 代 仮 伊 会 佐 侍 保 信 健 元 光 八 公 内 出 分 前 劉 力 加 勝 北 区 十 千 南 博 原 口 古 史 司 合 吉 同 名 和 囗 四
+国 國 土 地 坂 城 堂 場 士 夏 外 大 天 太 夫 奈 女 子 学 宀 宇 安 宗 定 宣 宮 家 宿 寺 將 小 尚 山 岡 島 崎 川 州 巿 帝
+平 年 幸 广 弘 張 彳 後 御 德 心 忄 志 忠 愛 成 我 戦 戸 手 扌 政 文 新 方 日 明 星 春 昭 智 曲 書 月 有 朝 木 本 李 村
+東 松 林 森 楊 樹 橋 歌 止 正 武 比 氏 民 水 氵 氷 永 江 沢 河 治 法 海 清 漢 瀬 火 版 犬 王 生 田 男 疒 発 白 的 皇 目
+相 省 真 石 示 社 神 福 禾 秀 秋 空 立 章 竹 糹 美 義 耳 良 艹 花 英 華 葉 藤 行 街 西 見 訁 語 谷 貝 貴 車 軍 辶 道 郎
+郡 部 都 里 野 金 鈴 镇 長 門 間 阝 阿 陳 陽 雄 青 面 風 食 香 馬 高 龍 龸 ﬁ ﬂ ！ （ ） ， － ． ／ ： ？ ～
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">'Number of single character tokens with hashes:'</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">one_chars_hashes</span><span class="p">),</span> <span class="s1">'</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
+
+<span class="c1"># Print all of the single characters, 40 per row.</span>
+
+<span class="c1"># Strip the hash marks, since they just clutter the display.</span>
+<span class="n">tokens</span> <span class="o">=</span> <span class="p">[</span><span class="n">token</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">'##'</span><span class="p">,</span> <span class="s1">''</span><span class="p">)</span> <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">one_chars_hashes</span><span class="p">]</span>
+
+<span class="c1"># For every batch of 40 tokens...</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">tokens</span><span class="p">),</span> <span class="mi">40</span><span class="p">):</span>
+    
+    <span class="c1"># Limit the end index so we don't go past the end of the list.</span>
+    <span class="n">end</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">40</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+    
+    <span class="c1"># Print out the tokens, seperated by a space.</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">' '</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tokens</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">end</span><span class="p">]))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Number of single character tokens with hashes: 997 
+
+s a e i n o d r y t l m u h k c g p 2 z 1 b 3 f 4 6 7 x v 8 5 9 0 w j q ° ₂ а и
+² ₃ ı ₁ ⁺ ½ о ه ي α е د ن ν ø р ₄ ₀ ر я ³ ι ł н ᵢ ₙ ß ة ς م − т ː ل ь к ♭ η ی в
+ا × ¹ ы ה ɛ л ! " # $ % &amp; ' ( ) * + , - . / : ; &lt; = &gt; ? @ [ \ ] ^ _ ` { | } ~ ¡
+¢ £ ¤ ¥ ¦ § ¨ © ª « ¬ ® ± ´ µ ¶ · º » ¼ ¾ ¿ æ ð ÷ þ đ ħ ŋ œ ƒ ɐ ɑ ɒ ɔ ɕ ə ɡ ɣ ɨ
+ɪ ɫ ɬ ɯ ɲ ɴ ɹ ɾ ʀ ʁ ʂ ʃ ʉ ʊ ʋ ʌ ʎ ʐ ʑ ʒ ʔ ʰ ʲ ʳ ʷ ʸ ʻ ʼ ʾ ʿ ˈ ˡ ˢ ˣ ˤ β γ δ ε ζ
+θ κ λ μ ξ ο π ρ σ τ υ φ χ ψ ω б г д ж з м п с у ф х ц ч ш щ ъ э ю ђ є і ј љ њ ћ
+ӏ ա բ գ դ ե թ ի լ կ հ մ յ ն ո պ ս վ տ ր ւ ք ־ א ב ג ד ו ז ח ט י ך כ ל ם מ ן נ ס
+ע ף פ ץ צ ק ר ש ת ، ء ب ت ث ج ح خ ذ ز س ش ص ض ط ظ ع غ ـ ف ق ك و ى ٹ پ چ ک گ ں ھ
+ہ ے अ आ उ ए क ख ग च ज ट ड ण त थ द ध न प ब भ म य र ल व श ष स ह ा ि ी ो । ॥ ং অ আ
+ই উ এ ও ক খ গ চ ছ জ ট ড ণ ত থ দ ধ ন প ব ভ ম য র ল শ ষ স হ া ি ী ে க ச ட த ந ன ப
+ம ய ர ல ள வ ா ி ு ே ை ನ ರ ಾ ක ය ර ල ව ා ก ง ต ท น พ ม ย ร ล ว ส อ า เ ་ ། ག ང ད
+ན པ བ མ འ ར ལ ས မ ა ბ გ დ ე ვ თ ი კ ლ მ ნ ო რ ს ტ უ ᄀ ᄂ ᄃ ᄅ ᄆ ᄇ ᄉ ᄊ ᄋ ᄌ ᄎ ᄏ ᄐ ᄑ
+ᄒ ᅡ ᅢ ᅥ ᅦ ᅧ ᅩ ᅪ ᅭ ᅮ ᅯ ᅲ ᅳ ᅴ ᅵ ᆨ ᆫ ᆯ ᆷ ᆸ ᆼ ᴬ ᴮ ᴰ ᴵ ᴺ ᵀ ᵃ ᵇ ᵈ ᵉ ᵍ ᵏ ᵐ ᵒ ᵖ ᵗ ᵘ ᵣ ᵤ
+ᵥ ᶜ ᶠ ‐ ‑ ‒ – — ― ‖ ‘ ’ ‚ “ ” „ † ‡ • … ‰ ′ ″ › ‿ ⁄ ⁰ ⁱ ⁴ ⁵ ⁶ ⁷ ⁸ ⁹ ⁻ ⁿ ₅ ₆ ₇ ₈
+₉ ₊ ₍ ₎ ₐ ₑ ₒ ₓ ₕ ₖ ₗ ₘ ₚ ₛ ₜ ₤ ₩ € ₱ ₹ ℓ № ℝ ™ ⅓ ⅔ ← ↑ → ↓ ↔ ↦ ⇄ ⇌ ⇒ ∂ ∅ ∆ ∇ ∈
+∗ ∘ √ ∞ ∧ ∨ ∩ ∪ ≈ ≡ ≤ ≥ ⊂ ⊆ ⊕ ⊗ ⋅ ─ │ ■ ▪ ● ★ ☆ ☉ ♠ ♣ ♥ ♦ ♯ ⟨ ⟩ ⱼ ⺩ ⺼ ⽥ 、 。 〈 〉
+《 》 「 」 『 』 〜 あ い う え お か き く け こ さ し す せ そ た ち っ つ て と な に ぬ ね の は ひ ふ へ ほ ま み
+む め も や ゆ よ ら り る れ ろ を ん ァ ア ィ イ ウ ェ エ オ カ キ ク ケ コ サ シ ス セ タ チ ッ ツ テ ト ナ ニ ノ ハ
+ヒ フ ヘ ホ マ ミ ム メ モ ャ ュ ョ ラ リ ル レ ロ ワ ン ・ ー 一 三 上 下 不 世 中 主 久 之 也 事 二 五 井 京 人 亻 仁
+介 代 仮 伊 会 佐 侍 保 信 健 元 光 八 公 内 出 分 前 劉 力 加 勝 北 区 十 千 南 博 原 口 古 史 司 合 吉 同 名 和 囗 四
+国 國 土 地 坂 城 堂 場 士 夏 外 大 天 太 夫 奈 女 子 学 宀 宇 安 宗 定 宣 宮 家 宿 寺 將 小 尚 山 岡 島 崎 川 州 巿 帝
+平 年 幸 广 弘 張 彳 後 御 德 心 忄 志 忠 愛 成 我 戦 戸 手 扌 政 文 新 方 日 明 星 春 昭 智 曲 書 月 有 朝 木 本 李 村
+東 松 林 森 楊 樹 橋 歌 止 正 武 比 氏 民 水 氵 氷 永 江 沢 河 治 法 海 清 漢 瀬 火 版 犬 王 生 田 男 疒 発 白 的 皇 目
+相 省 真 石 示 社 神 福 禾 秀 秋 空 立 章 竹 糹 美 義 耳 良 艹 花 英 華 葉 藤 行 街 西 見 訁 語 谷 貝 貴 車 軍 辶 道 郎
+郡 部 都 里 野 金 鈴 镇 長 門 間 阝 阿 陳 陽 雄 青 面 風 食 香 馬 高 龍 龸 ﬁ ﬂ ！ （ ） ， － ． ／ ： ？ ～
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">'Are the two sets identical?'</span><span class="p">,</span> <span class="nb">set</span><span class="p">(</span><span class="n">one_chars</span><span class="p">)</span> <span class="o">==</span> <span class="nb">set</span><span class="p">(</span><span class="n">tokens</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Are the two sets identical? True
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Subwords-vs.-Whole-words">
+<a class="anchor" href="#Subwords-vs.-Whole-words" aria-hidden="true"><span class="octicon octicon-link"></span></a>Subwords vs. Whole-words<a class="anchor-link" href="#Subwords-vs.-Whole-words"> </a>
+</h3>
+<p>Let's gather some statistics on the vocabulary.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s1">'darkgrid'</span><span class="p">)</span>
+
+<span class="c1"># Increase the plot size and font size.</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">font_scale</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s2">"figure.figsize"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="c1"># Measure the length of every token in the vocab.</span>
+<span class="n">token_lengths</span> <span class="o">=</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">token</span><span class="p">)</span> <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">vocab</span><span class="o">.</span><span class="n">keys</span><span class="p">()]</span>
+
+<span class="c1"># Plot the number of tokens of each length.</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">countplot</span><span class="p">(</span><span class="n">token_lengths</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">'Vocab Token Lengths'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">'Token Length'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">'# of Tokens'</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Maximum token length:'</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">token_lengths</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Maximum token length: 18
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAncAAAFaCAYAAAB8EHsXAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAADl0RVh0U29mdHdhcmUAbWF0cGxvdGxpYiB2ZXJzaW9uIDIuMS4yLCBodHRwOi8vbWF0cGxvdGxpYi5vcmcvNQv5yAAAIABJREFUeJzs3XlcTnn/P/DXlbqKbJVKiKFUkrQbI7LOuFG2GINByRKKssSIMWZuS8mWbYgxiWZCuRkGw9DcvjNUGIbRKGvSnqV9Pb8//Lpu16TmQtcVx+v5ePR46PP5nPN+nySvzjnXuSSCIAggIiIiIlFQq+8GiIiIiKjuMNwRERERiQjDHREREZGIMNwRERERiQjDHREREZGIMNwRERERiQjDHRHh008/RadOnZCVlVXjmidPnsDKygo+Pj4q7Exer169MGnSpJfebt68eTA3N//Hj8WLF7/UfkeMGIEhQ4a8dD91bfXq1TA3N8cff/xR363UqKKiAqmpqbLPIyIi3vieid5W6vXdABHVPzc3N8TFxeHkyZMYN27cC9ecPHkSZWVlcHNzU3F3r2/s2LHo2bOn7PO4uDgcOHAAn3zyCWxtbWXj7dq1q4/2RC83NxceHh5wc3PD5MmT67sdItFjuCMiDBw4EMuXL8eJEydqDHfHjh1Ds2bN4OLiouLuXp+dnR3s7Oxkn5eWluLAgQOwtbXF0KFD67Gzd0N2djYSExPfyl8MiN5GvCxLRGjSpAn69OmDhIQE5OTkVJvPycnBhQsXMHDgQEil0nrokIiIFMVwR0QAAFdXV1RUVOCnn36qNnf8+HFUVFRUO/MSFxeHiRMnwtbWFra2tpg0aRISEhKqbX/58mV4eXnBwcEB3bp1w/Tp05GUlCSbFwQBe/fuxciRI2Fra4suXbpg4MCBCAsLw4veIfH7779H3759YW1tjdGjR+PXX3+tg6+AvF9//RWffvopbGxsYGdnh8mTJ+P333+vdZunT5/Czc0NDg4OuHbtmmw8MTER06ZNg729PWxsbDB+/HhcuHBBbtsRI0bA19cXp06dwrBhw9ClSxf07dsX27dvf+HX4FWlpKTA398f3bp1g7W1NUaMGIETJ07IrfH19cWIESNw8eJFjBkzBtbW1nB2dsbq1atRWloqt/avv/7ClClTYG9vj+7du2P16tUIDw+Hubk5cnNzcebMGbi6ugIAgoKCZONVMjIyMHv2bNjZ2cHBwQGzZ89GZmamXI3Dhw9j+PDhsLW1hYODA7y8vHD16tU6+5oQiQ3DHREBAFxcXNCsWTMcP3682tyxY8fQunVr2Nvby8ZOnjyJiRMnIiMjAzNmzIC3tzdSUlIwceJEnD17VrbuwoUL+PTTT3Hnzh1MmTIF3t7eSExMxKeffoqHDx8CAEJCQrB8+XKYmZlh0aJF8Pf3h4aGBoKDg3HkyBG5Xq5cuYKVK1fC1dUVfn5+ePz4MaZMmVItLL2OH374AZ6ennj06BF8fHwwdepU3L59G+PHj68xSBYXF2PatGlISUnB9u3bYWVlBQC4evUqxowZg9TUVMyYMQO+vr7Iz8+Hh4cHfv7552rHFhAQAGdnZyxevBgGBgYICQnBf/7znzo5rgcPHmD06NG4fPkyPDw8MG/ePGhra8PX1xf79u2TW5uWloapU6fC0tISgYGBsLS0xK5du7B9+3bZmrt372LcuHG4ceMGpk2bhokTJ+Lw4cPYvHmzbI2lpSXmzp0LABgyZAiCgoLQuHFj2fy8efNQVlaGgIAADB48GCdOnMDs2bNl87GxsViwYAGMjY2xcOFCTJ8+HcnJybLvPSJ6AYGI6P8LDAwUOnXqJOTk5MjG0tPTBXNzc2Ht2rWysdLSUqFHjx5Cnz59hPz8fNn4o0ePhB49egi9e/cWysrKBEEQhOHDhws9e/YUHj16JFuXnJwsmJubCyEhIUJJSYlgY2MjzJs3T66XJ0+eCJaWlsLMmTNlYz179hTMzMyE//73v7Kx3NxcwcHBQXB3d1f4OKOiogQzMzPh0KFD1eaKi4uFbt26CR9++KFQWFgoG8/JyRGcnJyEAQMGCBUVFbJjGzx4sFBWViZMmTJFsLa2Fn777Te5/Q0fPlwYMmSIUFJSIhsrKSkRRowYIfTp00duX2ZmZnLb5+XlCdbW1oKnp2etx7Nq1SrBzMxMuHr1aq3rfHx8hB49egi5ubmysYqKCsHb21uwsbERnj59KltnZmYmHDhwQG5dnz59hA8//FA2Nnv2bKFLly5CSkqKbOz+/fuClZWVYGZmJvs++uuvvwQzMzMhLCxMtm7Pnj2CmZmZ4O/vL9ejr6+vYGZmJmRnZwuCIAjz588XevToIbfm8uXLwkcffSScOXOm1uMlelfxzB0RyVRdmj19+rRs7Mcff4QgCHKXZP/44w9kZWXh008/hba2tmy8efPmGDt2LB4+fIg///wTmZmZuH79Otzc3NC8eXPZOhMTExw8eBCenp6QSqX47bff8Pnnn8v18vjxYzRu3BiFhYVy4xYWFnB2dpZ9rqOjgyFDhuDq1atyl/te1aVLl/Do0SNMmDABDRs2lI3r6upizJgxuHfvXrVLygEBAYiNjUVQUBDef/992VxqaiquX7+O3r17Iz8/H7m5ucjNzUV+fj769euH1NRU3Lx5U+5Ynt++cePGaNu2ba2PqFFUaWkpzpw5g/fffx+CIMh6efz4MT788EMUFhZWO/s5cOBA2Z/V1NRgZmaG7OxsAEBZWRliY2MxYMAAtGnTRrbO2NhYbrt/8vdHyXTp0gUAZMfcsmVLZGVlYfXq1bh79y4AwMbGBsePH0fv3r0VrkP0LuGrZYlIxtHREa1atcLx48cxatQoAMDRo0fRuXNnmJiYyNY9ePAAANC+fftq+6ha9/DhQ1RUVAB48SNGOnfuLPuzVCrFmTNn8PPPP+POnTu4d+8enj59CgCorKyU265Dhw7V9tW2bVsAz8KUrq6u4gf8AlXH9qI6zx+bubk5ACA5ORm3b98G8CwYfvTRR7L19+/fBwBs375d7nLm8x4+fAgLCwsAeGHvGhoa1e5zexUZGRkoLS3FkSNHql3qrpKWlib7s5aWllxwB579PVX9fWRmZqKwsPCFf7cv+trVRE9PT+5zLS0tAM/CIwB4eHjgt99+w65du7Br1y60a9cOffr0wahRo2BqaqpwHaJ3CcMdEclIJBIMHjwY33zzDR4/foz8/HxcvXoVixYtklsn1HKDf9V//hoaGrJwp6ZW80UCQRDg5+eH48ePw8HBAXZ2dvjkk0/g6OiIsWPHvrDHmmo2aNDgnw/yNTx/bFXU1NSwatUq/PTTT9izZw+GDh0KS0tLufWenp5yz9l7XlVIrNqXslT9XQwdOhTDhg174Zr33ntP4V7Ky8sB4IWvntbU1FS4rxf9fT5PR0cHUVFRuHjxIk6fPo1ffvkFu3fvxp49e7Bx40b0799f4VpE7wqGOyKS4+bmhh07duDMmTPIzc1FgwYNMHjwYLk1rVu3BgDcvn272qWxO3fuAACMjIxkl2KrzmA9b/Xq1dDT00Pnzp1x/Phx+Pj4YNasWbL5srIyPHnypNp2z7/LQZV79+5BIpHIXR58Vc8fW/fu3eXmnj+2KiYmJhg6dCgcHR1x7tw5LF26FFFRUVBTU5PtSyqV4oMPPpDbV2JiIjIyMmRnqpTN0NAQ6urqqKysrNZLSkoKbt68+VK9tGzZEhoaGrJLpc970dirunXrFoqLi+Hg4AAHBwcEBATgxo0bGDduHHbv3s1wR/QCvOeOiOSYmZnB3NwcZ8+exZkzZ9C9e3fo6+vLrbG2tkaLFi0QERGBgoIC2XheXh4iIyPRsmVLdOrUCa1atULHjh1x5MgR5Ofny9bdu3cPe/bsQU5ODh4/fgwA1S6xfffddygtLZWdcapy9epVJCYmyj7PzMzEkSNH4OTkhKZNm7728dvZ2aF58+YIDw9HUVGRbPzx48eIiopC27Zt5S5RV2nVqhWmT5+OP/74A3v37gXw7ExYhw4dEBUVJXc/YGlpKRYsWAA/P7/X7ldRDRs2RPfu3XHixAlZSAWenTn94osvMGvWLLm/y3+iqamJnj174tSpU3KvWs3Ozq72aJWqM6p/v8SuiMDAQPj4+KC4uFg2ZmpqCm1tbaWe6SR6m/HMHRFV4+bmhi1btqC4uBgrVqyoNi+VSrF48WLMnTsXI0eOhLu7OyorK7F//37k5uYiNDRUdrnts88+w5QpUzBq1Ci4u7sDAPbs2YPmzZvDy8sLFRUV0NbWxldffYUHDx6gcePGOH/+PH788UdoampWCxxNmzaFp6cnJk2aBDU1NezduxeCIFS7dPyqtLS0sGjRIixcuBCjRo3CiBEjUF5eju+++w55eXkIDg6ucVtPT0/ExMRg/fr1+PDDD2FoaIilS5diypQpGDFiBD7++GM0bdoUhw4dwl9//YUlS5ZUu6/tdWzfvh06OjrVxl1cXNCvXz8EBARgzJgx+PjjjzF27FgYGhri1KlTOHfuHDw9PWFsbPxS9ebOnYtRo0Zh1KhRGD9+PCQSCfbt2ycLYlXfA1U9nThxAs2bN8egQYMUrjF58mTMnDkTn376Kdzc3NCgQQP8+OOPyMzMxNKlS1+qX6J3BcMdEVUzZMgQhISEQFNTEwMGDHjhmkGDBqFZs2bYsmULNm3aBHV1dXTt2hWrVq2Sex7eBx98gG+//RYbNmxAaGgoGjZsCEdHR8yfP192M/3XX3+NkJAQbN68GVKpFO3bt8fGjRsRHx+PyMhI5Obmyl5s0KdPH5ibm8vuC7SxsUFoaCg6depUZ8c/bNgw6OjoYNu2bdiwYQOkUilsbW2xbt06dO3atcbtpFIpli5dCk9PT/z73//Gxo0b0b17d0RERGDTpk0ICwtDZWUlTExMsHbt2mqXu1/XyZMnXziuo6ODfv36oWPHjoiKisKGDRsQGRmJ4uJitG3bFkuXLsUnn3zy0vVMTU3x7bffIjg4GJs3b0ajRo3g7u6OwsJCREREyO7H09XVxYwZM7Bnzx78+9//lrvP8J/0798foaGh2LlzJzZu3IiysjJYWFhg06ZNNX5vEr3rJEJtd0YTERHVIDs7G3p6etVeFLFo0SIcO3YMV65cqafOiN5tvGGBiIheydSpU2WX2qvk5+fjl19+gbW1dT11RUS8LEtERK/Ezc0NK1euhLe3N1xcXFBcXIyDBw/iyZMncm8hRkSqxcuyRET0yg4cOIB9+/bhzp07UFdXh7W1NWbNmgVbW9v6bo3oncVwR0RERCQivOeOiIiISER4z91zsrLy6rsFIiIiIoXo6zd54TjP3BERERGJCMMdERERkYgw3BERERGJCMMdERERkYgw3BERERGJCMMdERERkYgw3BERERGJCMMdERERkYgw3BERERGJCMMdERERkYgw3BERERGJiMrDXVJSEszNzat9JCQkAADOnTuHoUOHwtraGq6uroiNjZXbPicnB7Nnz4aDgwO6d++O4OBglJeXy63ZvXs3+vTpg65du8LDwwN3795V1eERERER1St1VRdMSkqCjo4Ojhw5IjfevHlzJCcnw9vbGzNmzMCHH36II0eOYObMmYiJiUHHjh0BAD4+PpBIJIiIiEBGRgYWLlwIdXV1+Pn5AQD279+PjRs3YsWKFWjfvj3WrVsHLy8vHDt2DFKpVNWHS/SPwk+5K73GhP4HlF6DiIjeDCo/c3fz5k2YmppCX19f7kNDQwPh4eGwsbGBt7c3TExMMGfOHNja2iI8PBwAcPnyZVy8eBGrVq2ChYUFXFxcsGDBAuzZswelpaUAgLCwMHh4eGDgwIEwNzdHSEgIcnJycOLECVUfKhEREZHK1ctl2Q4dOrxwLiEhAU5OTnJj3bp1k12yTUhIQOvWrWFsbCybd3JyQkFBAW7cuIGcnBzcvXtXbh/a2tqwsrKS7YOIiIhIzOrlsmxJSQlGjx6N1NRUdOzYEf7+/rC2tkZ6ejoMDQ3l1hsYGCA9PR0AkJGRAQMDg2rzAJCWlgZ19WeHU9s+iIiIiMRMpeGuuLgYKSkp0NXVxYIFCyCVShEREYHx48cjJiYGxcXF1e6Lk0qlKCkpAQAUFRVBU1NTbl5DQwMSiQQlJSUoKioCgGprnt9HbXR0GkFdvcHrHCLRG0lfv0l9t0BERCqi0nCnpaWF+Ph4SKVSWYhbtWoVrl+/jn379kFTUxNlZWVy25SWlqJhw4ay7avuratSVlYGQRDQqFEjaGlpybapaR+1efSo8JWPjehNlpWVV98tEBFRHavpF3eV33PXuHFjubNzampqMDU1RVpaGoyMjJCZmSm3PjMzU3aZtWXLlsjKyqo2Dzy7FGtkZAQAL1zz90u1RERERGKk0nB37do12NnZ4fr167KxiooKJCYmomPHjrC3t0d8fLzcNhcuXICDgwMAwN7eHikpKUhLS5Ob19bWhoWFBfT09PDee+8hLi5ONl9QUIBr167B0dFRyUdHREREVP9UGu4sLCzQunVrLFmyBFeuXEFSUhIWLVqER48eYcKECRg/fjwSEhKwceNG3Lp1Cxs2bMCVK1cwceJEAICtrS1sbGzg5+eH69evIzY2FmvWrIGHh4fsbOCkSZOwY8cOHD16FDdv3sTcuXNhYGCAAQMGqPJQiYiIiOqFRBAEQZUFMzIyEBQUhF9//RVFRUWws7PDwoULYWZmBgA4e/YsgoODcf/+fXTo0AEBAQH44IMPZNtnZWVh2bJl+L//+z9oa2tj5MiRmDNnDtTU/pdTt2/fjvDwcBQUFMDOzg7Lli2Te3xKTXhfEtUHPsSYiIheRU333Kk83L3JGO6oPjDcERHRq3hjXlBBRERERMrDcEdEREQkIgx3RERERCLCcEdEREQkIgx3RERERCLCcEdEREQkIgx3RERERCLCcEdEREQkIgx3RERERCLCcEdEREQkIgx3RERERCLCcEdEREQkIgx3RERERCLCcEdEREQkIgx3RERERCLCcEdEREQkIgx3RERERCLCcEdEREQkIgx3RERERCLCcEdEREQkIgx3RERERCKiXt8NEL0Jjh91V3qNgYMPKL0GERERz9wRERERiQjDHREREZGIMNwRERERiQjDHREREZGIMNwRERERiQjDHREREZGIMNwRERERiQjDHREREZGIMNwRERERiQjDHREREZGI8O3HiN5hC86NUnqNIOf9Sq9BRET/wzN3RERERCLCcEdEREQkIgx3RERERCLCcEdEREQkIgx3RERERCLCcEdEREQkIvUW7n7//XdYWlriwoULsrFz585h6NChsLa2hqurK2JjY+W2ycnJwezZs+Hg4IDu3bsjODgY5eXlcmt2796NPn36oGvXrvDw8MDdu3dVcThEREREb4R6CXeFhYVYsGABKioqZGPJycnw9vbGwIEDERMTg379+mHmzJlISkqSrfHx8UF2djYiIiKwatUqREdHIzQ0VDa/f/9+bNy4EQEBAYiKioKmpia8vLxQWlqq0uMjIiIiqi/1Eu5WrVoFQ0NDubHw8HDY2NjA29sbJiYmmDNnDmxtbREeHg4AuHz5Mi5evIhVq1bBwsICLi4uWLBgAfbs2SMLb2FhYfDw8MDAgQNhbm6OkJAQ5OTk4MSJEyo/RiIiIqL6oPJwFxsbi7NnzyIwMFBuPCEhAU5OTnJj3bp1Q0JCgmy+devWMDY2ls07OTmhoKAAN27cQE5ODu7evSu3D21tbVhZWcn2QURERCR2Kn37sdzcXCxevBgrVqxAs2bN5ObS09Ornc0zMDBAeno6ACAjIwMGBgbV5gEgLS0N6urPDqW2fRARERGJnUrD3eeff46+ffuiV69e1QJXcXExpFKp3JhUKkVJSQkAoKioCJqamnLzGhoakEgkKCkpQVFREQBUW/P8Pv6Jjk4jqKs3eKljIlKUvn4T1iYiIqVTWbiLiYnBn3/+icOHD79wXlNTE2VlZXJjpaWlaNiwIQBAS0ur2gsjysrKIAgCGjVqBC0tLdk2Ne3jnzx6VKjQOqJXkZWVx9pERFRnavrlWWXhLjo6GhkZGXB2dgYACIIAAJgyZQqGDRsGIyMjZGZmym2TmZkpu8zasmXLao9GqVpvaGgIIyMjAEBWVhbatWsnt8bExEQ5B0VERET0hlFZuFuzZg2Ki4tln2dlZWHcuHH46quv0KNHD6xfvx7x8fFy21y4cAEODg4AAHt7e6xZswZpaWmyIHfhwgVoa2vDwsICUqkU7733HuLi4mTbFBQU4Nq1axgzZoyKjpKIiIiofqks3P39hQ5V98YZGhpCT08P48ePx8iRI7Fx40YMHjwYP/zwA65cuYJly5YBAGxtbWFjYwM/Pz8sWbIE2dnZWLNmDTw8PGT36k2aNAlBQUFo164dOnbsiLVr18LAwAADBgxQ1WESERER1SuVvqCiNubm5ti0aROCg4OxY8cOdOjQAdu2bZNdUpVIJNi0aROWLVuGcePGQVtbG+7u7pg5c6ZsH5988gny8vKwcuVKFBQUwM7ODmFhYdVeqEFEREQkVvUW7lq2bIm//vpLbqx3797o3bt3jdvo6+tj8+bNte536tSpmDp1al20SERERPTWqbf3liUiIiKiusdwR0RERCQiDHdEREREIsJwR0RERCQiDHdEREREIsJwR0RERCQiDHdEREREIsJwR0RERCQiDHdEREREIsJwR0RERCQiDHdEREREIsJwR0RERCQiDHdEREREIsJwR0RERCQiDHdEREREIsJwR0RERCQiDHdEREREIsJwR0RERCQiDHdEREREIqJwuLt06RKuXr0KAEhPT4ePjw/c3d0RFhamtOaIiIiI6OUoFO4OHz6McePG4fjx4wCApUuX4ty5c2jRogXWr1+PnTt3KrVJIiIiIlKMQuHum2++wdChQzF//nxkZ2fj3LlzmDFjBrZt2wY/Pz9ERUUpu08iIiIiUoBC4e727dsYPnw4JBIJYmNjIQgC+vfvDwCwtrZGWlqaUpskIiIiIsUoFO4aN26MwsJCAMB///tfGBkZoX379gCABw8eoHnz5srrkIiIiIgUpq7Iom7dumHTpk24ffs2Tp06hYkTJwIATp06hQ0bNqBHjx5KbZKIiIiIFKPQmbvFixejcePGWLduHZycnODt7Q0A+PLLL9GyZUvMmzdPqU0SERERkWIUOnOnp6eHb7/9ttp4ZGQkWrVqVedNEREREdGrUSjcVSkqKkJRUREEQQAAaGpqIicnB8CzAEhERERE9UuhcJeSkoLAwEDExcXVuObGjRt11hQRERERvRqFwt2XX36JxMREeHt7o2XLlpBIJMrui4iIiIhegULhLi4uDsuXL4ebm5uy+yEiIiKi16BQuGvUqBF0dXWV3QsRvUMm/l+Q0mt822OB0msQEb1pFHoUiqurKyIjI5XdCxERERG9JoXO3Ono6CA6OhoDBw6EjY0NtLS05OYlEgk+//xzpTRIRERERIpTKNxFRkaiUaNGKCoqwm+//VZtnuGOiIiI6M2gULiLjY1Vdh9EREREVAcUuufueRkZGfjjjz9QVFSEkpISZfRERERERK9I4XeoiI2NRVBQEG7fvg2J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%0A">
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's look at just the tokens which begin with '##'.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">num_subwords</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="n">subword_lengths</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1"># For each token in the vocabulary,</span>
+<span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">vocab</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+    
+    <span class="c1"># If it's a subword,</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">token</span><span class="p">)</span> <span class="o">&gt;=</span><span class="mi">2</span> <span class="ow">and</span> <span class="n">token</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'##'</span><span class="p">:</span>
+        
+        <span class="c1"># Tally all wubwords</span>
+        <span class="n">num_subwords</span> <span class="o">+=</span> <span class="mi">1</span>
+        
+        <span class="c1"># Measure the subword length (without the hashes)</span>
+        <span class="n">length</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">token</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span>
+        
+        <span class="c1"># Record the lengths.</span>
+        <span class="n">subword_lengths</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">length</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>How many '##' tokens are there vs. the full vocab?</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">vocab_size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tokenizer</span><span class="o">.</span><span class="n">vocab</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Number of subwords: </span><span class="si">{:,}</span><span class="s1"> of </span><span class="si">{:,}</span><span class="s1">'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">num_subwords</span><span class="p">,</span> <span class="n">vocab_size</span><span class="p">))</span>
+
+<span class="c1"># Calculate the percentage of words that are '##' subwords.</span>
+<span class="n">prcnt</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">num_subwords</span><span class="p">)</span> <span class="o">/</span> <span class="n">vocab_size</span> <span class="o">*</span> <span class="mf">100.0</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="si">%.1f%%</span><span class="s1">'</span> <span class="o">%</span> <span class="n">prcnt</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Number of subwords: 5,828 of 30,522
+19.1%
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Plot the subword lengths (not including the two '##' characters).</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">countplot</span><span class="p">(</span><span class="n">subword_lengths</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">'Subword Token Lengths (w/o "##")'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">'Subword Length'</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">'# of ## Subwords'</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Text(0,0.5,'# of ## Subwords')</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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vJjgFRYW4uDBg/D09BQf/0VERERE9avKkbuVK1fC1tYWtra2/9e4USNYWloCAGbPno2uXbtCEATcv3+/9iMlIiIiojeqMrl7/vw51q9fj3v37kEikSAoKAhOTk6wtLSERCKBRCIBAEgkErRr167OAiYiIiKiqlWZ3Pn7+wMAcnJy0Lt3b5iYmCAhIQG7du0CAMyaNQtdunRB586dYWFhgUGDBtVNxERERERUpTc+W9bAwAAAMGHCBFhZWaG0tBSWlpaYOHEiCgsLkZycjIMHDzK5IyKl8jizvr5DqLZdfXzqOwQiojcndwAwcuRI6OvrAwDU1dUxcuRIDB06FK1bt67V4IiIiIioeqpcLXvt2jXx64MHD4obGr948ULuNRERERE1HFWO3I0dOxaampqwtrYGAFy8eBFt2rRB06ZNuYkxERERUQNV5chdfHw8vvnmG9jZ2UEQBGzatAm9e/fG4MGDIZFIcOjQIZw+fRpZWVl1GS8RERERvUaVI3dSqRT29vawt7fHunXrsHXrVhgZGeHChQuYP38+Lly4gF9++QXZ2dlo3rw5zp07V5dxExEREVElqkzuduzYATs7O3Tp0kUsa9myJd577z0AwIoVK9C1a1fk5OTg+vXrtR8pEREREb1Rlcnd77//jpCQEPFZsrt27UL//v3FZK98E2MDAwP06tWrbqIlIiIioteqMrkLDQ1FWVkZrl69inHjxuHx48fYvHkz7ty5A4lEguXLl6N79+7iJsavjvARERERUf147T536urqsLKyAgD4+PjAysoKjx8/Rs+ePWFlZYWnT59i165duHPnDq5cuVInARMRERFR1apcLfsqe3t76OrqAgCaNGkCe3t7TJo0CV9//TUOHTqECxcuKDWo/fv347333oOVlRVGjRqFP//8U6w7c+YMhg8fDisrK7i5uSEqKkru2JycHPj4+MDOzg5OTk4IDAxEaWmpUuMjIiIiaqgUSu52794NMzOzlweoqWH37t1o3769WK+hoaG0gA4cOIAVK1Zg+vTpOHLkCOzt7TFr1iw8ePAAt27dgpeXF1xdXXHgwAG4uLjA29sbN2/eFI+fM2cOsrOzERYWhoCAAERERCAkJERp8RERERE1ZAold3VFEASEhIRg+vTpGDNmDNq1a4eFCxeibdu2SEhIQGhoKKytreHl5QUzMzPMmzcPNjY2CA0NBQAkJCQgPj4eAQEBsLCwgLOzM/z8/LB7924UFxfXc++IiIiIal+DSu7u3LmDhw8fYsiQIWKZmpoaDh06BDc3N8TFxcHBwUHuGEdHR8TFxQEA4uLiYGJiAlNTU7HewcEB+fn5SE5OrptOEBEREdWjBpXc3b17FwDw9OlTTJ48GU5OTnB3dxfn9KWnp8PY2FjuGCMjI6SnpwMAMjIyYGRkVKEeANLS0mo5eiIiIqL6V+Vq2eHDh8Pf3x9dunTBwYMH4ezsDH19/VoN5tmzZwCARYsWYe7cuejQoQP2798PDw8PHDx4EIWFhZBKpXLHSKVSFBUVAQAKCgqgqakpV6+hoQGJRCK2eR19fR00aqQuV/ZPfLiaoWHj+g6B3oIqv3+q3DdA9ftHRP8MVSZ3d+7cQU5ODgDgs88+Q3h4eK0nd+ULM2bOnAk3NzcAQJcuXRAfH4+9e/dCU1MTJSUlcscUFxdDW1sbAKClpVVhbl1JSQkEQYCOjs4br//o0XNldKPeZWXl1XcI9BZU+f1T5b4Bqt8/ImpYqvpAWWVy16lTJ3zyySeQyWQQBAHLly+Hnp5epW3Ln2DxtspvocpkMrlzd+jQAQ8ePECrVq2QmZkpd0xmZqZ4q7Zly5YVtkYpb//327lEREREqqjKOXdr1qxB7969xdua6urqVf5TU1PO1L2uXbtCR0dHbkNkQRBw+/ZtmJqawtbWFufPn5c7JiYmBnZ2dgAAW1tbpKSkyM2vi4mJga6uLiwsLJQSIxEREVFDVuXIXceOHbF27VoAgIWFBZYuXSo+raK2aGtrw8PDA+vWrUOLFi0gk8mwZ88e3L9/Hxs2bEBJSQlGjx6NDRs24IMPPkBkZCQuXbqE5cuXAwBsbGxgbW0NX19fLF26FNnZ2QgKCoKnp2eFuXpEREREqui1jx8rd+3aNQAvR9Hu3LmDvLw86Ovro127dkoPyMfHB9ra2li9ejVycnLQuXNn7NixAx06dAAAbNy4EYGBgdi6dSs6dOiAzZs3ixssSyQSbNy4EcuXL4e7uzt0dXUxZswYeHt7Kz1OIiIiooZIoeQOAA4dOoTAwEBxkQUAtGjRAr6+vhg1apTSApJIJJgxYwZmzJhRaX3//v3Rv3//Ko83NDTEpk2blBYPERER0T+JQsndb7/9hoULF6Jfv35wc3NDixYtkJmZicjISCxevBhNmjTBwIEDaztWIiIiInoDhZK7b775BsOGDcOaNWvkyocPHw4/Pz9s2bKFyR0RERFRA6DQMtdbt26J+879nZubG27cuKHUoIiIiIioZhRK7gwNDSvsL1cuPT1d3ESYiIiIiOqXQsld//79sW7dOly9elWuPDExERs2bMCAAQNqJTgiIiIiqh6F5tzNnTsXf/75J8aMGYO2bdvC0NAQWVlZuH//Ptq3b49PPvmktuMkIiIiIgUolNw1bdoUERER+OmnnxAXF4cnT56gc+fOmDx5MkaNGsXbsv9gOfsm1XcI1WYwLqy+QyAiImqwFN7nTktLC+7u7nB3d6/NeIiIiIjoLSjnobBERERE1CAwuSMiIiJSIUzuiIiIiFQIkzsiIiIiFVJlcvf06VPxaxcXF1y7dg0A8OLFC7i4uODmzZu1Hx0RERERVUuVq2UdHR3RsWNH9OjRA6mpqfjrr79gbm4OQRDw8OFDFBcX12WcRERERKSAKkfujh49iqlTp0IQBAiCgPnz58PW1haenp6QSCSIjo7G7du3IQhCXcZLRERERK9R5chd27Zt0bZtW4wYMQL79u3Dzp07oa6ujoSEBMTGxmLXrl0IDg6GVCpFp06dsH///rqMm4iIiIgqUWVyd/ToUdjZ2cHAwAAAoK2tDSsrK1hbWyM4OBjffPMNzMzMcP36ddy4caPOAiYiIiKiqlWZ3K1ZswapqakwNTWFRCLBr7/+itLSUpibmwMAJBIJtLS00L17d3Tv3r3OAiYiIiKiqlWZ3J04cQKZmZmIi4vD/PnzcfbsWYSHh6O4uBgSiQSbNm2Cvb09OnfuDAsLCzRt2rQu4yYiIiKiSrx2nzsjIyMMGTIEALBq1SrEx8dj//79EAQB6urqOH78OGbPno2ePXvWSbBERERE9HpVjty9qnXr1pBKpZBIJDA3N0fr1q0xZ84cdOrUCQDw8OHDWg2SiIiIiBSj0BMqTp48CQsLi5cHqKnh5MmTYmIHACYmJrUS3MWLF9GlSxfExMSIZWfOnMHw4cNhZWUFNzc3REVFyR2Tk5MDHx8f2NnZwcnJCYGBgSgtLa2V+IiIiIgamgb7+LHnz5/Dz88PZWVlYtmtW7fg5eUFV1dXHDhwAC4uLvD29pZ7WsacOXOQnZ2NsLAwBAQEICIiAiEhIfXRBSIiIqI612CTu4CAABgbG8uVhYaGwtraGl5eXjAzM8O8efNgY2OD0NBQAEBCQgLi4+MREBAACwsLODs7w8/PD7t37+YTNYiIiOj/hQaZ3EVFReH333/HkiVL5Mrj4uLg4OAgV+bo6Ii4uDix3sTEBKampmK9g4MD8vPzkZycXPuBExEREdWzBpfc5ebmYvHixVi1alWF7VXS09MrjOYZGRkhPT0dAJCRkQEjI6MK9QCQlpZWi1ETERERNQwKrZatS1988QXeffdd9OvXT0zayhUWFkIqlcqVSaVSFBUVAQAKCgqgqakpV6+hoQGJRCK2eR19fR00aqQuV5ZVk07UM0PDxgq3zanFOGpLdfr3T6TK/VPlvgGq3z8i+mdoUMndgQMHkJSUhMOHD1dar6mpiZKSErmy4uJiaGtrAwC0tLQqzK0rKSmBIAjQ0dF54/UfPXpew8gblqysvPoOoVaxf/9cqtw3QPX7R0QNS1UfKBtUcj6DHdkAABtDSURBVBcREYGMjAz06dMHACAIAgBg+vTpGDFiBFq1aoXMzEy5YzIzM8VbtS1btqywNUp5+7/fziUiIiJSRQ0quQsKCkJhYaH4OisrC+7u7li1ahV69+6NdevW4fz583LHxMTEwM7ODgBga2uLoKAgpKWloVWrVmK9rq6uuE8fERERkSprUMnd30fXyufPGRsbw8DAAJMmTcLo0aOxYcMGfPDBB4iMjMSlS5ewfPly4H/au/OwqOrFj+NvQNkNkcAtN1AxRBRFvBUoaWalrSJ509zNNQRyTdCyMkUFTEXFrUyz9CrdvPlUz20xLSUpzRZJsfSKiYDycwlcWH5/9DC3yeVmDBw8fV7PM8/jfM+ZM58D6nzme86ZAYKDg+nQoQOxsbEkJCRQUFDA/PnzGTp06BXn6omIiIiYUY27WvZ6/P39Wbx4Me+//z6PPPIIH330EcuWLcPPzw8AOzs7Fi9ejJeXFwMGDODZZ58lMjKScePGGZxcREREpHrUqJm732vQoAE//PCD1VhERAQRERHXfIy3tzdLliyp4mQiIiIiNdNNNXMnIiIiItenciciIiJiIip3IiIiIiaiciciIiJiIip3IiIiIiZSo6+WFRExq6Hbr/41izXZmm4PGR1BRP4AzdyJiIiImIjKnYiIiIiJqNyJiIiImIjKnYiIiIiJqNyJiIiImIjKnYiIiIiJqNyJiIiImIjKnYiIiIiJqNyJiIiImIjKnYiIiIiJqNyJiIiImIjKnYiIiIiJqNyJiIiImIjKnYiIiIiJqNyJiIiImEiNK3cFBQVMmTKFsLAwQkJCGD58OAcPHrQsf+edd+jVqxdBQUFERUWxf/9+q8cfPXqU4cOHExwcTLdu3Vi5cmV174KIiIiIYWpUuSsrK2P8+PEcOXKE1NRU3nzzTdzd3RkyZAiFhYV8/vnnPPvsswwbNoz09HRat27N8OHDOX36NACXLl1ixIgRuLm5sWnTJiZOnMjixYvZuHGjwXsmIiIiUj1qGR3gt7Kysti7dy/btm3Dz88PgHnz5hEaGsr27dvZunUrffr04fHHHwdg1qxZ7N69m40bNzJ69Gg++OADCgoKePnll3Fzc6Nly5YcPXqUVatWERUVZeSuiYiIiFSLGjVz17BhQ5YvX06LFi0sY3Z2dpSXl3PmzBm++uorQkNDLcvs7e3p3LkzmZmZAGRmZhIYGIibm5tlndDQUI4cOUJBQUH17YiIiIiIQWpUufP09CQiIgJ7+//Gev3117l48SKBgYEUFRVRv359q8f4+PiQm5sLQG5uLj4+PlcsBzhx4kQVpxcRERExXo06LPt7H374IUlJSQwdOpTGjRsD4OTkZLVO7dq1uXjxIgAXLlygXr16VssdHR0BLOtcj6enK7VqOViN5f/p9Mbx9q7zh9c9VYU5qsqN7N/NyMz7Z+Z9A+2fiNQMNbbcbdmyhYSEBB544AEmTZrEmTNngF8vmvity5cv4+LiAoCzs/MVyyvuu7q6/s/nLCwsskV0w+XnnzM6QpXS/t28zLxvoP0Tkep1rTdcNeqwbIWlS5cybdo0+vfvT2JiIvb29tStWxdXV1fy8vKs1s3Ly7Mcqm3QoAH5+flXLAeuOJwrIiIiYkY1rtytWLGClJQUoqOjSUhIwM7ODvj1worg4GD27NljWbesrIw9e/bQuXNnADp16sS3335LcXGxZZ2MjAxatGiBl5dX9e6IiIiIiAFqVLnLysoiOTmZvn37EhUVRX5+vuVWVFTEkCFDePvtt1m/fj2HDx9mxowZnDt3jsjISAB69uyJh4cHzzzzDAcPHuRf//oXq1at4qmnnjJ4z0RERESqR406527btm2UlpayefNmNm/ebLVswoQJjB07llmzZpGamsrcuXMJCAhg9erVlosonJ2dWblyJc899xyRkZF4eXkRGxvLY489ZsTuiIiIiFS7GlXu4uLiiIuLu+46ffv2pW/fvtdc7uvry9q1a20dTUREROSmUKMOy4qIiIhI5dSomTsRETGHpz792ugINyyta3ujI4jYhGbuRERERExE5U5ERETERFTuRERERExE5U5ERETERFTuRERERExE5U5ERETERFTuRERERExE5U5ERETERFTuRERERExE5U5ERETERFTuRERERExE5U5ERETERFTuRERERExE5U5ERETERFTuREREREykltEBREREbjYbdxYZHeGGRYW5Gh1Bqolm7kRERERMROVORERExERMWe5KS0tZsGABYWFhBAcHEx0dTUFBgdGxRERERKqcKcvdokWLSE9PZ+7cuaxbt47c3Fyefvppo2OJiIiIVDnTlbtLly6xdu1a4uLiuOuuu2jbti1JSUl89dVXfPXVV0bHExEREalSpit3WVlZ/PLLL4SGhlrGbrvtNho3bkxmZqaByURERESqnuk+CiU3NxeA+vXrW437+PhYlomIiMi15fyz2OgIN+S2h12MjlCjmK7cFRcXY29vT+3ata3GHR0duXjxokGpREREpCYoW3/Q6Ag3zH5A6xta3668vLy8irIY4v333yc6OprvvvuOWrX+21379+9PYGAg8fHxBqYTERERqVqmO+euYcOGAOTn51uN5+XlXXGoVkRERMRsTFfu2rRpg5ubG1988YVlLCcnh+PHj9O5c2cDk4mIiIhUPdOdc+fo6MgTTzxBYmIinp6eeHl58fzzzxMaGkqHDh2MjiciIiJSpUx3zh1ASUkJ8+fPJz09nZKSEsLDw5kxYwb16tUzOpqIiIhIlTJluRMRERH5qzLdOXciIiIif2UqdwaaMWMG06dPNzqGTRUUFDBlyhTCwsIICQlh+PDhHDx4832m0LXk5uYSHR1NaGgoISEhxMbGcvLkSaNj2dy+ffsICAggIyPD6Cg2c+jQIfz9/a+4membazZt2kSvXr0ICgriscceY9euXUZHsomMjIyr/u78/f0ZNGiQ0fFsoqioiBdeeMHyf+eIESPIzs42OpZNnD9/nhkzZhAWFkZoaCgTJ07k1KlTRseyiau9ju/cuZOHH36YoKAgHnzwQbZv317tuVTuDFBeXs7ChQt56623jI5iU2VlZYwfP54jR46QmprKm2++ibu7O0OGDKGwsNDoeJVWXl7OU089xdmz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%0A">
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Misspellings">
+<a class="anchor" href="#Misspellings" aria-hidden="true"><span class="octicon octicon-link"></span></a>Misspellings<a class="anchor-link" href="#Misspellings"> </a>
+</h3>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="s1">'misspelled'</span> <span class="ow">in</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">vocab</span> <span class="c1"># Right</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>False</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="s1">'mispelled'</span> <span class="ow">in</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">vocab</span> <span class="c1"># Wrong</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>False</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="s1">'government'</span> <span class="ow">in</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">vocab</span> <span class="c1"># Right</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>True</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="s1">'goverment'</span> <span class="ow">in</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">vocab</span> <span class="c1"># Wrong</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>False</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="s1">'beginning'</span> <span class="ow">in</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">vocab</span> <span class="c1"># Right</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>True</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="s1">'begining'</span> <span class="ow">in</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">vocab</span> <span class="c1"># Wrong</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>False</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="s1">'separate'</span> <span class="ow">in</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">vocab</span> <span class="c1"># Right</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>True</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="s1">'seperate'</span> <span class="ow">in</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">vocab</span> <span class="c1"># Wrong</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>False</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>What about contractions?</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="s2">"can't"</span> <span class="ow">in</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">vocab</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>False</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="s2">"cant"</span> <span class="ow">in</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">vocab</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>False</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Start-vs.-Mid-Subwords">
+<a class="anchor" href="#Start-vs.-Mid-Subwords" aria-hidden="true"><span class="octicon octicon-link"></span></a>Start vs. Mid Subwords<a class="anchor-link" href="#Start-vs.-Mid-Subwords"> </a>
+</h3>
+<p>For single characters, there are both the individual character and the '##' version for every character. Is the same true of subwords?</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># For each token in the vocabulary,</span>
+<span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">vocab</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+    
+    <span class="c1"># If it's a subword,</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">token</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span> <span class="ow">and</span> <span class="n">token</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'##'</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">token</span><span class="p">[</span><span class="mi">2</span><span class="p">:]</span> <span class="ow">in</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">vocab</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">'Did not find a token for'</span><span class="p">,</span> <span class="n">token</span><span class="p">[</span><span class="mi">2</span><span class="p">:])</span>
+            <span class="k">break</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Did not find a token for ly
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="s1">'##ly'</span> <span class="ow">in</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">vocab</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>True</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="s1">'ly'</span> <span class="ow">in</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">vocab</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>False</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Names">
+<a class="anchor" href="#Names" aria-hidden="true"><span class="octicon octicon-link"></span></a>Names<a class="anchor-link" href="#Names"> </a>
+</h3>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>pip install wget
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Collecting wget
+  Downloading wget-3.2.zip (10 kB)
+Building wheels for collected packages: wget
+  Building wheel for wget (setup.py) ... done
+  Created wheel for wget: filename=wget-3.2-py3-none-any.whl size=11569 sha256=05f2900f19cc29250982d62b189f1a0ca18cc0423a8f86496ce1225086688918
+  Stored in directory: /Users/sparkling/Library/Caches/pip/wheels/90/1d/93/c863ee832230df5cfc25ca497b3e88e0ee3ea9e44adc46ac62
+Successfully built wget
+Installing collected packages: wget
+Successfully installed wget-3.2
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">wget</span>
+<span class="kn">import</span> <span class="nn">random</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Beginning file download with wget module'</span><span class="p">)</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s1">'http://www.gutenberg.org/files/3201/files/NAMES.TXT'</span>
+<span class="n">wget</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="s1">'first-names.txt'</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Beginning file download with wget module
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>'first-names.txt'</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Read them in.</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">'first-names.txt'</span><span class="p">,</span> <span class="s1">'rb'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">names_encoded</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+    
+<span class="n">names</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1"># Decode the names, convert to lowercase, and strip newlines.</span>
+<span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">names_encoded</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">name</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">'utf-8'</span><span class="p">))</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">continue</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Number of nmaes: </span><span class="si">{:,}</span><span class="s1">'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">names</span><span class="p">)))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Example:'</span><span class="p">,</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">names</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Number of nmaes: 21,985
+Example: basset
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">num_names</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="c1"># For each name in our list,</span>
+<span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">names</span><span class="p">:</span>
+    
+    <span class="c1"># If it's in the vocab,</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">vocab</span><span class="p">:</span>
+        
+        <span class="c1"># Tally it.</span>
+        <span class="n">num_names</span> <span class="o">+=</span> <span class="mi">1</span>
+        
+<span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="si">{:,}</span><span class="s1"> names in the vocabulary'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">num_names</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>3,869 names in the vocabulary
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Numbers">
+<a class="anchor" href="#Numbers" aria-hidden="true"><span class="octicon octicon-link"></span></a>Numbers<a class="anchor-link" href="#Numbers"> </a>
+</h3>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Count how many numbers are in the vocabulary.</span>
+<span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="c1"># For each token in the vocabulary,</span>
+<span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">vocab</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+    
+    <span class="c1"># Tally if it's a number.</span>
+    <span class="k">if</span> <span class="n">token</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
+        <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+        
+        <span class="c1"># Any numbers &gt;= 10,000?</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">token</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">4</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
+            
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Vocab includes </span><span class="si">{:,}</span><span class="s1"> numbers.'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">count</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Vocab includes 881 numbers.
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Count how many dates between 1600 and 2021 are included.</span>
+<span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1600</span><span class="p">,</span> <span class="mi">2021</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="ow">in</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">vocab</span><span class="p">:</span>
+        <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+        
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Vocab includes </span><span class="si">{:,}</span><span class="s1"> of 421 dates from 1600 - 2021'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">count</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Vocab includes 384 of 421 dates from 1600 - 2021
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+</div>
+
+
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="sparklingness/blog"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/blog/bert/jupyter/2020/04/18/Inspect-Bert-Vocabulary.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/blog/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/blog/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/blog/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>An Blog for a wise NLP development.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/sparklingness" title="sparklingness"><svg class="svg-icon grey"><use xlink:href="/blog/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/-" title="-"><svg class="svg-icon grey"><use xlink:href="/blog/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
