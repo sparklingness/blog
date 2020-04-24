@@ -1,0 +1,2135 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>BERT Fine-Tuning Sentence Classification | wAIz NLP</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="BERT Fine-Tuning Sentence Classification" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="BERT Fine-Tuning Tutorial with PyTorch" />
+<meta property="og:description" content="BERT Fine-Tuning Tutorial with PyTorch" />
+<link rel="canonical" href="https://sparklingness.github.io/blog/bert/jupyter/2020/04/19/BERT_Fine-Tuning-Sentence-Classification.html" />
+<meta property="og:url" content="https://sparklingness.github.io/blog/bert/jupyter/2020/04/19/BERT_Fine-Tuning-Sentence-Classification.html" />
+<meta property="og:site_name" content="wAIz NLP" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-04-19T00:00:00-05:00" />
+<script type="application/ld+json">
+{"description":"BERT Fine-Tuning Tutorial with PyTorch","@type":"BlogPosting","headline":"BERT Fine-Tuning Sentence Classification","dateModified":"2020-04-19T00:00:00-05:00","datePublished":"2020-04-19T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://sparklingness.github.io/blog/bert/jupyter/2020/04/19/BERT_Fine-Tuning-Sentence-Classification.html"},"url":"https://sparklingness.github.io/blog/bert/jupyter/2020/04/19/BERT_Fine-Tuning-Sentence-Classification.html","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/blog/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://sparklingness.github.io/blog/feed.xml" title="wAIz NLP" /><link rel="shortcut icon" type="image/x-icon" href="/blog/images/favicon.ico"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>BERT Fine-Tuning Sentence Classification | wAIz NLP</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="BERT Fine-Tuning Sentence Classification" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="BERT Fine-Tuning Tutorial with PyTorch" />
+<meta property="og:description" content="BERT Fine-Tuning Tutorial with PyTorch" />
+<link rel="canonical" href="https://sparklingness.github.io/blog/bert/jupyter/2020/04/19/BERT_Fine-Tuning-Sentence-Classification.html" />
+<meta property="og:url" content="https://sparklingness.github.io/blog/bert/jupyter/2020/04/19/BERT_Fine-Tuning-Sentence-Classification.html" />
+<meta property="og:site_name" content="wAIz NLP" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-04-19T00:00:00-05:00" />
+<script type="application/ld+json">
+{"description":"BERT Fine-Tuning Tutorial with PyTorch","@type":"BlogPosting","headline":"BERT Fine-Tuning Sentence Classification","dateModified":"2020-04-19T00:00:00-05:00","datePublished":"2020-04-19T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://sparklingness.github.io/blog/bert/jupyter/2020/04/19/BERT_Fine-Tuning-Sentence-Classification.html"},"url":"https://sparklingness.github.io/blog/bert/jupyter/2020/04/19/BERT_Fine-Tuning-Sentence-Classification.html","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+<link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" />
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css"><link type="application/atom+xml" rel="alternate" href="https://sparklingness.github.io/blog/feed.xml" title="wAIz NLP" />
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head><body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/blog/">wAIz NLP</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/blog/about/">About Me</a><a class="page-link" href="/blog/search/">Search</a><a class="page-link" href="/blog/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">BERT Fine-Tuning Sentence Classification</h1><p class="page-description">BERT Fine-Tuning Tutorial with PyTorch</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2020-04-19T00:00:00-05:00" itemprop="datePublished">
+        Apr 19, 2020
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      24 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/blog/categories/#bert">bert</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/blog/categories/#jupyter">jupyter</a>
+        
+      
+      </p>
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-wrap flex-justify-end">
+          <div class="px-2">
+
+    <a href="https://github.com/sparklingness/blog/tree/master/_notebooks/2020-04-19-BERT_Fine-Tuning-Sentence-Classification.ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/blog/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/sparklingness/blog/master?filepath=_notebooks%2F2020-04-19-BERT_Fine-Tuning-Sentence-Classification.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/blog/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/sparklingness/blog/blob/master/_notebooks/2020-04-19-BERT_Fine-Tuning-Sentence-Classification.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/blog/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h1"><a href="#1.-Setup">1. Setup </a>
+<ul>
+<li class="toc-entry toc-h2"><a href="#1.1.-Using-Colab-GPU-for-Training">1.1. Using Colab GPU for Training </a></li>
+<li class="toc-entry toc-h2"><a href="#1.2.-Installing-the-Hugging-Face-Library">1.2. Installing the Hugging Face Library </a></li>
+<li class="toc-entry toc-h2"><a href="#2.2.-Parse">2.2. Parse </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h1"><a href="#3.-Tokenization-&-Input-Formatting">3. Tokenization &amp; Input Formatting </a>
+<ul>
+<li class="toc-entry toc-h2"><a href="#3.1.-BERT-Tokenizer">3.1. BERT Tokenizer </a></li>
+<li class="toc-entry toc-h2"><a href="#3.2.-Required-Formatting">3.2. Required Formatting </a></li>
+<li class="toc-entry toc-h2"><a href="#3.3.-Tokenize-Dataset">3.3. Tokenize Dataset </a></li>
+<li class="toc-entry toc-h2"><a href="#3.4.-Training-&-Validation-Split">3.4. Training &amp; Validation Split </a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h1"><a href="#4.-Train-Our-Classification-Model">4. Train Our Classification Model </a>
+<ul>
+<li class="toc-entry toc-h2"><a href="#4.1.-BertForSequenceClassification">4.1. BertForSequenceClassification </a></li>
+<li class="toc-entry toc-h2"><a href="#4.2.-Optimizer-&-Learning-Rate-Scheduler">4.2. Optimizer &amp; Learning Rate Scheduler </a></li>
+<li class="toc-entry toc-h2"><a href="#4.3.-Training-Loop">4.3. Training Loop </a></li>
+</ul>
+</li>
+</ul><!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2020-04-19-BERT_Fine-Tuning-Sentence-Classification.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="1.-Setup">
+<a class="anchor" href="#1.-Setup" aria-hidden="true"><span class="octicon octicon-link"></span></a>1. Setup<a class="anchor-link" href="#1.-Setup"> </a>
+</h1>
+<h2 id="1.1.-Using-Colab-GPU-for-Training">
+<a class="anchor" href="#1.1.-Using-Colab-GPU-for-Training" aria-hidden="true"><span class="octicon octicon-link"></span></a>1.1. Using Colab GPU for Training<a class="anchor-link" href="#1.1.-Using-Colab-GPU-for-Training"> </a>
+</h2>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
+
+<span class="c1"># Get the GPU device name.</span>
+<span class="n">device_name</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">test</span><span class="o">.</span><span class="n">gpu_device_name</span><span class="p">()</span>
+
+<span class="c1"># The device name should look like the following:</span>
+<span class="k">if</span> <span class="n">device_name</span> <span class="o">==</span> <span class="s1">'/device:GPU:0'</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">'Found GPU at: </span><span class="si">{}</span><span class="s1">'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">device_name</span><span class="p">))</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">SystemError</span><span class="p">(</span><span class="s1">'GPU device not found'</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Found GPU at: /device:GPU:0
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+
+<span class="c1"># If there's a GPU available,</span>
+<span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">():</span>
+
+    <span class="c1"># Tell PyTorch to user the GPU.</span>
+    <span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">"cuda"</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s1">'There are </span><span class="si">%d</span><span class="s1"> GPU(s) available.'</span> <span class="o">%</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">device_count</span><span class="p">())</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s1">'We will user the GPU:'</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">get_device_name</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+
+<span class="c1"># If not,</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">'No GPU available, using the CPU instead.'</span><span class="p">)</span>
+    <span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">"cpu"</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>There are 1 GPU(s) available.
+We will user the GPU: Tesla T4
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="1.2.-Installing-the-Hugging-Face-Library">
+<a class="anchor" href="#1.2.-Installing-the-Hugging-Face-Library" aria-hidden="true"><span class="octicon octicon-link"></span></a>1.2. Installing the Hugging Face Library<a class="anchor-link" href="#1.2.-Installing-the-Hugging-Face-Library"> </a>
+</h2>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span> pip install transformers -q
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span> pip install wget -q
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">wget</span> 
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Downloading dataset...'</span><span class="p">)</span>
+
+<span class="c1"># The URL for the dataset zip file.</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s1">'https://nyu-mll.github.io/CoLA/cola_public_1.1.zip'</span>
+
+<span class="c1"># Download the file (if we haven't already)</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s1">'./cola_public_1.1.zip'</span><span class="p">):</span>
+    <span class="n">wget</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="s1">'./cola_public_1.1.zip'</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Downloading dataset...
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Unzip the dataset (if we haven't already)</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="s1">'./cola_public/'</span><span class="p">):</span>
+    <span class="o">!</span> unzip cola_public_1.1.zip
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span> head cola_public/*/*
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>==&gt; cola_public/raw/in_domain_dev.tsv &lt;==
+gj04	1		The sailors rode the breeze clear of the rocks.
+gj04	1		The weights made the rope stretch over the pulley.
+gj04	1		The mechanical doll wriggled itself loose.
+cj99	1		If you had eaten more, you would want less.
+cj99	0	*	As you eat the most, you want the least.
+cj99	0	*	The more you would want, the less you would eat.
+cj99	0	*	I demand that the more John eat, the more he pays.
+cj99	1		Mary listens to the Grateful Dead, she gets depressed.
+cj99	1		The angrier Mary got, the more she looked at pictures.
+cj99	1		The higher the stakes, the lower his expectations are.
+
+==&gt; cola_public/raw/in_domain_train.tsv &lt;==
+gj04	1		Our friends won't buy this analysis, let alone the next one we propose.
+gj04	1		One more pseudo generalization and I'm giving up.
+gj04	1		One more pseudo generalization or I'm giving up.
+gj04	1		The more we study verbs, the crazier they get.
+gj04	1		Day by day the facts are getting murkier.
+gj04	1		I'll fix you a drink.
+gj04	1		Fred watered the plants flat.
+gj04	1		Bill coughed his way out of the restaurant.
+gj04	1		We're dancing the night away.
+gj04	1		Herman hammered the metal flat.
+
+==&gt; cola_public/raw/out_of_domain_dev.tsv &lt;==
+clc95	1		Somebody just left - guess who.
+clc95	1		They claimed they had settled on something, but it wasn't clear what they had settled on.
+clc95	1		If Sam was going, Sally would know where.
+clc95	1		They're going to serve the guests something, but it's unclear what.
+clc95	1		She's reading. I can't imagine what.
+clc95	1		John said Joan saw someone from her graduating class.
+clc95	0	*	John ate dinner but I don't know who.
+clc95	0	*	She mailed John a letter, but I don't know to whom.
+clc95	1		I served leek soup to my guests.
+clc95	1		I served my guests.
+
+==&gt; cola_public/tokenized/in_domain_dev.tsv &lt;==
+gj04	1		the sailors rode the breeze clear of the rocks .
+gj04	1		the weights made the rope stretch over the pulley .
+gj04	1		the mechanical doll wriggled itself loose .
+cj99	1		if you had eaten more , you would want less .
+cj99	0	*	as you eat the most , you want the least .
+cj99	0	*	the more you would want , the less you would eat .
+cj99	0	*	i demand that the more john eat , the more he pays .
+cj99	1		mary listens to the grateful dead , she gets depressed .
+cj99	1		the angrier mary got , the more she looked at pictures .
+cj99	1		the higher the stakes , the lower his expectations are .
+
+==&gt; cola_public/tokenized/in_domain_train.tsv &lt;==
+gj04	1		our friends wo n't buy this analysis , let alone the next one we propose .
+gj04	1		one more pseudo generalization and i 'm giving up .
+gj04	1		one more pseudo generalization or i 'm giving up .
+gj04	1		the more we study verbs , the crazier they get .
+gj04	1		day by day the facts are getting murkier .
+gj04	1		i 'll fix you a drink .
+gj04	1		fred watered the plants flat .
+gj04	1		bill coughed his way out of the restaurant .
+gj04	1		we 're dancing the night away .
+gj04	1		herman hammered the metal flat .
+
+==&gt; cola_public/tokenized/out_of_domain_dev.tsv &lt;==
+clc95	1		somebody just left - guess who .
+clc95	1		they claimed they had settled on something , but it was n't clear what they had settled on .
+clc95	1		if sam was going , sally would know where .
+clc95	1		they 're going to serve the guests something , but it 's unclear what .
+clc95	1		she 's reading . i ca n't imagine what .
+clc95	1		john said joan saw someone from her graduating class .
+clc95	0	*	john ate dinner but i do n't know who .
+clc95	0	*	she mailed john a letter , but i do n't know to whom .
+clc95	1		i served leek soup to my guests .
+clc95	1		i served my guests .
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="2.2.-Parse">
+<a class="anchor" href="#2.2.-Parse" aria-hidden="true"><span class="octicon octicon-link"></span></a>2.2. Parse<a class="anchor-link" href="#2.2.-Parse"> </a>
+</h2>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="c1"># Load the dataset into a pandas dataframe.</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"./cola_public/raw/in_domain_train.tsv"</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">'</span><span class="se">\t</span><span class="s1">'</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s1">'sentence_source'</span><span class="p">,</span> <span class="s1">'label'</span><span class="p">,</span> <span class="s1">'label_notes'</span><span class="p">,</span> <span class="s1">'sentence'</span><span class="p">])</span>
+
+<span class="c1"># Report the number of sentences.</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Number of training sentences: </span><span class="si">{:,}</span><span class="se">\n</span><span class="s1">'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+
+<span class="c1"># Display 10 random rows from the data</span>
+<span class="n">df</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Number of training sentences: 8,551
+
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sentence_source</th>
+      <th>label</th>
+      <th>label_notes</th>
+      <th>sentence</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1643</th>
+      <td>r-67</td>
+      <td>1</td>
+      <td>NaN</td>
+      <td>I brought a razor with which to shave myself.</td>
+    </tr>
+    <tr>
+      <th>558</th>
+      <td>bc01</td>
+      <td>1</td>
+      <td>NaN</td>
+      <td>A bear inhabits the cave.</td>
+    </tr>
+    <tr>
+      <th>7840</th>
+      <td>ad03</td>
+      <td>1</td>
+      <td>NaN</td>
+      <td>The therapist's analysis of Lucy</td>
+    </tr>
+    <tr>
+      <th>4713</th>
+      <td>ks08</td>
+      <td>1</td>
+      <td>NaN</td>
+      <td>This noise cannot be put up with.</td>
+    </tr>
+    <tr>
+      <th>5501</th>
+      <td>b_73</td>
+      <td>1</td>
+      <td>NaN</td>
+      <td>Such a scholar as you were speaking of just no...</td>
+    </tr>
+    <tr>
+      <th>568</th>
+      <td>bc01</td>
+      <td>1</td>
+      <td>NaN</td>
+      <td>The rolling stone avoided the river.</td>
+    </tr>
+    <tr>
+      <th>1920</th>
+      <td>r-67</td>
+      <td>1</td>
+      <td>NaN</td>
+      <td>I would prefer it for there to be no talking.</td>
+    </tr>
+    <tr>
+      <th>2492</th>
+      <td>l-93</td>
+      <td>1</td>
+      <td>NaN</td>
+      <td>He worked his way through the book.</td>
+    </tr>
+    <tr>
+      <th>5364</th>
+      <td>b_73</td>
+      <td>1</td>
+      <td>NaN</td>
+      <td>Enough is going on to keep them confused.</td>
+    </tr>
+    <tr>
+      <th>5344</th>
+      <td>b_73</td>
+      <td>1</td>
+      <td>NaN</td>
+      <td>Mary is taller than six feet.</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">label</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">5</span><span class="p">)[[</span><span class="s1">'sentence'</span><span class="p">,</span> <span class="s1">'label'</span><span class="p">]]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>sentence</th>
+      <th>label</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>444</th>
+      <td>Mickey slips all the time up.</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>187</th>
+      <td>The more books I ask to whom he will give, the...</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4866</th>
+      <td>This needs investigating the problem.</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>7780</th>
+      <td>We believed to be omnipotent.</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>1267</th>
+      <td>What table will he put the chair between and s...</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Get the lists of sentences and their labels.</span>
+<span class="n">sentences</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">sentence</span><span class="o">.</span><span class="n">values</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">label</span><span class="o">.</span><span class="n">values</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="3.-Tokenization-&amp;-Input-Formatting">
+<a class="anchor" href="#3.-Tokenization-&amp;-Input-Formatting" aria-hidden="true"><span class="octicon octicon-link"></span></a>3. Tokenization &amp; Input Formatting<a class="anchor-link" href="#3.-Tokenization-&amp;-Input-Formatting"> </a>
+</h1>
+<h2 id="3.1.-BERT-Tokenizer">
+<a class="anchor" href="#3.1.-BERT-Tokenizer" aria-hidden="true"><span class="octicon octicon-link"></span></a>3.1. BERT Tokenizer<a class="anchor-link" href="#3.1.-BERT-Tokenizer"> </a>
+</h2>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">BertTokenizer</span>
+
+<span class="c1"># Load the BERT tokenizer.</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Loading BERT tokenizer...'</span><span class="p">)</span>
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">BertTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s1">'bert-base-multilingual-uncased'</span><span class="p">,</span> <span class="n">do_lower_case</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Loading BERT tokenizer...
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Print the original sentence.</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">' Original: '</span><span class="p">,</span> <span class="n">sentences</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="c1"># Print the sentence split into tokens.</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Tokenized: '</span><span class="p">,</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">tokenize</span><span class="p">(</span><span class="n">sentences</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+
+<span class="c1"># Print the sentence mapped to token ids.</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Token IDs: '</span><span class="p">,</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">convert_tokens_to_ids</span><span class="p">(</span><span class="n">tokenizer</span><span class="o">.</span><span class="n">tokenize</span><span class="p">(</span><span class="n">sentences</span><span class="p">[</span><span class="mi">0</span><span class="p">])))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre> Original:  Our friends won't buy this analysis, let alone the next one we propose.
+Tokenized:  ['our', 'friends', 'won', "'", 't', 'buy', 'this', 'analysis', ',', 'let', 'alone', 'the', 'next', 'one', 'we', 'propose', '.']
+Token IDs:  [14008, 16119, 11441, 112, 162, 35172, 10372, 15559, 117, 12421, 19145, 10103, 12878, 10399, 11312, 25690, 119]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">korean</span> <span class="o">=</span> <span class="s2">"안녕하세요. 반갑습니다. 너는 이름이 뭐니? 오늘 날씨가 맑고 좋구나."</span>
+<span class="c1"># Print the original sentence.</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">' Original: '</span><span class="p">,</span> <span class="n">korean</span><span class="p">)</span>
+
+<span class="c1"># Print the sentence split into tokens.</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Tokenized: '</span><span class="p">,</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">tokenize</span><span class="p">(</span><span class="n">korean</span><span class="p">))</span>
+
+<span class="c1"># Print the sentence mapped to token ids.</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Token IDs: '</span><span class="p">,</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">convert_tokens_to_ids</span><span class="p">(</span><span class="n">tokenizer</span><span class="o">.</span><span class="n">tokenize</span><span class="p">(</span><span class="n">korean</span><span class="p">)))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre> Original:  안녕하세요. 반갑습니다. 너는 이름이 뭐니? 오늘 날씨가 맑고 좋구나.
+Tokenized:  ['ᄋ', '##ᅡᆫ', '##녀', '##ᆼ', '##하', '##세', '##요', '.', 'ᄇ', '##ᅡᆫ', '##가', '##ᆸ', '##스', '##ᆸ니다', '.', 'ᄂ', '##ᅥ', '##는', '이', '##름이', 'ᄆ', '##ᅯ', '##니', '?', 'ᄋ', '##ᅩ', '##ᄂ', '##ᅳᆯ', '날', '##씨', '##가', 'ᄆ', '##ᅡ', '##ᆰ', '##고', 'ᄌ', '##ᅩ', '##ᇂ', '##구', '##나', '.']
+Token IDs:  [1174, 26646, 49345, 13045, 35132, 25169, 47024, 119, 1170, 26646, 11376, 17360, 13212, 79427, 119, 1165, 33645, 11192, 12398, 89420, 1169, 97090, 25536, 136, 1174, 29347, 97071, 63277, 76818, 47928, 11376, 1169, 25539, 97098, 12300, 1175, 29347, 97109, 16336, 16801, 119]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>When we actually convert all of our sentences, we'll use the <code>tokenize.encode</code> functio to handle both steps, rather than calling <code>tokenize</code> and <code>convert_tokens_to_ids</code> seperately.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="3.2.-Required-Formatting">
+<a class="anchor" href="#3.2.-Required-Formatting" aria-hidden="true"><span class="octicon octicon-link"></span></a>3.2. Required Formatting<a class="anchor-link" href="#3.2.-Required-Formatting"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="3.3.-Tokenize-Dataset">
+<a class="anchor" href="#3.3.-Tokenize-Dataset" aria-hidden="true"><span class="octicon octicon-link"></span></a>3.3. Tokenize Dataset<a class="anchor-link" href="#3.3.-Tokenize-Dataset"> </a>
+</h2>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">max_len</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="c1"># For every sentence,</span>
+<span class="k">for</span> <span class="n">sent</span> <span class="ow">in</span> <span class="n">sentences</span><span class="p">:</span>
+
+    <span class="c1"># Tokenize the text and add `[CLS]` and `[SEP]` tokens.</span>
+    <span class="n">input_ids</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">sent</span><span class="p">,</span> <span class="n">add_special_tokens</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># Update the maximum sentence langth.</span>
+    <span class="n">max_len</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">max_len</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">input_ids</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Max sentence length: '</span><span class="p">,</span> <span class="n">max_len</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Max sentence length:  48
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Tokenize all of the sentences and map the tokens to their word IDs.</span>
+<span class="n">input_ids</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">attention_masks</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1"># For every sentence,</span>
+<span class="k">for</span> <span class="n">sent</span> <span class="ow">in</span> <span class="n">sentences</span><span class="p">:</span>
+    <span class="c1"># `encode_plus` will:</span>
+    <span class="c1"># (1) Tokenize the sentence.</span>
+    <span class="c1"># (2) Prepend the `[CLS]` token to the start.</span>
+    <span class="c1"># (3) Append the `[SEP]` token to the end.</span>
+    <span class="c1"># (4) Map tokens to their IDs.</span>
+    <span class="c1"># (5) Pad or truncate the sentence to `max_length`</span>
+    <span class="c1"># (6) Create attention masks for [PAD] tokens.</span>
+    <span class="n">encoded_dict</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">encode_plus</span><span class="p">(</span>
+        <span class="n">sent</span><span class="p">,</span>                                       <span class="c1"># Sentence to encode.</span>
+        <span class="n">add_special_tokens</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>      <span class="c1"># Add '[CLS]' and '[SEP]'</span>
+        <span class="n">max_length</span> <span class="o">=</span> <span class="mi">64</span><span class="p">,</span>                           <span class="c1"># Pad &amp; truncate all sentences.</span>
+        <span class="n">pad_to_max_length</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">return_attention_mask</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>   <span class="c1"># Construct attn. masks.</span>
+        <span class="n">return_Tensors</span> <span class="o">=</span> <span class="s1">'pt'</span><span class="p">,</span>                  <span class="c1"># Return pytorch tensors.</span>
+    <span class="p">)</span>
+    
+    <span class="c1"># Add the encoded sentence to the list.</span>
+    <span class="n">input_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">encoded_dict</span><span class="p">[</span><span class="s1">'input_ids'</span><span class="p">])</span>
+
+    <span class="c1"># And its attention mask (simply differentiates padding from non-padding.)</span>
+    <span class="n">attention_masks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">encoded_dict</span><span class="p">[</span><span class="s1">'attention_mask'</span><span class="p">])</span>
+
+<span class="c1"># Convert the lists into tensors.</span>
+<span class="n">input_ids</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">LongTensor</span><span class="p">(</span><span class="n">input_ids</span><span class="p">)</span>
+<span class="n">attention_masks</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">FloatTensor</span><span class="p">(</span><span class="n">attention_masks</span><span class="p">)</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
+
+<span class="c1"># Print sentence 0, now as a list of IDs.</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Original:  '</span><span class="p">,</span> <span class="n">sentences</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'Token IDs: '</span><span class="p">,</span> <span class="n">input_ids</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Original:   Our friends won't buy this analysis, let alone the next one we propose.
+Token IDs:  tensor([  101, 14008, 16119, 11441,   112,   162, 35172, 10372, 15559,   117,
+        12421, 19145, 10103, 12878, 10399, 11312, 25690,   119,   102,     0,
+            0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+            0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+            0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+            0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+            0,     0,     0,     0])
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="3.4.-Training-&amp;-Validation-Split">
+<a class="anchor" href="#3.4.-Training-&amp;-Validation-Split" aria-hidden="true"><span class="octicon octicon-link"></span></a>3.4. Training &amp; Validation Split<a class="anchor-link" href="#3.4.-Training-&amp;-Validation-Split"> </a>
+</h2>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">TensorDataset</span><span class="p">,</span> <span class="n">random_split</span>
+
+<span class="c1"># Combine the training inputs into a TensorDataset.</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">TensorDataset</span><span class="p">(</span><span class="n">input_ids</span><span class="p">,</span> <span class="n">attention_masks</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+
+<span class="c1"># Create a 90-10 train-validation split.</span>
+
+<span class="c1"># Calculate the number of samples to include in each set.</span>
+<span class="n">train_size</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mf">0.9</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataset</span><span class="p">))</span>
+<span class="n">val_size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span> <span class="o">-</span> <span class="n">train_size</span>
+
+<span class="c1"># Devide the dataset by randomly selecting samples.</span>
+<span class="n">train_dataset</span><span class="p">,</span> <span class="n">val_dataset</span> <span class="o">=</span> <span class="n">random_split</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="p">[</span><span class="n">train_size</span><span class="p">,</span> <span class="n">val_size</span><span class="p">])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="si">{:&gt;5}</span><span class="s1"> training samples'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">train_size</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="si">{:&gt;5}</span><span class="s1"> validation samples'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">val_size</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre> 7695 training samples
+  856 validation samples
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">DataLoader</span><span class="p">,</span> <span class="n">RandomSampler</span><span class="p">,</span> <span class="n">SequentialSampler</span>
+
+<span class="c1"># The DataLoader needs to know our batch size for training, so we specify it here.</span>
+<span class="c1"># For fine-tuning BERT on a specific task, the authors recommend a batch size of 16 or 32.</span>
+<span class="n">batch_size</span> <span class="o">=</span> <span class="mi">32</span>
+
+<span class="c1"># Create the DataLoaders for our training and validation sets.</span>
+<span class="c1"># We'll take training samples in random order.</span>
+<span class="n">train_dataloader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span>
+    <span class="n">train_dataset</span><span class="p">,</span>   <span class="c1"># The training samples.</span>
+    <span class="n">sampler</span> <span class="o">=</span> <span class="n">RandomSampler</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">),</span>   <span class="c1"># Select batches randomly</span>
+    <span class="n">batch_size</span> <span class="o">=</span> <span class="n">batch_size</span>   <span class="c1"># Trains with this batch size.</span>
+<span class="p">)</span>
+
+<span class="c1"># For validation the order doesn't matter, so we'll just read them sequentially.</span>
+<span class="n">validation_dataloader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span>
+    <span class="n">val_dataset</span><span class="p">,</span>   <span class="c1"># The validation samples.</span>
+    <span class="n">sampler</span> <span class="o">=</span> <span class="n">SequentialSampler</span><span class="p">(</span><span class="n">val_dataset</span><span class="p">),</span>   <span class="c1"># Pull out batches sequentially.</span>
+    <span class="n">batch_size</span> <span class="o">=</span> <span class="n">batch_size</span>   <span class="c1"># Evaluate with this batch size.</span>
+<span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">train_dataloader</span><span class="o">.</span><span class="n">batch_size</span>
+<span class="c1"># 7695/32 = 240.46875</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>32</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="4.-Train-Our-Classification-Model">
+<a class="anchor" href="#4.-Train-Our-Classification-Model" aria-hidden="true"><span class="octicon octicon-link"></span></a>4. Train Our Classification Model<a class="anchor-link" href="#4.-Train-Our-Classification-Model"> </a>
+</h1>
+<h2 id="4.1.-BertForSequenceClassification">
+<a class="anchor" href="#4.1.-BertForSequenceClassification" aria-hidden="true"><span class="octicon octicon-link"></span></a>4.1. BertForSequenceClassification<a class="anchor-link" href="#4.1.-BertForSequenceClassification"> </a>
+</h2>
+<ul>
+<li>BertModel</li>
+<li>BertForPreTraining</li>
+<li>BertForMaskedLM</li>
+<li>BertForNextSentencePredicion</li>
+<li>BertForSequenceClassification</li>
+<li>BertForTokenClassification</li>
+<li>BertForQuestionAnswering</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">device</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>device(type='cuda')</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">BertForSequenceClassification</span><span class="p">,</span> <span class="n">AdamW</span><span class="p">,</span> <span class="n">BertConfig</span>
+
+<span class="c1"># Load BertForSequenceClassification, the pretrained BERT model with </span>
+<span class="c1"># a single linear classification layer on top.</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">BertForSequenceClassification</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span>
+    <span class="s2">"bert-base-uncased"</span><span class="p">,</span> <span class="c1"># Use the 12-layer BERT model, with an uncased vocab.</span>
+    <span class="n">num_labels</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>    <span class="c1"># The number of output labels--2 for binary classification.</span>
+                                <span class="c1"># You can increase this for multi-class tasks.</span>
+    <span class="n">output_attentions</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="c1"># Whether the model returns attentions weights.</span>
+    <span class="n">output_hidden_states</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="c1"># Whether the model returns all hidden-states.</span>
+<span class="p">)</span>
+
+<span class="c1"># Tell pytorch to run this model on the GPU.</span>
+<span class="c1"># if device == 'cuda':</span>
+<span class="n">model</span><span class="o">.</span><span class="n">cuda</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>BertForSequenceClassification(
+  (bert): BertModel(
+    (embeddings): BertEmbeddings(
+      (word_embeddings): Embedding(30522, 768, padding_idx=0)
+      (position_embeddings): Embedding(512, 768)
+      (token_type_embeddings): Embedding(2, 768)
+      (LayerNorm): LayerNorm(torch.Size([768]), eps=1e-12, elementwise_affine=True)
+      (dropout): Dropout(p=0.1)
+    )
+    (encoder): BertEncoder(
+      (layer): ModuleList(
+        (0): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm(torch.Size([768]), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): LayerNorm(torch.Size([768]), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1)
+          )
+        )
+        (1): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm(torch.Size([768]), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): LayerNorm(torch.Size([768]), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1)
+          )
+        )
+        (2): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm(torch.Size([768]), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): LayerNorm(torch.Size([768]), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1)
+          )
+        )
+        (3): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm(torch.Size([768]), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): LayerNorm(torch.Size([768]), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1)
+          )
+        )
+        (4): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm(torch.Size([768]), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): LayerNorm(torch.Size([768]), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1)
+          )
+        )
+        (5): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm(torch.Size([768]), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): LayerNorm(torch.Size([768]), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1)
+          )
+        )
+        (6): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm(torch.Size([768]), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): LayerNorm(torch.Size([768]), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1)
+          )
+        )
+        (7): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm(torch.Size([768]), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): LayerNorm(torch.Size([768]), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1)
+          )
+        )
+        (8): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm(torch.Size([768]), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): LayerNorm(torch.Size([768]), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1)
+          )
+        )
+        (9): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm(torch.Size([768]), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): LayerNorm(torch.Size([768]), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1)
+          )
+        )
+        (10): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm(torch.Size([768]), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): LayerNorm(torch.Size([768]), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1)
+          )
+        )
+        (11): BertLayer(
+          (attention): BertAttention(
+            (self): BertSelfAttention(
+              (query): Linear(in_features=768, out_features=768, bias=True)
+              (key): Linear(in_features=768, out_features=768, bias=True)
+              (value): Linear(in_features=768, out_features=768, bias=True)
+              (dropout): Dropout(p=0.1)
+            )
+            (output): BertSelfOutput(
+              (dense): Linear(in_features=768, out_features=768, bias=True)
+              (LayerNorm): LayerNorm(torch.Size([768]), eps=1e-12, elementwise_affine=True)
+              (dropout): Dropout(p=0.1)
+            )
+          )
+          (intermediate): BertIntermediate(
+            (dense): Linear(in_features=768, out_features=3072, bias=True)
+          )
+          (output): BertOutput(
+            (dense): Linear(in_features=3072, out_features=768, bias=True)
+            (LayerNorm): LayerNorm(torch.Size([768]), eps=1e-12, elementwise_affine=True)
+            (dropout): Dropout(p=0.1)
+          )
+        )
+      )
+    )
+    (pooler): BertPooler(
+      (dense): Linear(in_features=768, out_features=768, bias=True)
+      (activation): Tanh()
+    )
+  )
+  (dropout): Dropout(p=0.1)
+  (classifier): Linear(in_features=768, out_features=2, bias=True)
+)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Get all of the model's parameters as a list of tuples.</span>
+<span class="n">params</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">named_parameters</span><span class="p">())</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">'The BERT model has </span><span class="si">{:}</span><span class="s1"> different named parameters.</span><span class="se">\n</span><span class="s1">'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">params</span><span class="p">)))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">'==== Embedding Layer ====</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">params</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">5</span><span class="p">]:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="si">{:&lt;55}</span><span class="s2"> </span><span class="si">{:&gt;12}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">str</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">size</span><span class="p">()))))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">==== First Transformer ====</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">params</span><span class="p">[</span><span class="mi">5</span><span class="p">:</span><span class="mi">21</span><span class="p">]:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="si">{:&lt;55}</span><span class="s2"> </span><span class="si">{:&gt;12}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">str</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">size</span><span class="p">()))))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">'</span><span class="se">\n</span><span class="s1">==== Output Layer ====</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">params</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">:]:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="si">{:&lt;55}</span><span class="s2"> </span><span class="si">{:&gt;12}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">str</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">size</span><span class="p">()))))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>The BERT model has 201 different named parameters.
+
+==== Embedding Layer ====
+
+bert.embeddings.word_embeddings.weight                  (30522, 768)
+bert.embeddings.position_embeddings.weight                (512, 768)
+bert.embeddings.token_type_embeddings.weight                (2, 768)
+bert.embeddings.LayerNorm.weight                              (768,)
+bert.embeddings.LayerNorm.bias                                (768,)
+
+==== First Transformer ====
+
+bert.encoder.layer.0.attention.self.query.weight          (768, 768)
+bert.encoder.layer.0.attention.self.query.bias                (768,)
+bert.encoder.layer.0.attention.self.key.weight            (768, 768)
+bert.encoder.layer.0.attention.self.key.bias                  (768,)
+bert.encoder.layer.0.attention.self.value.weight          (768, 768)
+bert.encoder.layer.0.attention.self.value.bias                (768,)
+bert.encoder.layer.0.attention.output.dense.weight        (768, 768)
+bert.encoder.layer.0.attention.output.dense.bias              (768,)
+bert.encoder.layer.0.attention.output.LayerNorm.weight        (768,)
+bert.encoder.layer.0.attention.output.LayerNorm.bias          (768,)
+bert.encoder.layer.0.intermediate.dense.weight           (3072, 768)
+bert.encoder.layer.0.intermediate.dense.bias                 (3072,)
+bert.encoder.layer.0.output.dense.weight                 (768, 3072)
+bert.encoder.layer.0.output.dense.bias                        (768,)
+bert.encoder.layer.0.output.LayerNorm.weight                  (768,)
+bert.encoder.layer.0.output.LayerNorm.bias                    (768,)
+
+==== Output Layer ====
+
+bert.pooler.dense.weight                                  (768, 768)
+bert.pooler.dense.bias                                        (768,)
+classifier.weight                                           (2, 768)
+classifier.bias                                                 (2,)
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="4.2.-Optimizer-&amp;-Learning-Rate-Scheduler">
+<a class="anchor" href="#4.2.-Optimizer-&amp;-Learning-Rate-Scheduler" aria-hidden="true"><span class="octicon octicon-link"></span></a>4.2. Optimizer &amp; Learning Rate Scheduler<a class="anchor-link" href="#4.2.-Optimizer-&amp;-Learning-Rate-Scheduler"> </a>
+</h2>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Note: AdamW is a class from the huggingface library (as opposed to pytorch)</span>
+<span class="c1"># I believe the 'W' stands for 'Weight Decay fix'</span>
+
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">AdamW</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span>
+                  <span class="n">lr</span> <span class="o">=</span> <span class="mf">2e-5</span><span class="p">,</span>   <span class="c1"># args.learning_rate - default is 5e-5, our notebook had 2e-5</span>
+                  <span class="n">eps</span> <span class="o">=</span> <span class="mf">1e-8</span> <span class="c1"># args.dam_epsilon  - default is 1e-8</span>
+                  <span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">get_linear_schedule_with_warmup</span>
+
+<span class="c1"># Number of training epochs. The BERT authors recommend between 2 and 4.</span>
+<span class="c1"># We chose to run for 4, but we'll see later that this my be over-fitting the training data.</span>
+<span class="n">epochs</span> <span class="o">=</span> <span class="mi">4</span>
+
+<span class="c1"># Total number of training steps is [number of batches] x [number of epochs].</span>
+<span class="c1"># (Note that this is not the same as the number of training samples).</span>
+<span class="n">total_steps</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">train_dataloader</span><span class="p">)</span> <span class="o">*</span> <span class="n">epochs</span>
+
+<span class="c1"># Create the learning rate scheduler.</span>
+<span class="n">scheduler</span> <span class="o">=</span> <span class="n">get_linear_schedule_with_warmup</span><span class="p">(</span><span class="n">optimizer</span><span class="p">,</span>
+                                            <span class="n">num_warmup_steps</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="c1"># Default value in run_glue.py</span>
+                                            <span class="n">num_training_steps</span> <span class="o">=</span> <span class="n">total_steps</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="4.3.-Training-Loop">
+<a class="anchor" href="#4.3.-Training-Loop" aria-hidden="true"><span class="octicon octicon-link"></span></a>4.3. Training Loop<a class="anchor-link" href="#4.3.-Training-Loop"> </a>
+</h2>
+<p><strong>Training:</strong></p>
+<ul>
+<li>Unpack our data inputs and labels</li>
+<li>Load data onto the GPU for acceleration</li>
+<li>Clear out the gradients calculated in the previous pass.<ul>
+<li>In pytorch the gradients accumulate by default (useful for things like RNNs) unless you explicitly clear them out.</li>
+</ul>
+</li>
+<li>Forward pass (feed input data through the network)</li>
+<li>Backward pass (backpropagation)</li>
+<li>Tell the network to update parameters with optimizer.step()</li>
+<li>Track variables for monitoring progress</li>
+</ul>
+<p><strong>Evaluation:</strong></p>
+<ul>
+<li>Unpack our data inputs and labels</li>
+<li>Load data onto the GPU for acceleration</li>
+<li>Forward pass (feed input data through the network)</li>
+<li>Compute loss on our validation data and track variables for monitoring progress</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># Function to calculate the accuracy of our predictions vs labels</span>
+<span class="k">def</span> <span class="nf">flat_accuracy</span><span class="p">(</span><span class="n">preds</span><span class="p">,</span> <span class="n">labels</span><span class="p">):</span>
+    <span class="n">pred_flat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">preds</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+    <span class="n">labels_flat</span> <span class="o">=</span> <span class="n">labels</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">pred_flat</span> <span class="o">==</span> <span class="n">labels_flat</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">labels_flat</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
+
+<span class="k">def</span> <span class="nf">format_time</span><span class="p">(</span><span class="n">elapsed</span><span class="p">):</span>
+    <span class="sd">'''</span>
+<span class="sd">    Takes a time in seconds and returns a string hh:mm:ss</span>
+<span class="sd">    '''</span>
+    <span class="c1"># Round to the nearest second.</span>
+    <span class="n">elapsed_rounded</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">((</span><span class="n">elapsed</span><span class="p">)))</span>
+
+    <span class="c1"># Format as hh:mm:ss</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"    "</span><span class="p">,</span> <span class="n">elapsed</span><span class="p">,</span> <span class="n">elapsed_rounded</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="n">elapsed_rounded</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="n">elapsed_rounded</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># This training code is based on the `run_glue.py` script here:</span>
+<span class="c1"># https://github.com/huggingface/transformers/blob/5bfcd0485ece086ebcbed2d008813037968a9e58/examples/run_glue.py#L128</span>
+
+<span class="c1"># Set the seed value all over the place to make this reproducible.</span>
+<span class="n">seed_val</span> <span class="o">=</span> <span class="mi">42</span>
+
+<span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">seed_val</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">seed_val</span><span class="p">)</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="n">seed_val</span><span class="p">)</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">manual_seed_all</span><span class="p">(</span><span class="n">seed_val</span><span class="p">)</span>
+
+<span class="c1"># We'll store a number of quantities such as training and validation loss,</span>
+<span class="c1"># validation accuracy, and timings.</span>
+<span class="n">training_stats</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1"># Measure the total training time for the whole run.</span>
+<span class="n">total_t0</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+<span class="c1"># For each epoch,</span>
+<span class="k">for</span> <span class="n">epoch_i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">epochs</span><span class="p">):</span>
+
+    <span class="c1"># ========================================</span>
+    <span class="c1">#                                 Training </span>
+    <span class="c1"># ========================================</span>
+
+    <span class="c1"># Perform one full pass over the training set.</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">'======== Epoch </span><span class="si">{:}</span><span class="s1"> / </span><span class="si">{:}</span><span class="s1"> ========'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">epoch_i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">epochs</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">'Training...'</span><span class="p">)</span>
+
+    <span class="c1"># Measure how long the training epoch takes.</span>
+    <span class="n">t0</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+    <span class="c1"># Reset the total loss for this epoch.</span>
+    <span class="n">total_train_loss</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="c1"># Put the model into training mode. Don't be mislead--the call to</span>
+    <span class="c1"># `train` just changes the *mode*, it doesn't *perform* the training.</span>
+    <span class="c1"># `dropout` and `batchnorm` layers behave differently during training vs test</span>
+    <span class="c1"># (source: https://stackoverflow.com/questions/51433378/what-does-model-train-do-in-pytorch)</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+
+    <span class="c1"># For each batch of training data,</span>
+    <span class="k">for</span> <span class="n">step</span><span class="p">,</span> <span class="n">batch</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">train_dataloader</span><span class="p">):</span>
+        <span class="c1"># # of step : 241</span>
+        <span class="c1"># len of batch : 32</span>
+        <span class="c1"># size of batch[0] : 64</span>
+        
+        <span class="c1"># Progress update every 40 batches.</span>
+        <span class="k">if</span> <span class="n">step</span> <span class="o">%</span> <span class="mi">40</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">step</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            
+            <span class="c1"># Calcuate elapsed time in minutes.</span>
+            <span class="n">elapsed</span> <span class="o">=</span> <span class="n">format_time</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">t0</span><span class="p">)</span>
+
+            <span class="c1"># Report progress.</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">'  Batch </span><span class="si">{:&gt;5,}</span><span class="s1"> of </span><span class="si">{:&gt;5,}</span><span class="s1">.    Elapsed: </span><span class="si">{:}</span><span class="s1">'</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">step</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">train_dataloader</span><span class="p">),</span> <span class="n">elapsed</span><span class="p">))</span>
+
+        <span class="c1"># Unpack this training batch from our dataloader</span>
+        <span class="c1">#</span>
+        <span class="c1"># As we unpack the batch, we'll also copy each tensor to the GPU using `to` method.</span>
+        <span class="c1">#</span>
+        <span class="c1"># `batch` contains three pytorch tensors:</span>
+        <span class="c1">#     [0]: input ids</span>
+        <span class="c1">#     [1] : attention masks</span>
+        <span class="c1">#     [2] : labels</span>
+        <span class="n">b_input_ids</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+        <span class="n">b_input_mask</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+        <span class="n">b_labels</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">batch</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">batch</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">b_input_ids</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">b_input_ids</span><span class="p">)</span>
+
+        <span class="c1"># Always clear any previously calculated gradients before performing backward pass.</span>
+        <span class="c1"># PyTorch doesn't do this automatically because accumulating the gradients is </span>
+        <span class="c1"># "convenient while training RNNs". (source: https://stackoverflow.com/questions/48001598/why-do-we-need-to-call-zero-grad-in-pytorch)</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+
+        <span class="c1"># Perform a forwad pass (evaluate the model on this training batch).</span>
+        <span class="c1"># The documentation for this `model` function is here:</span>
+        <span class="c1"># https://huggingface.co/transformers/v2.2.0/model_doc/bert.html#transformers.BertForSequenceClassification</span>
+        <span class="c1"># It returns different numbers of parameters depending on what arguments</span>
+        <span class="c1"># are given and what flags are set. For our usage here, it returns the loss (because we provided labels)</span>
+        <span class="c1"># and the "logits"--the model outputs prior to activation.</span>
+        <span class="n">loss</span><span class="p">,</span> <span class="n">logits</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">b_input_ids</span><span class="p">,</span>
+                                        <span class="n">token_type_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                        <span class="n">attention_mask</span><span class="o">=</span><span class="n">b_input_mask</span><span class="p">,</span>
+                                        <span class="n">labels</span><span class="o">=</span><span class="n">b_labels</span><span class="p">)</span>
+
+        <span class="c1"># Accumulate the training loss over all of the batches so that we can calculate the average loss at the end.</span>
+        <span class="c1"># `loss` is a Tensor containing a single value; the `.item()` function just returns the Python value from the tensor.</span>
+        <span class="n">total_train_loss</span> <span class="o">+=</span> <span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+
+        <span class="c1"># Perform a backward pass to calculate the gradients.</span>
+        <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+
+        <span class="c1"># Clip the norm of the gradients to 1.0.</span>
+        <span class="c1"># This is to help prevent the "exploding gradients" problem.</span>
+        <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">clip_grad_norm_</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="mf">1.0</span><span class="p">)</span>
+
+        <span class="c1"># Update parameters and take a step using the computed gradient.</span>
+        <span class="c1"># The optimizer dictates the "update rule"--how the parameters are modified </span>
+        <span class="c1"># based on their gradients, the learning rate, etc.</span>
+        <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+
+        <span class="c1"># Update the learning rate.</span>
+        <span class="n">scheduler</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+
+    <span class="c1"># Calculate the average loss over all of the batches.</span>
+    <span class="n">avg_train_loss</span> <span class="o">=</span> <span class="n">total_train_loss</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">train_dataloader</span><span class="p">)</span>
+
+    <span class="c1"># Measure how long this epoch took.</span>
+    <span class="n">training_time</span> <span class="o">=</span> <span class="n">format_time</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">t0</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"  Average training loss: </span><span class="si">{0:.2f}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">avg_train_loss</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"  Training epoch took: </span><span class="si">{:}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">training_time</span><span class="p">))</span>
+
+    <span class="c1"># ========================================</span>
+    <span class="c1">#                                 Validation </span>
+    <span class="c1"># ========================================</span>
+    <span class="c1"># After the completion of each training epoch, measure our performance on our validation set.</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Running Validation..."</span><span class="p">)</span>
+
+    <span class="n">t0</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+    <span class="c1"># Put the model in evaluation mode--the dropout layers behave differently during evaluation.</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+
+    <span class="c1"># Tracking variables</span>
+    <span class="n">total_eval_accuracy</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">total_eval_loss</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">nb_eval_steps</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="c1"># Evaluate data for one epoch</span>
+    <span class="k">for</span> <span class="n">batch</span> <span class="ow">in</span> <span class="n">validation_dataloader</span><span class="p">:</span>
+
+        <span class="c1"># Unpack this training batch from our dataloader.</span>
+        <span class="c1">#</span>
+        <span class="c1"># As we unpack the batch, we'll also copy each tensor to the GPU using the `to` method.</span>
+        <span class="c1">#</span>
+        <span class="c1"># `batch` contains three pytorch tensors:</span>
+        <span class="c1">#   [0]: input ids</span>
+        <span class="c1">#   [1]: attention masks</span>
+        <span class="c1">#   [2]: labels</span>
+        <span class="n">b_input_ids</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+        <span class="n">b_input_mask</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+        <span class="n">b_labels</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+        <span class="c1"># Tell pytorch not to bother with constructing the compute graph during the forward pass,</span>
+        <span class="c1"># since this is only needed for backprop (training).</span>
+        <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+
+            <span class="c1"># Forward pass, calculate logit predictions.</span>
+            <span class="c1"># token_type_ids is the same as the "segment ids", which differentiates sentence 1 and 2 in 2-sentence tasks.</span>
+            <span class="c1"># The documentation for this `model` function is here:</span>
+            <span class="c1"># https://huggingface.co/transformers/v2.2.0/model_doc/bert.html#transformers.BertForSequenceClassification</span>
+            <span class="c1"># Get the "logits" output byt the model. The "logits" are the output</span>
+            <span class="c1"># values prior to applying an activation function like the softmax.</span>
+            <span class="p">(</span><span class="n">loss</span><span class="p">,</span> <span class="n">logits</span><span class="p">)</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">b_input_ids</span><span class="p">,</span>
+                                                <span class="n">token_type_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                                <span class="n">attention_mask</span><span class="o">=</span><span class="n">b_input_mask</span><span class="p">,</span>
+                                                <span class="n">labels</span><span class="o">=</span><span class="n">b_labels</span><span class="p">)</span>
+            
+        <span class="c1"># Accumulate the validation loss.</span>
+        <span class="n">total_eval_loss</span> <span class="o">+=</span> <span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+
+        <span class="c1"># Move logits and labels to CPU</span>
+        <span class="n">logits</span> <span class="o">=</span> <span class="n">logits</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+        <span class="n">label_ids</span> <span class="o">=</span> <span class="n">b_labels</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">'cpu'</span><span class="p">)</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+
+        <span class="c1"># Calculate the accuracy for this batch of test sentence,</span>
+        <span class="c1"># and accumulate it over all batches.</span>
+        <span class="n">total_eval_accuracy</span> <span class="o">+=</span> <span class="n">flat_accuracy</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">label_ids</span><span class="p">)</span>
+
+    <span class="c1"># Report the final accuracy for this validation run.</span>
+    <span class="n">avg_val_accuracy</span> <span class="o">=</span> <span class="n">total_eval_accuracy</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">validation_dataloader</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"  Accuracy: </span><span class="si">{0:.2f}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">avg_val_accuracy</span><span class="p">))</span>
+
+    <span class="c1"># Calculate the average loss over all of the batches.</span>
+    <span class="n">avg_val_loss</span> <span class="o">=</span> <span class="n">total_eval_loss</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">validation_dataloader</span><span class="p">)</span>
+
+    <span class="c1"># Measure how long the validation run took.</span>
+    <span class="n">validation_time</span> <span class="o">=</span> <span class="n">format_time</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">t0</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"  Validation Loss: </span><span class="si">{0:.2f}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">avg_val_loss</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"  Validation took: </span><span class="si">{:}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">validation_time</span><span class="p">))</span>
+
+    <span class="c1"># Record all statistics from this epoch.</span>
+    <span class="n">training_stats</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+        <span class="p">{</span>
+            <span class="s1">'epoch'</span><span class="p">:</span> <span class="n">epoch_i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="s1">'Training Loss'</span><span class="p">:</span> <span class="n">avg_train_loss</span><span class="p">,</span>
+            <span class="s1">'Valid. Loss'</span><span class="p">:</span> <span class="n">avg_val_loss</span><span class="p">,</span>
+            <span class="s1">'Valid. Accur.'</span><span class="p">:</span> <span class="n">avg_val_accuracy</span><span class="p">,</span>
+            <span class="s1">'Training Time'</span><span class="p">:</span> <span class="n">training_time</span><span class="p">,</span>
+            <span class="s1">'Validation Time'</span><span class="p">:</span> <span class="n">validation_time</span>
+        <span class="p">}</span>
+    <span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Training complete!"</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Total training took </span><span class="si">{:}</span><span class="s2"> (h:mm:ss)"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">format_time</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="o">-</span><span class="n">total_t0</span><span class="p">)))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+======== Epoch 1 / 4 ========
+Training...
+&lt;class 'torch.Tensor'&gt;
+tensor([[  101, 11312, 10320,  ...,     0,     0,     0],
+        [  101, 13667, 10564,  ...,     0,     0,     0],
+        [  101, 10103, 23222,  ...,     0,     0,     0],
+        ...,
+        [  101, 21506, 10935,  ...,     0,     0,     0],
+        [  101, 69042, 10127,  ...,     0,     0,     0],
+        [  101, 12941, 50134,  ...,     0,     0,     0]])
+&lt;class 'torch.Tensor'&gt;
+tensor([[  101, 11312, 10320,  ...,     0,     0,     0],
+        [  101, 13667, 10564,  ...,     0,     0,     0],
+        [  101, 10103, 23222,  ...,     0,     0,     0],
+        ...,
+        [  101, 21506, 10935,  ...,     0,     0,     0],
+        [  101, 69042, 10127,  ...,     0,     0,     0],
+        [  101, 12941, 50134,  ...,     0,     0,     0]], device='cuda:0')
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">RuntimeError</span>                              Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-26-443d4943574d&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-fg">()</span>
+<span class="ansi-green-intense-fg ansi-bold">     90</span>                                         token_type_ids<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">None</span><span class="ansi-blue-fg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">     91</span>                                         attention_mask<span class="ansi-blue-fg">=</span>b_input_mask<span class="ansi-blue-fg">,</span>
+<span class="ansi-green-fg">---&gt; 92</span><span class="ansi-red-fg">                                         labels=b_labels)
+</span><span class="ansi-green-intense-fg ansi-bold">     93</span> 
+<span class="ansi-green-intense-fg ansi-bold">     94</span>         <span class="ansi-red-fg"># Accumulate the training loss over all of the batches so that we can calculate the average loss at the end.</span>
+
+<span class="ansi-green-fg">/usr/local/lib/python3.6/dist-packages/torch/nn/modules/module.py</span> in <span class="ansi-cyan-fg">__call__</span><span class="ansi-blue-fg">(self, *input, **kwargs)</span>
+<span class="ansi-green-intense-fg ansi-bold">    487</span>             result <span class="ansi-blue-fg">=</span> self<span class="ansi-blue-fg">.</span>_slow_forward<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">*</span>input<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    488</span>         <span class="ansi-green-fg">else</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">--&gt; 489</span><span class="ansi-red-fg">             </span>result <span class="ansi-blue-fg">=</span> self<span class="ansi-blue-fg">.</span>forward<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">*</span>input<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    490</span>         <span class="ansi-green-fg">for</span> hook <span class="ansi-green-fg">in</span> self<span class="ansi-blue-fg">.</span>_forward_hooks<span class="ansi-blue-fg">.</span>values<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">    491</span>             hook_result <span class="ansi-blue-fg">=</span> hook<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> input<span class="ansi-blue-fg">,</span> result<span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">/usr/local/lib/python3.6/dist-packages/transformers/modeling_bert.py</span> in <span class="ansi-cyan-fg">forward</span><span class="ansi-blue-fg">(self, input_ids, attention_mask, token_type_ids, position_ids, head_mask, inputs_embeds, labels)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1174</span>             position_ids<span class="ansi-blue-fg">=</span>position_ids<span class="ansi-blue-fg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">   1175</span>             head_mask<span class="ansi-blue-fg">=</span>head_mask<span class="ansi-blue-fg">,</span>
+<span class="ansi-green-fg">-&gt; 1176</span><span class="ansi-red-fg">             </span>inputs_embeds<span class="ansi-blue-fg">=</span>inputs_embeds<span class="ansi-blue-fg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">   1177</span>         )
+<span class="ansi-green-intense-fg ansi-bold">   1178</span> 
+
+<span class="ansi-green-fg">/usr/local/lib/python3.6/dist-packages/torch/nn/modules/module.py</span> in <span class="ansi-cyan-fg">__call__</span><span class="ansi-blue-fg">(self, *input, **kwargs)</span>
+<span class="ansi-green-intense-fg ansi-bold">    487</span>             result <span class="ansi-blue-fg">=</span> self<span class="ansi-blue-fg">.</span>_slow_forward<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">*</span>input<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    488</span>         <span class="ansi-green-fg">else</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">--&gt; 489</span><span class="ansi-red-fg">             </span>result <span class="ansi-blue-fg">=</span> self<span class="ansi-blue-fg">.</span>forward<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">*</span>input<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    490</span>         <span class="ansi-green-fg">for</span> hook <span class="ansi-green-fg">in</span> self<span class="ansi-blue-fg">.</span>_forward_hooks<span class="ansi-blue-fg">.</span>values<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">    491</span>             hook_result <span class="ansi-blue-fg">=</span> hook<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> input<span class="ansi-blue-fg">,</span> result<span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">/usr/local/lib/python3.6/dist-packages/transformers/modeling_bert.py</span> in <span class="ansi-cyan-fg">forward</span><span class="ansi-blue-fg">(self, input_ids, attention_mask, token_type_ids, position_ids, head_mask, inputs_embeds, encoder_hidden_states, encoder_attention_mask)</span>
+<span class="ansi-green-intense-fg ansi-bold">    781</span> 
+<span class="ansi-green-intense-fg ansi-bold">    782</span>         embedding_output = self.embeddings(
+<span class="ansi-green-fg">--&gt; 783</span><span class="ansi-red-fg">             </span>input_ids<span class="ansi-blue-fg">=</span>input_ids<span class="ansi-blue-fg">,</span> position_ids<span class="ansi-blue-fg">=</span>position_ids<span class="ansi-blue-fg">,</span> token_type_ids<span class="ansi-blue-fg">=</span>token_type_ids<span class="ansi-blue-fg">,</span> inputs_embeds<span class="ansi-blue-fg">=</span>inputs_embeds
+<span class="ansi-green-intense-fg ansi-bold">    784</span>         )
+<span class="ansi-green-intense-fg ansi-bold">    785</span>         encoder_outputs = self.encoder(
+
+<span class="ansi-green-fg">/usr/local/lib/python3.6/dist-packages/torch/nn/modules/module.py</span> in <span class="ansi-cyan-fg">__call__</span><span class="ansi-blue-fg">(self, *input, **kwargs)</span>
+<span class="ansi-green-intense-fg ansi-bold">    487</span>             result <span class="ansi-blue-fg">=</span> self<span class="ansi-blue-fg">.</span>_slow_forward<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">*</span>input<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    488</span>         <span class="ansi-green-fg">else</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">--&gt; 489</span><span class="ansi-red-fg">             </span>result <span class="ansi-blue-fg">=</span> self<span class="ansi-blue-fg">.</span>forward<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">*</span>input<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    490</span>         <span class="ansi-green-fg">for</span> hook <span class="ansi-green-fg">in</span> self<span class="ansi-blue-fg">.</span>_forward_hooks<span class="ansi-blue-fg">.</span>values<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">    491</span>             hook_result <span class="ansi-blue-fg">=</span> hook<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> input<span class="ansi-blue-fg">,</span> result<span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">/usr/local/lib/python3.6/dist-packages/transformers/modeling_bert.py</span> in <span class="ansi-cyan-fg">forward</span><span class="ansi-blue-fg">(self, input_ids, token_type_ids, position_ids, inputs_embeds)</span>
+<span class="ansi-green-intense-fg ansi-bold">    177</span>         embeddings <span class="ansi-blue-fg">=</span> inputs_embeds <span class="ansi-blue-fg">+</span> position_embeddings <span class="ansi-blue-fg">+</span> token_type_embeddings
+<span class="ansi-green-intense-fg ansi-bold">    178</span>         embeddings <span class="ansi-blue-fg">=</span> self<span class="ansi-blue-fg">.</span>LayerNorm<span class="ansi-blue-fg">(</span>embeddings<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-fg">--&gt; 179</span><span class="ansi-red-fg">         </span>embeddings <span class="ansi-blue-fg">=</span> self<span class="ansi-blue-fg">.</span>dropout<span class="ansi-blue-fg">(</span>embeddings<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    180</span>         <span class="ansi-green-fg">return</span> embeddings
+<span class="ansi-green-intense-fg ansi-bold">    181</span> 
+
+<span class="ansi-green-fg">/usr/local/lib/python3.6/dist-packages/torch/nn/modules/module.py</span> in <span class="ansi-cyan-fg">__call__</span><span class="ansi-blue-fg">(self, *input, **kwargs)</span>
+<span class="ansi-green-intense-fg ansi-bold">    487</span>             result <span class="ansi-blue-fg">=</span> self<span class="ansi-blue-fg">.</span>_slow_forward<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">*</span>input<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    488</span>         <span class="ansi-green-fg">else</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">--&gt; 489</span><span class="ansi-red-fg">             </span>result <span class="ansi-blue-fg">=</span> self<span class="ansi-blue-fg">.</span>forward<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">*</span>input<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    490</span>         <span class="ansi-green-fg">for</span> hook <span class="ansi-green-fg">in</span> self<span class="ansi-blue-fg">.</span>_forward_hooks<span class="ansi-blue-fg">.</span>values<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-intense-fg ansi-bold">    491</span>             hook_result <span class="ansi-blue-fg">=</span> hook<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> input<span class="ansi-blue-fg">,</span> result<span class="ansi-blue-fg">)</span>
+
+<span class="ansi-green-fg">/usr/local/lib/python3.6/dist-packages/torch/nn/modules/dropout.py</span> in <span class="ansi-cyan-fg">forward</span><span class="ansi-blue-fg">(self, input)</span>
+<span class="ansi-green-intense-fg ansi-bold">     56</span>     <span class="ansi-blue-fg">@</span>weak_script_method
+<span class="ansi-green-intense-fg ansi-bold">     57</span>     <span class="ansi-green-fg">def</span> forward<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> input<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
+<span class="ansi-green-fg">---&gt; 58</span><span class="ansi-red-fg">         </span><span class="ansi-green-fg">return</span> F<span class="ansi-blue-fg">.</span>dropout<span class="ansi-blue-fg">(</span>input<span class="ansi-blue-fg">,</span> self<span class="ansi-blue-fg">.</span>p<span class="ansi-blue-fg">,</span> self<span class="ansi-blue-fg">.</span>training<span class="ansi-blue-fg">,</span> self<span class="ansi-blue-fg">.</span>inplace<span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     59</span> 
+<span class="ansi-green-intense-fg ansi-bold">     60</span> 
+
+<span class="ansi-green-fg">/usr/local/lib/python3.6/dist-packages/torch/nn/functional.py</span> in <span class="ansi-cyan-fg">dropout</span><span class="ansi-blue-fg">(input, p, training, inplace)</span>
+<span class="ansi-green-intense-fg ansi-bold">    747</span>     return (_VF.dropout_(input, p, training)
+<span class="ansi-green-intense-fg ansi-bold">    748</span>             <span class="ansi-green-fg">if</span> inplace
+<span class="ansi-green-fg">--&gt; 749</span><span class="ansi-red-fg">             else _VF.dropout(input, p, training))
+</span><span class="ansi-green-intense-fg ansi-bold">    750</span> 
+<span class="ansi-green-intense-fg ansi-bold">    751</span> 
+
+<span class="ansi-red-fg">RuntimeError</span>: Creating MTGP constants failed. at /pytorch/aten/src/THC/THCTensorRandom.cu:35</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+</div>
+
+
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="sparklingness/blog"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/blog/bert/jupyter/2020/04/19/BERT_Fine-Tuning-Sentence-Classification.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/blog/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/blog/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/blog/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>An Blog for a wise NLP development.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/sparklingness" title="sparklingness"><svg class="svg-icon grey"><use xlink:href="/blog/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/-" title="-"><svg class="svg-icon grey"><use xlink:href="/blog/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
