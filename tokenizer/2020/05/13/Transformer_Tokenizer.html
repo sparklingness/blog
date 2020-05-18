@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Transformer Tokenizers | wAIz NLP</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="Transformer Tokenizers" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Comparing Transformer Tokenizers" />
+<meta property="og:description" content="Comparing Transformer Tokenizers" />
+<link rel="canonical" href="https://sparklingness.github.io/blog/tokenizer/2020/05/13/Transformer_Tokenizer.html" />
+<meta property="og:url" content="https://sparklingness.github.io/blog/tokenizer/2020/05/13/Transformer_Tokenizer.html" />
+<meta property="og:site_name" content="wAIz NLP" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-05-13T00:00:00-05:00" />
+<script type="application/ld+json">
+{"description":"Comparing Transformer Tokenizers","@type":"BlogPosting","headline":"Transformer Tokenizers","dateModified":"2020-05-13T00:00:00-05:00","datePublished":"2020-05-13T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://sparklingness.github.io/blog/tokenizer/2020/05/13/Transformer_Tokenizer.html"},"url":"https://sparklingness.github.io/blog/tokenizer/2020/05/13/Transformer_Tokenizer.html","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/blog/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://sparklingness.github.io/blog/feed.xml" title="wAIz NLP" /><link rel="shortcut icon" type="image/x-icon" href="/blog/images/favicon.ico"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Transformer Tokenizers | wAIz NLP</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="Transformer Tokenizers" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Comparing Transformer Tokenizers" />
+<meta property="og:description" content="Comparing Transformer Tokenizers" />
+<link rel="canonical" href="https://sparklingness.github.io/blog/tokenizer/2020/05/13/Transformer_Tokenizer.html" />
+<meta property="og:url" content="https://sparklingness.github.io/blog/tokenizer/2020/05/13/Transformer_Tokenizer.html" />
+<meta property="og:site_name" content="wAIz NLP" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-05-13T00:00:00-05:00" />
+<script type="application/ld+json">
+{"description":"Comparing Transformer Tokenizers","@type":"BlogPosting","headline":"Transformer Tokenizers","dateModified":"2020-05-13T00:00:00-05:00","datePublished":"2020-05-13T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://sparklingness.github.io/blog/tokenizer/2020/05/13/Transformer_Tokenizer.html"},"url":"https://sparklingness.github.io/blog/tokenizer/2020/05/13/Transformer_Tokenizer.html","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+<link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" />
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css"><link type="application/atom+xml" rel="alternate" href="https://sparklingness.github.io/blog/feed.xml" title="wAIz NLP" />
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head><body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/blog/">wAIz NLP</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/blog/about/">About Me</a><a class="page-link" href="/blog/search/">Search</a><a class="page-link" href="/blog/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Transformer Tokenizers</h1><p class="page-description">Comparing Transformer Tokenizers</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2020-05-13T00:00:00-05:00" itemprop="datePublished">
+        May 13, 2020
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      4 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/blog/categories/#tokenizer">tokenizer</a>
+        
+      
+      </p>
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-wrap flex-justify-end">
+          <div class="px-2">
+
+    <a href="https://github.com/sparklingness/blog/tree/master/_notebooks/2020-05-13-Transformer_Tokenizer.ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/blog/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/sparklingness/blog/master?filepath=_notebooks%2F2020-05-13-Transformer_Tokenizer.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/blog/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/sparklingness/blog/blob/master/_notebooks/2020-05-13-Transformer_Tokenizer.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/blog/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#Word2Vec-and-GloVe-dictionary-download">Word2Vec and GloVe dictionary download </a></li>
+<li class="toc-entry toc-h2"><a href="#HuggingFace-Transformers">HuggingFace Transformers </a></li>
+<li class="toc-entry toc-h2"><a href="#GPT-2-and-RoBERTa-shares-the-same-vocabulary-in-HuggingFace">GPT-2 and RoBERTa shares the same vocabulary in HuggingFace </a></li>
+<li class="toc-entry toc-h2"><a href="#Comparing-Tokenizer-vocabularies">Comparing Tokenizer vocabularies </a></li>
+<li class="toc-entry toc-h2"><a href="#Tokenizer-Differences">Tokenizer Differences </a></li>
+</ul><!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2020-05-13-Transformer_Tokenizer.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Word2Vec-and-GloVe-dictionary-download">
+<a class="anchor" href="#Word2Vec-and-GloVe-dictionary-download" aria-hidden="true"><span class="octicon octicon-link"></span></a>Word2Vec and GloVe dictionary download<a class="anchor-link" href="#Word2Vec-and-GloVe-dictionary-download"> </a>
+</h2>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>wget -P /root/input/ -c <span class="s2">"https://s3.amazonaws.com/dl4j-distribution/GoogleNews-vectors-negative300.bin.gz"</span> 
+<span class="o">!</span>wget -P /root/input/ -c <span class="s2">"http://nlp.stanford.edu/data/glove.6B.zip"</span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>--2020-05-18 11:25:09--  https://s3.amazonaws.com/dl4j-distribution/GoogleNews-vectors-negative300.bin.gz
+Resolving s3.amazonaws.com (s3.amazonaws.com)... 52.216.243.54
+Connecting to s3.amazonaws.com (s3.amazonaws.com)|52.216.243.54|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 1647046227 (1.5G) [application/x-gzip]
+Saving to: ‘/root/input/GoogleNews-vectors-negative300.bin.gz’
+
+GoogleNews-vectors- 100%[===================&gt;]   1.53G  34.6MB/s    in 46s     
+
+2020-05-18 11:25:56 (34.2 MB/s) - ‘/root/input/GoogleNews-vectors-negative300.bin.gz’ saved [1647046227/1647046227]
+
+--2020-05-18 11:25:57--  http://nlp.stanford.edu/data/glove.6B.zip
+Resolving nlp.stanford.edu (nlp.stanford.edu)... 171.64.67.140
+Connecting to nlp.stanford.edu (nlp.stanford.edu)|171.64.67.140|:80... connected.
+HTTP request sent, awaiting response... 302 Found
+Location: https://nlp.stanford.edu/data/glove.6B.zip [following]
+--2020-05-18 11:25:57--  https://nlp.stanford.edu/data/glove.6B.zip
+Connecting to nlp.stanford.edu (nlp.stanford.edu)|171.64.67.140|:443... connected.
+HTTP request sent, awaiting response... 301 Moved Permanently
+Location: http://downloads.cs.stanford.edu/nlp/data/glove.6B.zip [following]
+--2020-05-18 11:25:57--  http://downloads.cs.stanford.edu/nlp/data/glove.6B.zip
+Resolving downloads.cs.stanford.edu (downloads.cs.stanford.edu)... 171.64.64.22
+Connecting to downloads.cs.stanford.edu (downloads.cs.stanford.edu)|171.64.64.22|:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 862182613 (822M) [application/zip]
+Saving to: ‘/root/input/glove.6B.zip’
+
+glove.6B.zip        100%[===================&gt;] 822.24M  1.99MB/s    in 6m 30s  
+
+2020-05-18 11:32:28 (2.11 MB/s) - ‘/root/input/glove.6B.zip’ saved [862182613/862182613]
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>unzip <span class="s1">'/root/input/glove.6B.zip'</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Archive:  /root/input/glove.6B.zip
+  inflating: glove.6B.50d.txt        
+  inflating: glove.6B.100d.txt       
+  inflating: glove.6B.200d.txt       
+  inflating: glove.6B.300d.txt       
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">gensim.scripts.glove2word2vec</span> <span class="kn">import</span> <span class="n">glove2word2vec</span>
+<span class="n">glove_input_file</span> <span class="o">=</span> <span class="s1">'glove.6B.300d.txt'</span>
+<span class="n">word2vec_output_file</span> <span class="o">=</span> <span class="s1">'glove.6B.300d.txt.word2vec'</span>
+<span class="n">glove2word2vec</span><span class="p">(</span><span class="n">glove_input_file</span><span class="p">,</span> <span class="n">word2vec_output_file</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>/usr/local/lib/python3.6/dist-packages/smart_open/smart_open_lib.py:253: UserWarning: This function is deprecated, use smart_open.open instead. See the migration notes for details: https://github.com/RaRe-Technologies/smart_open/blob/master/README.rst#migrating-to-the-new-open-function
+  'See the migration notes for details: %s' % _MIGRATION_NOTES_URL
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(400000, 300)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">gensim.models</span> <span class="kn">import</span> <span class="n">KeyedVectors</span>
+<span class="kn">import</span> <span class="nn">gensim</span>
+<span class="n">WORD2WEC_EMBEDDING_FILE</span> <span class="o">=</span> <span class="s1">'/root/input/GoogleNews-vectors-negative300.bin.gz'</span> <span class="c1"># from above</span>
+<span class="n">word2vec</span> <span class="o">=</span> <span class="n">KeyedVectors</span><span class="o">.</span><span class="n">load_word2vec_format</span><span class="p">(</span><span class="n">WORD2WEC_EMBEDDING_FILE</span><span class="p">,</span> <span class="n">binary</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="c1">#word2vec30k = KeyedVectors.load_word2vec_format(WORD2WEC_EMBEDDING_FILE, binary=True, limit=30000)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>/usr/local/lib/python3.6/dist-packages/smart_open/smart_open_lib.py:253: UserWarning: This function is deprecated, use smart_open.open instead. See the migration notes for details: https://github.com/RaRe-Technologies/smart_open/blob/master/README.rst#migrating-to-the-new-open-function
+  'See the migration notes for details: %s' % _MIGRATION_NOTES_URL
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">glove</span> <span class="o">=</span> <span class="n">KeyedVectors</span><span class="o">.</span><span class="n">load_word2vec_format</span><span class="p">(</span><span class="n">word2vec_output_file</span><span class="p">,</span> <span class="n">binary</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>/usr/local/lib/python3.6/dist-packages/smart_open/smart_open_lib.py:253: UserWarning: This function is deprecated, use smart_open.open instead. See the migration notes for details: https://github.com/RaRe-Technologies/smart_open/blob/master/README.rst#migrating-to-the-new-open-function
+  'See the migration notes for details: %s' % _MIGRATION_NOTES_URL
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="HuggingFace-Transformers">
+<a class="anchor" href="#HuggingFace-Transformers" aria-hidden="true"><span class="octicon octicon-link"></span></a>HuggingFace Transformers<a class="anchor-link" href="#HuggingFace-Transformers"> </a>
+</h2>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>pip install transformers -q
+<span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="o">*</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>     |████████████████████████████████| 645kB 10.3MB/s 
+     |████████████████████████████████| 1.1MB 24.2MB/s 
+     |████████████████████████████████| 3.8MB 37.1MB/s 
+     |████████████████████████████████| 890kB 47.3MB/s 
+  Building wheel for sacremoses (setup.py) ... done
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">!</span>wget -P /root/input/ -c <span class="s2">"https://s3.amazonaws.com/models.huggingface.co/bert/xlm-mlm-en-2048-vocab.json"</span>
+<span class="o">!</span>wget -P /root/input/ -c <span class="s2">"https://s3.amazonaws.com/models.huggingface.co/bert/gpt2-xl-vocab.json"</span>
+<span class="o">!</span>wget -P /root/input/ -c <span class="s2">"https://s3.amazonaws.com/models.huggingface.co/bert/roberta-base-vocab.json"</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>--2020-05-18 11:37:11--  https://s3.amazonaws.com/models.huggingface.co/bert/xlm-mlm-en-2048-vocab.json
+Resolving s3.amazonaws.com (s3.amazonaws.com)... 52.216.27.70
+Connecting to s3.amazonaws.com (s3.amazonaws.com)|52.216.27.70|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 646181 (631K) [application/json]
+Saving to: ‘/root/input/xlm-mlm-en-2048-vocab.json’
+
+xlm-mlm-en-2048-voc 100%[===================&gt;] 631.04K  1.44MB/s    in 0.4s    
+
+2020-05-18 11:37:12 (1.44 MB/s) - ‘/root/input/xlm-mlm-en-2048-vocab.json’ saved [646181/646181]
+
+--2020-05-18 11:37:14--  https://s3.amazonaws.com/models.huggingface.co/bert/gpt2-xl-vocab.json
+Resolving s3.amazonaws.com (s3.amazonaws.com)... 52.216.160.237
+Connecting to s3.amazonaws.com (s3.amazonaws.com)|52.216.160.237|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 1042301 (1018K) [application/json]
+Saving to: ‘/root/input/gpt2-xl-vocab.json’
+
+gpt2-xl-vocab.json  100%[===================&gt;]   1018K  1.95MB/s    in 0.5s    
+
+2020-05-18 11:37:15 (1.95 MB/s) - ‘/root/input/gpt2-xl-vocab.json’ saved [1042301/1042301]
+
+--2020-05-18 11:37:16--  https://s3.amazonaws.com/models.huggingface.co/bert/roberta-base-vocab.json
+Resolving s3.amazonaws.com (s3.amazonaws.com)... 52.216.98.173
+Connecting to s3.amazonaws.com (s3.amazonaws.com)|52.216.98.173|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 898823 (878K) [application/json]
+Saving to: ‘/root/input/roberta-base-vocab.json’
+
+roberta-base-vocab. 100%[===================&gt;] 877.76K  2.01MB/s    in 0.4s    
+
+2020-05-18 11:37:17 (2.01 MB/s) - ‘/root/input/roberta-base-vocab.json’ saved [898823/898823]
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="GPT-2-and-RoBERTa-shares-the-same-vocabulary-in-HuggingFace">
+<a class="anchor" href="#GPT-2-and-RoBERTa-shares-the-same-vocabulary-in-HuggingFace" aria-hidden="true"><span class="octicon octicon-link"></span></a>GPT-2 and RoBERTa shares the same vocabulary in HuggingFace<a class="anchor-link" href="#GPT-2-and-RoBERTa-shares-the-same-vocabulary-in-HuggingFace"> </a>
+</h2>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">json</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">'/root/input/roberta-base-vocab.json'</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">"utf-8"</span><span class="p">)</span> <span class="k">as</span> <span class="n">json_file</span><span class="p">:</span>
+    <span class="n">roberta_data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">json_file</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">'/root/input/gpt2-xl-vocab.json'</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">"utf-8"</span><span class="p">)</span> <span class="k">as</span> <span class="n">json_file</span><span class="p">:</span>
+    <span class="n">gpt2_data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">json_file</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Removing special characters</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">replacer</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">'</span><span class="se">\u0120</span><span class="s1">'</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
+<span class="n">roberta_data</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">replacer</span><span class="p">,</span> <span class="n">roberta_data</span><span class="p">))</span>
+<span class="n">gpt2_data</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">replacer</span><span class="p">,</span> <span class="n">gpt2_data</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Vocabulary comparison</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">get_vocab_sim</span><span class="p">(</span><span class="n">first_vocab_keys</span><span class="p">,</span> <span class="n">second_vocab_keys</span><span class="p">):</span>
+    <span class="n">f_set</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">first_vocab_keys</span><span class="p">)</span>
+    <span class="n">s_set</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">second_vocab_keys</span><span class="p">)</span>
+    <span class="n">intersection</span> <span class="o">=</span> <span class="n">f_set</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">s_set</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">intersection</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">intersection</span><span class="p">)</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">f_set</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">intersection</span><span class="p">)</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">s_set</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">_</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="n">get_vocab_sim</span><span class="p">(</span><span class="n">roberta_data</span><span class="p">,</span> <span class="n">gpt2_data</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>0.9998082730192206 1.0
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Comparing-Tokenizer-vocabularies">
+<a class="anchor" href="#Comparing-Tokenizer-vocabularies" aria-hidden="true"><span class="octicon octicon-link"></span></a>Comparing Tokenizer vocabularies<a class="anchor-link" href="#Comparing-Tokenizer-vocabularies"> </a>
+</h2>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">json</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Removing special characters</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">replacer</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">'</span><span class="se">\u0120</span><span class="s1">'</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
+<span class="n">replacer2</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">'##'</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
+<span class="n">replacer3</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"&lt;/w&gt;"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
+<span class="c1">#gpt2_data = list(map(replacer, gpt2_data))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Loading models and vocabularies</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">bert_uncased</span> <span class="o">=</span> <span class="n">BertTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s1">'bert-base-uncased'</span><span class="p">)</span>
+<span class="n">bert_cased</span> <span class="o">=</span> <span class="n">BertTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s1">'bert-base-cased'</span><span class="p">)</span>
+<span class="n">bert_multi</span> <span class="o">=</span> <span class="n">BertTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s1">'bert-base-multilingual-cased'</span><span class="p">)</span>
+<span class="n">xlm</span> <span class="o">=</span> <span class="n">XLMTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s1">'xlm-mlm-en-2048'</span><span class="p">)</span>
+<span class="n">gpt2</span> <span class="o">=</span> <span class="n">GPT2Tokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s1">'gpt2'</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">'/root/input/gpt2-xl-vocab.json'</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">"utf-8"</span><span class="p">)</span> <span class="k">as</span> <span class="n">json_file</span><span class="p">:</span>
+    <span class="n">gpt2_data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">json_file</span><span class="p">)</span>
+    
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">'/root/input/xlm-mlm-en-2048-vocab.json'</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">"utf-8"</span><span class="p">)</span> <span class="k">as</span> <span class="n">json_file</span><span class="p">:</span>
+    <span class="n">xlm_data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">json_file</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+
+
+
+
+
+
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Removing special characters</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">bert_uncased_woc</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">replacer2</span><span class="p">,</span> <span class="n">bert_uncased</span><span class="o">.</span><span class="n">vocab</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+<span class="n">bert_cased_woc</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">replacer2</span><span class="p">,</span> <span class="n">bert_cased</span><span class="o">.</span><span class="n">vocab</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+<span class="n">bert_multi_woc</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">replacer2</span><span class="p">,</span> <span class="n">bert_multi</span><span class="o">.</span><span class="n">vocab</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+
+<span class="n">gpt2_data_woc</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">replacer</span><span class="p">,</span> <span class="n">gpt2_data</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+
+<span class="n">xlm_data_woc</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">replacer3</span><span class="p">,</span> <span class="n">xlm_data</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+
+<span class="n">word2vec_woc</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">replacer2</span><span class="p">,</span> <span class="n">word2vec</span><span class="o">.</span><span class="n">vocab</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+<span class="n">glove_woc</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">replacer2</span><span class="p">,</span> <span class="n">glove</span><span class="o">.</span><span class="n">vocab</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Comparing vocabularies</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">first_vocab</span> <span class="o">=</span> <span class="n">bert_cased_woc</span>
+
+<span class="n">_</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="n">get_vocab_sim</span><span class="p">(</span><span class="n">first_vocab</span><span class="p">,</span> <span class="n">bert_cased_woc</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
+<span class="n">_</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="n">get_vocab_sim</span><span class="p">(</span><span class="n">first_vocab</span><span class="p">,</span> <span class="n">bert_uncased_woc</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
+<span class="n">_</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="n">get_vocab_sim</span><span class="p">(</span><span class="n">first_vocab</span><span class="p">,</span> <span class="n">bert_multi_woc</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
+<span class="n">_</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="n">get_vocab_sim</span><span class="p">(</span><span class="n">first_vocab</span><span class="p">,</span> <span class="n">xlm_data_woc</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
+<span class="n">_</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="n">get_vocab_sim</span><span class="p">(</span><span class="n">first_vocab</span><span class="p">,</span> <span class="n">gpt2_data_woc</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
+<span class="n">_</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="n">get_vocab_sim</span><span class="p">(</span><span class="n">first_vocab</span><span class="p">,</span> <span class="n">word2vec_woc</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
+<span class="n">_</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="n">get_vocab_sim</span><span class="p">(</span><span class="n">first_vocab</span><span class="p">,</span> <span class="n">glove_woc</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>1.0 1.0
+0.6391771821100575 0.6155754503289829
+0.658067647278429 0.16918617485866758
+0.5847830956469797 0.574551590067124
+0.78772493093407 0.5057768828802914
+0.8769133129246621 0.007851291741219232
+0.6091241693421937 0.04079010197525494
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Tokenizer-Differences">
+<a class="anchor" href="#Tokenizer-Differences" aria-hidden="true"><span class="octicon octicon-link"></span></a>Tokenizer Differences<a class="anchor-link" href="#Tokenizer-Differences"> </a>
+</h2>
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">same_words</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">wrong_words</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">wrong_word_counter_list</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">word2vec</span><span class="o">.</span><span class="n">vocab</span><span class="o">.</span><span class="n">keys</span><span class="p">())[:</span><span class="mi">10000</span><span class="p">]:</span>
+    <span class="n">word</span> <span class="o">=</span> <span class="n">word</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="n">bert_uncased_token</span> <span class="o">=</span> <span class="n">bert_uncased</span><span class="o">.</span><span class="n">tokenize</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
+    <span class="n">bert_uncased_token</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">replacer2</span><span class="p">,</span> <span class="n">bert_uncased_token</span><span class="p">))</span>
+    <span class="n">bert_cased_token</span> <span class="o">=</span> <span class="n">bert_cased</span><span class="o">.</span><span class="n">tokenize</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
+    <span class="n">bert_cased_token</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">replacer2</span><span class="p">,</span> <span class="n">bert_cased_token</span><span class="p">))</span>
+    <span class="n">bert_multi_token</span> <span class="o">=</span> <span class="n">bert_multi</span><span class="o">.</span><span class="n">tokenize</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
+    <span class="n">bert_multi_token</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">replacer2</span><span class="p">,</span> <span class="n">bert_multi_token</span><span class="p">))</span>
+    <span class="n">gpt2_token</span> <span class="o">=</span> <span class="n">gpt2</span><span class="o">.</span><span class="n">tokenize</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
+    <span class="n">gpt2_token</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">replacer</span><span class="p">,</span> <span class="n">gpt2_token</span><span class="p">))</span>
+    <span class="n">xlm_token</span> <span class="o">=</span> <span class="n">xlm</span><span class="o">.</span><span class="n">tokenize</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
+    <span class="n">xlm_token</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">replacer3</span><span class="p">,</span> <span class="n">xlm_token</span><span class="p">))</span>
+    <span class="c1"># if len(bert_uncased_token) == 1 and len(bert_multi_token) == 1 and len(gpt2_token) == 1 and len(xlm_token) == 1:</span>
+    <span class="c1">#    same_words += 1</span>
+    <span class="k">if</span> <span class="n">bert_uncased_token</span> <span class="o">==</span> <span class="n">bert_cased_token</span> <span class="ow">and</span> <span class="n">bert_uncased_token</span> <span class="o">==</span> <span class="n">bert_multi_token</span> <span class="ow">and</span> <span class="n">bert_uncased_token</span> <span class="o">==</span> <span class="n">gpt2_token</span> <span class="ow">and</span> <span class="n">bert_uncased_token</span> <span class="o">==</span> <span class="n">xlm_token</span><span class="p">:</span>
+        <span class="n">same_words</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">wrong_words</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="c1">#print(bert_uncased_token, bert_cased_token, bert_multi_token, gpt2_token, xlm_token)</span>
+    <span class="n">wrong_word_counter_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">same_words</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">same_words</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">wrong_words</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>3055
+6945
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">28</span><span class="p">,</span><span class="mi">9</span><span class="p">))</span>
+<span class="n">minor_ticks</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">11000</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">minor_ticks</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">"Total words"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">"Words tokenized the same way"</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">wrong_word_counter_list</span><span class="p">[:</span><span class="mi">10000</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABlcAAAIWCAYAAADK5tvPAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAADh0RVh0U29mdHdhcmUAbWF0cGxvdGxpYiB2ZXJzaW9uMy4yLjEsIGh0dHA6Ly9tYXRwbG90bGliLm9yZy+j8jraAAAgAElEQVR4nOzdeXSc13nn+e9bhR2FfSMIgvsuiSIlapctSl4ix068xEkcTxx32hk703ZyujtnJst0ekninsx0d9KeSU73OG0nzmYl42yOt3iltW+ULC6iJG4gCRD7XoUqoJY7fwCGRVklkZLAAoHv5xwcgu+9b9XzPgeyAfx4741CCEiSJEmSJEmSJOnSxEpdgCRJkiRJkiRJ0tXEcEWSJEmSJEmSJOkyGK5IkiRJkiRJkiRdBsMVSZIkSZIkSZKky2C4IkmSJEmSJEmSdBkMVyRJkiRJkiRJki5DWakLWAqtra1h48aNpS5jWUqlUtTW1pa6jGXJ3rwy+1OcvSnO3hRnb4qzN8XZm+LsTXH2pjh7U5y9Kc7eFGdvirM3xdmb4uxNcfamOHtTnL0pzt4Ud+jQoZEQQtvLja3IcGXjxo08+eSTpS5jWTp48CAHDhwodRnLkr15ZfanOHtTnL0pzt4UZ2+KszfF2Zvi7E1x9qY4e1OcvSnO3hRnb4qzN8XZm+LsTXH2pjh7U5y9KS6KorPFxtwWTJIkSZIkSZIk6TIYrkiSJEmSJEmSJF0GwxVJkiRJkiRJkqTLYLgiSZIkSZIkSZJ0GQxXJEmSJEmSJEmSLoPhiiRJkiRJkiRJ0mUwXJEkSZIkSZIkSboMhiuSJEmSJEmSJEmXwXBFkiRJkiRJkiTpMhiuSJIkSZIkSZIkXQbDFUmSJEmSJEmSpMtguCJJkiRJkiRJknQZDFckSZIkSZIkSZIug+GKJEmSJEmSJEnSZTBckSRJkiRJkiRJugyGK5IkSZIkSZIkSZfBcEWSJEmSJEmSJOkyGK5IkiRJkiRJkiRdBsMVSZIkSZIkSZKky1BW6gIkSZIkSZIkSdIbr3d8hid6xugbT5PJFhienuXohUkACmF+/LYOOHCgtHVejQxXJEmSJEmSJEm6yhUKgbGZOXpGUnzruSEeOTXK985PLI7HYxHxKGJvdyP11fPRwHVd9bTnhktV8lXNcEWSJEmSJEmSpKtI/2SaB0+M8GTPOPkQ6BlJcbx/itRcfnHOtvYEH797C/fsbGdza4Km2oqXfa2DBw9eoapXFsMVSZIkSZIkSZJKLIRArhB4YXCa3vE0ABMzc0zMZOkZTXF6OMXw9CxTmRwjyVkA6qrKqK8qJ1FZxo/vXcuGllq6m2rYs66B7uaaUj7Oime4IkmSJEmSJEnSFXLswiSPnBqlZzQFQCZb4Kmz44zPzDE+k33Ze+KxiD3rGtjQUkNHfRWdDdXcvrWFG9Y3EY9FV7J8LViycCWKoirgfqBy4X2+EEL4d1EUbQLuA1qAQ8CHQghzURRVAn8K3AiMAj8dQuhZeK1fBz4C5IFfDiH801LVLUmSJEmSJEnSG2FwKsNYao5HT49ydnSGE0PTPHRyFID6qjLK4zEAtrQluHFDE11N1TRUl3PjhvnQpCIeY21jNWXxiMqyeCkfRS+xlCtXZoF7QgjJKIrKgQejKPoq8K+B3w8h3BdF0X9nPjT5bwt/jocQtkZR9AHg/wR+Ooqi3cAHgGuAtcA3oyjaHkLIv9ybSpIkSZIkSZK01DLZPP2TGb793BDnx2bom0gzlytw6Ow46WyeEAKF8IP5lWUxOuqr+NCtG/jw7RvY2l5XuuL1ui1ZuBJCCEBy4a/lCx8BuAf44ML1zwH/nvlw5d0LnwN8AfiDKIqihev3hRBmgTNRFJ0EbgYeWaraJUmSJEmSJEkaTc7y2JkxRpOzXJjMADA0NcvjPaP0jqcJC+FJZdn8CpPq8jhv2tbKlrYEAA3V5TTVVrC7s56da+qIuYXXirGkZ65EURRnfuuvrcAfAqeAiRBCbmFKL9C18HkXcB4ghJCLomiS+a3DuoBHX/SyL75HkiRJkiRJkqQ3RDZf4P4XhvmzR8/yZM84ydnc4lgsgrJYjFgMbtrYzI9e28n6lhquXdvA9d2NJaxapRCFEF591ut9kyhqBP4O+E3gT0IIWxeudwNfDSFcG0XRUeDeEELvwtgp4BbmV7M8GkL484Xrn1m45wsveY+PAh8F6OjouPG+++5b8ue6GiWTSRKJRKnLWJbszSuzP8XZm+LsTXH2pjh7U5y9Kc7eFGdvirM3xdmb4uxNcfamOHtTnL0pzt4UZ2+KszfFvbg3s/lAf7JAAEbTgUw+cGqiwMRs4Phonkweqsvgxo4y6isirmmJs6Y2orEyWpGHx/t1U9zdd999KISw/+XGlnTlyveFECaiKPoOcBvQGEVR2cLqlXVA38K0PqAb6I2iqAxoYP5g++9f/74X3/Pi9/g08GmA/fv3hwMHDizR01zdDh48iL15efbmldmf4uxNcfamOHtTnL0pzt4UZ2+KszfF2Zvi7E1x9qY4e1OcvSnO3hRnb4qzN8XZm/lzUM6MpEhn8xzqGWcuX+B4/xQvnE/T0FDBWGqO82MZ5vKFi+6rLIvRXl/JgZ0NvG13B++4bg01FVfk1+cl59fNa7NkXx1RFLUB2YVgpRp4G/OH1H8HeD9wH/Bh4B8Wbvniwt8fWRj/dgghRFH0ReAvoyj6PeYPtN8GPL5UdUuSJEmSJEmSlqdCIfCt54b44jMXGJzM0DeRpvCi3ZkmZrKks/mL7qkuj7M+AeXxGOuaanjTtjZu2NBETXmchppymmoqWNdUTVV5/Eo/jq5iSxm9dQKfWzh3JQb8dQjhS1EUPQvcF0XR7wBPA59ZmP8Z4M8WDqwfAz4AEEI4FkXRXwPPAjng4yGEPJIkSZIkSZKkFW1oKsMXn7nA0b5JzoykeH5wmky2QKKyjJ1r6tjb3Uht5Q9CkXgsYt/6Juqrytixpp7OhirKYhEPPnA/Bw7cWsIn0UqzZOFKCOEwsO9lrp8Gbn6Z6xngJ4u81ieBT77RNUqSJEmSJEmSSu/JnjEePjXKd54fYmImS994+qKtuxprytnSluDd13dx06Zm3rWn05UmKqnVsWmcJEmSJEmSJKnkTg8nefzMGNl8gafPT3Csb4oLk2mmMzkANrfVcs3aeu7c2kpTbQWVZTHu3NrKnnUNRNHKO0xeVy/DFUmSJEmSJEnSG6JQCJwcTjKWmqNvPM3Q9CyDUxmGpjOcHErywmBycW5VeYybN7VwTVc9e7oauPfaTjrqKw1RdFUwXJEkSZIkSZIkXZbkbI5kJsfZ0RRP9IxxajjFWGqOZ/unGJ6evWhuRTxGV1M1LbUV/PJbtvFjezqpqyqnJVFBeTxWoieQXh/DFUmSJEmSJEnSyxpPzdEzmuLCRIbxmTmeOT9B30Sah0+NXjSvNVFBQ3U5N6xv5M6trWxoqaW9vpLWxPyHtNIYrkiSJEmSJEnSCpYvBNLZPH3j6R8aK4RA33iaXCEwMTPHRDoLwMBkhkdOjfL84PRF8+urymisqeBDt25gU2stXU3V7O6sp7u55oo8i7RcGK5IkiRJkiRJ0lVmLDXH5x7uYSQ5vwXXdCbHyd40f3Ty0YvmzeUKHLswxcxc/rLfY8+6Bn7xri1c19VAd3M1tZVlbGqpJRbzTBTJcEWSJEmSJEmSlqH+yTQnBpP0TaTpGUnx9PkJBqcywPx2XVOZHC21FUQRxKKIuhjMZgs/9Do/el0nm1prWdtYRWVZ/IfGm2rmt/Qqj0d0NVUTERFFUFX+w3MlzTNckSRJkiRJkqRlIJPNc7h3ktHkLH/6yFkeOf2Dc03isYg19VXcsKGJeARl8Rg/e+sG9nY3Ls45ePAgBw7cXorSpVXHcEWSJEmSJEmSSiCXL/DcwDSPnh7lmd5Jvna0n2w+APNnm/zSPVu5eVMza+qr6G6ucSWJtIwYrkiSJEmSJEnSEgkhMJnOkpzN8UTPGI+eGuP4wBT5QmBgMsNoag6AyrIY917byTuuXUNbXSW7O+uprfTXt9Jy5X+dkiRJkiRJkvQaZbJ55vIFhqdnefjUKE+fHWc2V+DQ2XHS2TzZfOGiw+TL4xH71jdRX1XG+uYabt/Swp3b2tjUWlvCp5B0uQxXJEmSJEmSJOklMtk8Ifzg73O5An0TaQoh0DeR5uRQkm8dH+Tp8xMXzWuoLqexppxtHQm2tCUA6Kivoro8xq7Oenatrae+qvwKP42kN5rhiiRJkiRJkqRVK5cvcHZshomZOR47M8bjZ8Z4YWCaC5OZV713Y0sNP3/7JtY2VlFRFuOG9U3sXFNHWTx2BSqXVEqGK5IkSZIkSZJWlYHJDF892s+R3km+dmzgom271jVVc21XA++7YR2Jqot/fdrZUEVlWZymmnK6m2vobKgiiqIrXb6kZcBwRZIkSZIkSdKq0DOS4q+ePM8fP3SGTLZAbUWcO7e2cvfOdppqytnaXsfW9kSpy5R0FTBckSRJkiRJkrTijCZn6RmdYXAqw+HeSR48OcyzF6YoBHjTtlZ+7R072dHhFl6SXhvDFUmSJEmSJElXldlcnsl0lr7xNLlCoFAIHO+fYmh6ltRsjkPnxjnaN3XRPds7EvzcbRv58O0b2dRaW6LKJa0UhiuSJEmSJEmSlqWzoym+fKSfU0MpvvP8ENlcgVw+R/br/0SuEH5ofjwWEY9FbG1L8PG7t7Crs57Ohmp2rKkjUemvQiW9cfxfFEmSJEmSJEklMzOXoxCgEML8SpR84NiFSR45PcpXjvSTzQfK4xFv2dnB2sZqenvPs3HDeroaq2muraCppgKA9vpKtnfUlfhpJK0WhiuSJEmSJEmS3lDZfIF8ITCXL9A3nub0cIqzYylSszl6RmYYnp4FYDKd5fnB6Zd9jZqKOG/Z2cGvvmPnRdt4HTw4xIEDu67Ic0hSMYYrkiRJkiRJkl6zvok03zg2QDYfGEnO8uiZMQ73ThB+eNcuANbUV7G+uYZ4LKIlUcHHdm6mtbYSgObaCuqry2moLmf/hiZisegKPokkXTrDFUmSJEmSJEmX7PzYDI+cGuXZ/imePjfOM72Ti2NRBDs66vjIHZtoTsxv17W2oZo1DVXsXltPZVmMyrJ4qUqXpDeM4YokSZIkSZIkAEIIHHxhmN7xNMPTs0zOzPH0+QmSmdz8Fl8T6cUVKdXlcZpqyvkXB7bwnn1drG2spiwWUVVueCJp5TNckSRJkiRJklahEALH+6d58OQwT52dYHo2y6mhFANTmcU5icoyNrbWsHttPVEU8Y5r19BRX8W+9Y3s63bbLkmrl+GKJEmSJEmStEqcHEryN0/18vDJEXpGZ5hMZwFY11RNfVU5e9Y18PFtW3j7NWuoqYhTV1Ve4oolaXkyXJEkSZIkSZKucsnZHCeHkpwfmyE1m+OZ3gmmMzn6JtIUCvP7eGXzgeMDU4QAe7sbuXtHGzdsaOL2La1sbU+U+Akk6epiuCJJkiRJkiRdRQYmMxw6O86FiTST6SyPnxnj0Llx8gshCkBVeYw19VW0JippqP3B6pP9Gzfwi3dtYW1jdSlKl6QVw3BFkiRJkiRJWoYKhcD58Rme6Z3k2QtTDE5lODc2w+HeCbL5HwQpm1pr+dCtG7hpY/P89l7V5XQ3VVMWj5Wwekla2QxXJEmSJEmSpBLqm0gzm80zkpzj2QuTPHhylKfPzJD61tfIZAuL89rrKulqqua9+7r4iRvWsbG1lubaCsoNUSTpijNckSRJkiRJkq6Q0eQs/ZMZzoykONI3ydeODnBubOaiOXWVZexqirFtQxfbO+rYsaaO69c1Ul0RL1HVkqSXMlyRJEmSJEmSlkBqNsdkOsuRvkkeOz3GAyeGOTGUvGjOzRubed8NXWxqraWyLMbuzgY6G6t46IH7OXDguhJVLkl6NYYrkiRJkiRJ0uswmpzl1HCKs6MppjI5jvVNcuzCFCeGpvn+GfOxCLa2J/hXb93OhpYa1rfUsLm1lsaaitIWL0l6TQxXJEmSJEmSpJcIIXB6JMXw9CwXJtIvug6nR5KcHZ1hMp3l9HCKvheNw/y2Xtd2NfDP79jE1vYE1RVxfuSaNVSVu62XJK0UhiuSJEmSJEkSkC8ELkyk+fzj5/irJ84zmporOnd9cw3V5XGuWVvPz9zczea2BNvaE9RVldNRX0kURVewcknSlWa4IkmSJEmSpFUrmy9wuHeCzz18lm8eH2RmLg/A7VtaeNvuDja11tLZUE1VeWzxnrqqcppr3c5LklYzwxVJkiRJkiStCmdHUzx4coQzwynGUnN8r3eCCxNpMtkC5fGIe6/tZE9XA7dvbeGatQ2lLleStIwZrkiSJEmSJGnFGEvNMTEzx+nhFIfOjfNc/xQT6Sz9ExkGpjIAxGMRLbUVbG1PcPuWFvZ0NfKm7a10NlSXuHpJ0tXCcEWSJEmSJElXrRAC/ZMZzo3N8IffOckDJ0YuGt/cVktzTQW3bG5ma1uCt13TwebWBBVlsSKvKEnSqzNckSRJkiRJ0lXh+0HKmZEUp4aTfPXIAD2jKfon51ekJCrL+Nhdm9nRUUdLopK96xppqCkvcdWSpJXIcEWSJEmSJEnLxvD0LEcvTPLM+QnmcoXF61OZLPe/MMK5sZnFa62JCm7a2MzP3tpAZ0MVd21voyVRWYqyJUmrjOGKJEmSJEmSlsxUJkv4QUbCcHKW5GyOTDbPF0/NcWjuefrG0+QKgeHpWR49M0oI83PL49HifbEo4rquBj5wczfb2uvY1p5gXVM1ZXG395IkXXmGK5IkSZIkSXpDzOUKnBiaZiQ5x9891cszvZOcGUm98k0nTtJcW0FDdTnl8Yifu3UDd+9s5/p1jTTVVlyZwiVJukyGK5IkSZIkSXpN5nIFCiHw1LlxXhiY5r4nzvPcwDQwv+rk1s0tvGdvF3VVP/gVVFV5nDUNlUREjPcc5X333lOq8iVJes0MVyRJkiRJkvSKJtNZvna0nxODSZ7tnwJgfCbL8YXPv6+uqoxPvvdaOuqquGlj86seJn9wwC29JElXJ8MVSZIkSZIkLQoh8Gz/FOfH0jx1bpz7XxheXI0CsKuznkRlnLrKMn7hzk001VbQUV/FzRubWdtY5RkokqRVwXBFkiRJkiRplZrKZBmZnuXxM2OcGk6SKwQeOTW6GKbEYxEbW2r4xN1bedO2Vq5b10BNhb9OkiTJ/zeUJEmSJElaQWbmciQzOdLZPKeHUzx5doxcIQAwlpxjKpNlPJXlcN8EmWxh8b7yeERlWZyO+kr+zTt3sW99E9s6EtRXvfLWXpIkrUaGK5IkSZIkSVeZ2VyeZy9M0TueZjZX4Oxoii8d7mdwKkM6myeEi+dXls1v1VVRFmNtQzVl8Yj33bCOtkQlaxur2NKW4PruRsrd0kuSpEtiuCJJkiRJkrTMTGeyPH5mjORsjhcGp+kbTwMQgN7xNEf7JpnNFS66Z8+6Bg7s6Ka6PM7axmpiUcTaxiquX9dIU21FCZ5CkqSVy3BFkiRJkiSphEIIHO2b4tvPDfG98+NcmMjw/OD0RXO6GudXmwAkKst4z94ubt7UzKa2WtoSlcRjEZ0NVURRVIpHkCRp1TFckSRJkiRJWgIhBFJzefqmC/zTsQF6RlJMZ3KMpmYByBcCT5+bYGAqw3QmB0B3czUbmmu5a0cb169rZGdnHYnKMjrqq0r5KJIk6SUMVyRJkiRJkt4AkzNZzo3N0Ds+w2NnxvjykX6Gp+eDFB46tDivNVFBbGGFSUd9Fe/a08k1axu4Y2srm1prS1G6JEm6TIYrkiRJkiRJlyGEQM/oDI+dHmU2V+BI3yTfOj7I+Ex2cU4UwW2bW/jZWzaQGjrLzXuv46ZNzVSWxagqj5ewekmS9EYwXJEkSZIkSSqibyLNN58d5NHTo5weTpEPgWQmx8BUZnFOeTziwI529nQ1sL6lhu7mGra0JWioLgfg4ME+DuzuKNUjSJKkJWC4IkmSJEmS9CIhBJ48O87fP93H5x8/RyFAfVUZe9c3UVc5/6uU3WvruW1LCxuaa6ipKKO6wtUokiStJoYrkiRJkiRpVcpk8wsfBV4YnOaFwWm+cKiX0yMp5nIFAN65p5P/5a4tbO+oo6IsVuKKJUnScmG4IkmSJEmSVpQQAlOZHOfHZghh/lpyNsdT58Y5PZxiaDrD6eEU/ZNpCuHieze11vLBm9ezpT3Bj1zTQXtd1ZV/AEmStOwZrkiSJEmSpKve8f4pHj09yuHeSR44McxIcu5l57XUVtCSqODarnredX0nHXVVxCLobq5ha3uC9c01RFF0hauXJElXG8MVSZIkSZJ01ZhMZ/m7p3p5fjDJ4FSGk0NJUrM5RlPzYUpFWYwD29vYs66B7uYaaivmf/URi8GuznrW1FcZnkiSpNfNcEWSJEmSJC07+ULg0dOjPDcwTc9IirNjMwxNZRbPQ2msKaexupztHXU015azpS3Bj1yzhq6masrjno0iSZKWluGKJEmSJEkqqVy+wAMnRnjo5AinR1Kk5/I83jNGfuFAlIqyGJtba2lJVLBvfRM/dn0nt29pLXHVkiRpNTNckSRJkiRJJfP1YwP82384xsBUBoDtHQkqy+K8e+9a3rytjdu3tNBUW+FqFEmStKwYrkiSJEmSpCWRnsvzbP8UEJiYyXK4d5JcoUAIcG5shmf7pzg9nGJzWy3/9af38ubtbTTXVpS6bEmSpFdluCJJkiRJkl6XTDbPhWSB/+MrxxmYypDNFzgzMsPJoWmy+XDR3LLY/GHyiaoy9qxr5MevX8tH37yZmgp/RSFJkq4eS/adSxRF3cCfAh1AAD4dQvhUFEX/HvifgeGFqb8RQvjKwj2/DnwEyAO/HEL4p4Xr9wKfAuLA/wgh/O5S1S1JkiRJkl5ZoRAYmp7liZ4xvvP8EF863M9crgCcpru5mngUsaahip/a380tm1torC6nLBZxTVcDDdXlpS5fkiTpdVvKfxaSA34lhPBUFEV1wKEoir6xMPb7IYT//OLJURTtBj4AXAOsBb4ZRdH2heE/BN4G9AJPRFH0xRDCs0tYuyRJkiRJepGx1Byff/wcPSMpHj41St9EGoDyeMTbr1lDw9wov/hjd7C+pabElUqSJC29JQtXQgj9QP/C59NRFB0Hul7hlncD94UQZoEzURSdBG5eGDsZQjgNEEXRfQtzDVckSZIkSXqDhRBIzuZ48uw4p4aS/P33+hiYzDCSnAOgNVFBd3MNH7xlPTdtbOaatfXUVpZx8OBBgxVJkrRqXJENTaMo2gjsAx4D7gA+EUXRzwFPMr+6ZZz54OXRF93Wyw/CmPMvuX7LEpcsSZIkSdKqkZzN8Y1nB/ju88M8eHKUkeTs4tjGlhoO7Ginu6mG27e2cNPG5hJWKkmStDxEIYRXn/V63iCKEsB3gU+GEP42iqIOYIT5c1h+G+gMIfzzKIr+AHg0hPDnC/d9BvjqwsvcG0L4hYXrHwJuCSF84iXv81HgowAdHR033nfffUv6XFerZDJJIpEodRnLkr15ZfanOHtTnL0pzt4UZ2+KszfF2Zvi7E1x9qY4e1PcSunNqYk8Tw3mOTKSpzdZoLDwq4GqOOxojrOpIcbG+hhramN01EREUfSqr7lSerMU7E1x9qY4e1OcvSnO3hRnb4qzN8Xdfffdh0II+19ubElXrkRRVA78DfAXIYS/BQghDL5o/I+ALy38tQ/oftHt6xau8QrXF4UQPg18GmD//v3hwIEDb8xDrDAHDx7E3rw8e/PK7E9x9qY4e1OcvSnO3hRnb4qzN8XZm+LsTXH2prirsTezuTyPnxnj68cGuTCR5tRwkp7RDACb22r5yN52aivL2NFRx9t2d1AWj72m97kae3Ol2Jvi7E1x9qY4e1OcvSnO3hRnb16bJQtXovl/1vIZ4HgI4fdedL1z4TwWgPcCRxc+/yLwl1EU/R7zB9pvAx4HImBbFEWbmA9VPgB8cKnqliRJkiTpalYoBI5dmOLLR/o52jfJY2dGyeYD8VjEptZaNrTU8uN7u/jZW9bTXl9V6nIlSZKuSku5cuUO4EPAkSiKvrdw7TeAn4miaC/z24L1AB8DCCEci6Lor5k/qD4HfDyEkAeIougTwD8BceCzIYRjS1i3JEmSJEnLWgiBx8+MMTCVYTKdZTQ5x/MD0/SMpjg7OkM6mwfmz0t5z94ubt3cwo9cu4ZE5RU5elWSJGnFW7LvqkIIDzK/6uSlvvIK93wS+OTLXP/KK90nSZIkSdJKd35shs8+dIaJmSxH+iY5OZS8aLyltoLda+u5YUMT169rYG93EzvW1JWoWkmSpJXNf7IiSZIkSdIyNJaa4w++fZKDzw+RnM0xND1LFEFnfRXt9VX8+jt28pZd7VSWxVnbWE0s4pIOnpckSdLrZ7giSZIkSVKJ9I7PcGIwSe/4DM8NTNM7niadzdM3nqZvIg3A7Vta6G6qoa2ukvffuI6NrbUlrlqSJEmGK5IkSZIkLbHh6Vky2TwTM1me6Z3gwRMjTGWyPHZmjHwhAFBTEaersZq6qjL2djfyrus7eed1nexZ11ji6iVJkvRShiuSJEmSJL2BpjJZjvZNMpKc48xwis8/fo6BqcxFc9rrKlnTUMV793XxU/u7aaopZ0tbgljMbb0kSZKuBoYrkiRJkiS9DsPTs/SMpniyZ5wHTgzz1LlxMtnC4viuzno+fPtGWhMVVJTF2NqeYHdnveejSJIkXcUMVyRJkiRJugxzuQInh5I8dHKE7zw/xMOnRhfHNrTU8K49a3n77g7a66tY31xDc21FCauVJEnSUjBckSRJkiSpiBACR/um6BlNAfD1F+b4pYPfYDqTA6CpppyP3LmJ2za30JKoYG93oytSJEmSVgHDFUmSJEmSXuLxM2N87pEenuwZY3Bq9qKxmzY28b4b1rF/QxPbOupKU6AkSZJKynBFkiRJkrSqhRA4OzrDl4/0853nhrgwkWZwepaqshi3bG7hY29u5dbNLVSURXzv0BO8/x23l7pkSZIklZjhiiRJkiRp1RlJzvK3T/XyneeGOXphcnGbry1ttdy0qZmO+io+fvdWGqrLL7qvtzpWinIlSZK0zBiuSJPuQtQAACAASURBVJIkSZJWvFy+wNPnJ/irJ87z2JlRzo+lAdjcVstbdrazZ10j+zc2sWddY4krlSRJ0tXAcEWSJEmSdNXLZPM8PzDNcwNThACT6Sy942kGpzKcHklxejhJIUAUwdt2dfDj16/lji2t3L61tdSlS5Ik6SpkuCJJkiRJuioUCoHv9U5wYnCa3vE0c7kCvRNpxpJzPNEzRq4QLppfWRZjXVM1LbWV3POmzezqrGNvdxObWmtL9ASSJElaKQxXJEmSJEnL2uBUhn985gJ/+dg5To+kFq/HYxFr6quorYzz/hvXccOGJvZvaKK6Ik48FtFeV1XCqiVJkrSSGa5IkiRJkpaV1GyOc2MzXJhI8/iZMf7k4R5mcwU2ttTwO++5lps3NbOhpYbKsnipS5UkSdIqZbgiSZIkSSqpyZksh86N8aXD/Tx6apQLk5mLxm/e2Myv/+hO9nY3EkVRiaqUJEmSfsBwRZIkSZK0ZJ4fmKZ3fIZ8IXCkb5LxmTkA5nIFnjo3wcTMHCPJ+WsV8Rh37Wjj3fu62N6RoLm2kr3djdRXlRmqSJIkaVkxXJEkSZIkvS6FQuDp8+M8enqM4elZMtk8z/ZPMTw9S/9LVqE011bw/Zhka3uCvd2NdDVWc313Azeub6ahpvzKP4AkSZJ0mQxXJEmSJEmvKpPNM5aao38yw2w2D0DveJrDfRN8+/jQ4lZeicoy4rGIja213Lypma1tCe7c1ko8FtHZUE1bXWUpH0OSJEl6QxiuSJIkSZJe1sTMHMcuTHFqOMmnvnmC0dTcD82piMe4tquej7xpM++4dg1rG6tLUKkkSZJ0ZRmuSJIkSZIAePrcOI+cHuXxo7P8/rGHeOb8xOLYptZafuXtO2ioLqc1UQFATUUZ16ytJxbzPBRJkiStLoYrkiRJkrQKZfMFLkykeejkKH0TMxw6O39mCkBFDDa35/nE3VvZ0l7Ljeub6WysojweK3HVkiRJ0vJguCJJkiRJK1y+EHhuYIq/eOwcc7nC/FZfQ0nm8oXFOWvqq/gXB7bw4ds3cvypRzlw4M0lrFiSJEla3gxXJEmSJGkFKRQC+RB46uw4T54d59iFSR45Ncr4TJaaijiN1eXUV5fzwVvWs6m1lmu76tnX3XTR1l7HS1i/JEmSdDUwXJEkSZKkq1ihEOibSJOay/GVw/38ycM9TGVyi+PNtRXsW9/ELZuaee++Ltrrq0pYrSRJkrQyGK5IkiRJ0jI3NJ3h3OgM6WyeEGBwKsOZkRRnRlIc6Zukdzy9OPeWTc3csbWV9rpK7tnVTluikijywHlJkiTpjWS4IkmSJEnLTN9EmuMXpvjykX6eOjfO2dGZH5oTRfPnpGxuq+XnbttAW10lO9fUs6uzvgQVS5IkSauL4YokSZIkldiTPWMcfH6Y8+MzPHZ6jIGpDADl8Yg7trbyzus6ua6rgba6SgBqK8vY0FJDTYU/0kmSJEml4HfikiRJknQFhBCYSucYn5njSN8kT/SMMZKc5cRgkhNDSQDqq8q4aWMzH7ptA3vWNXBdVwONNRUlrlySJEnSSxmuSJIkSdISyOYLPHhyhKO9k2TzBf7hmQsXbe9VFotY11TNmoYqfvz67Xz4jo3UV5WXsGJJkiRJl8pwRZIkSZLeQA+fGuGzD57huy8Mk82Hxevrm2v43+7dQV1lGVvb69i/sYnyeKyElUqSJEl6rQxXJEmSJOl1mM3l+f+e7OUfn7nAyaEko6k5KspivHdfFzdtbOadezqpiMeIxyKiKCp1uZIkSZLeAIYrkiRJknQZ5nIFTgxN88ipUb5wqJfnBqYBWFNfxZu3t3H9ugbev7+bRKU/bkmSJEkrld/tS5IkSdLLePbCFP2TafonMxy7MMXQVIYAHO6dYCQ5B8Dahip+8a4t7N/QxD0724nFXJkiSZIkrQaGK5IkSZJWtXwhMJqcJQAPnBjhTx4+Q8/IDMnZ3OKceCxie0cd8Rhcs7aBt+7uYP+GJra1Jyjz3BRJkiRp1TFckSRJkrSqzOUK9IymODGe5+QDp/mjB04zODW7OL69I8E7rl3DjjV17FnXSFdTNQ3V5W7zJUmSJGmRPx1IkiRJWtGeOT/ByaEkj58Z43DfJCeHpsnmw8LocXZ11vOxN2+hsjxGU00Fb93VQUWZq1EkSZIkFWe4IkmSJGnFON4/xdeODtA3kWYuV+DYhUlODaeA+a299m9o4gM3rWf32nqGz77AW+64id2d9USRZ6VIkiRJunSGK5IkSZKuWmOpOU4PJ/nGs4M8fGqUI32TALTVVVIRj9HVVM1P7e/m7p3tdDVWU/uirb0OzpzmmrUNpSpdkiRJ0lXMcEWSJEnSVWMuV+CLz1zgsdOjPNM7v91XYWGHr+0dCf7127bzEzeuo6uxurSFSpIkSVrRDFckSZIkLVvTmSxjqTmePjfBlw738+TZMSZmstRUxLmuq4Gfu20jN21s5oYNjXQ2GKhIkiRJujIMVyRJkiSVXDZfYCQ5y3QmxxM9Yxzvn+KFwSRP9IwRFlamNNaUc/uWFt6+ew3v2tNJWdxD5yVJkiSVhuGKJEmSpCsuPZfnG8cHOd4/xWhylgdOjNA/mVkcr4jH2NxWywdvXs/13Y101Fdx2+YWKsoMVCRJkiSVnuGKJEmSpDfcbC7PWGqOQ2fHuf+FYdLZAmOpWabSOWbmcpwdnSG3cFhKXWUZWzsSfOTOTSQqy7i2q4HtHXUGKZIkSZKWLcMVSZIkSa9bei7PobPjHO+f4itH+znSO7kYnlSVx1jbUE1FWYzOhipiUSV3bW/nti0tHNjRRrnbe0mSJEm6yhiuSJIkSXrN8oXA3z3dx3/4x2NMZ3IAdDVW88Fb1rOptZZt7XXcsKGRmgp/9JAkSZK0cvgTjiRJkqTLkp7L8/zgNM/1T/Hnj53laN8UO9fU8Uv3bGP32no2NNcQi0WlLlOSJEmSlozhiiRJkqRXlMnmOTWc5NkLU1yYyPBnj/YwkpwDoKW2gt969zX8zM3r3d5LkiRJ0qphuCJJkiRp0VhqjgdPjjA5M38Y/eHeSfom0szmCotzdnXW86v37mRXZz27OuuJu0pFkiRJ0ipjuCJJkiStUtl8gWfOT/C98xOcGk5yYjDJM70TZPPzB9FXxGO8eXsbt25p4Yb1TezoqKO7uZqG6nKiyEBFkiRJ0upluCJJkiStEqnZHE+eHefsaIr/97unGZjKkC/MBynV5XG2tif4iRvW8Z59XWxuqyVRWeZB9JIkSZL0MvxJSZIkSVphsvkCXzp8gWN9Uxw9leHvBp5maGqWZ3onmJnLA7ClrZaP3LmJHR117OqsZ/fa+hJXLUmSJElXD8MVSZIkaQXoGUlx/4lhvny4n8O9k6Sz8yFKa3XEwNwEVeVx3rqrg3fu6WTnmjrWNlZ7AL0kSZIkvUaGK5IkSdIyF0Igmw+ks3kGJjOMJGc5dmGSMyMzZLJ5Tg4lOdI3CUBnQxXvuG4Nd+9o5117Ovnud7/LgQMHSvsAkiRJkrTCGK5IkiRJy8zQVIZj/VMUCoETQ0n++KEzDE7N/tC8usoyairjrGuq4efv2Mh79naxe229K1IkSZIkaYkZrkiSJEkllM0XOPj8MGdHU/SOp0nN5vjbp/sWD5oH2N1Zz/90ywbisYh1TdUkKsvY1VnPmvoqYrGohNVLkiRJ0upkuCJJkiRdQXO5An/y8BkePjXK+bEZJmayjKbmAKgsiy2cjdLOh27dSH11GTUVZWxpqyWKDFEkSZIkabkwXJEkSZKW2PmxGf780bM8cGKEFwanyRUCnQ1VXL+ukbJ4xF3b27hrRxsttZXEXYkiSZIkScue4YokSZL0BpucyfKt5wb5+rFBHj0zysRMFoAbNzTxk/vX8fbda7h7Z3uJq5QkSZIkvVaGK5IkSdLrMJvLc3o4xcBUhtPDKb50+AKHeyfJFwKNNeXctLGZfesbObC9nd1r60tdriRJkiTpDfCq4UoURYeAzwJ/GUIYX/qSJEmSpOUrXwjc/8IwD54c4fmBaR7vGWMuV1gcX99cwwdvXs9bdrVzx9ZWyuOxElYrSZIkSVoKl7Jy5aeBnweeiKLoSeCPga+HEMKSViZJkiQtI73jMzw/MM1nHzrDQydHiSLY0pbgndd1ctuWFjobqljfXMP65hoPn5ckSZKkFe5Vw5UQwkngf4+i6DeBdzG/iiUfRdEfA58KIYwtcY2SJEnSFZWczfG1owP0jKR44OQIA5NpBqdmASiPR/yvP7KDn76pm9ZEZYkrlSRJkiSVwiWduRJF0R7mV6/8KPA3wF8AdwLfBvYuWXWSJEnSFVAoBB47M8Y3nh3kuy8McWo4tTi2c00dd2xpZX1LDdeva+SmTc0kKj26UJIkSZJWs0s9c2UC+AzwayGE2YWhx6IouuMV7usG/hToAALw6RDCp6Ioagb+CtgI9AA/FUIYj+b3TvgU8wHODPDPQghPLbzWh4F/s/DSvxNC+NzlPqgkSZL0YiEEvv3cEA+cGOGbxwfpHU8DcOvmZt68vY237erg+u5Gag1SJEmSJEkvcSk/Kf5kCOH0yw2EEN73CvflgF8JITwVRVEdcCiKom8A/wz4Vgjhd6Mo+jXg14BfBd4BbFv4uAX4b8AtC2HMvwP2Mx/SHIqi6IshhPFLekJJkiTpRc6PzfCH3znJd54fWtzqa9/6Rj521xbuvWYNbXVu9SVJkiRJemWXcubK6SiK3glcA1S96Ppvvcp9/UD/wufTURQdB7qAdwMHFqZ9DjjIfLjybuBPQwgBeDSKosYoijoX5n7j+2e7LAQ09wKfv+SnlCRJ0qo0mc7ywIlhzo7O8NzANOfGZjjcO0EsirhxfRO/dM82fmzPWhpqyktdqiRJkiTpKhLNZxmvMCGK/jtQA9wN/A/g/cDjIYSPXPKbRNFG4H7gWuBcCKFx4XoEjIcQGqMo+hLwuyGEBxfGvsV86HIAqAoh/M7C9d8E0iGE//yS9/go8FGAjo6OG++7775LLW9VSSaTJBKJUpexLNmbV2Z/irM3xdmb4uxNcfamOHtT3PR0kkJFLcfH8gzNFOidLnB8NM9MDvIL3+42VkY0V0Wsr49x78Zy1tTGSlv0FeLXTXH2pjh7U5y9Kc7eFGdvirM3xdmb4uxNcfamOHtTnL0p7u677z4UQtj/cmOXsi3Y7SGEPVEUHQ4h/Icoiv4L8NVLffMoihLA3wD/MoQwNZ+nzAshhCiKXjnduUQhhE8DnwbYv39/OHDgwBvxsivOwYMHsTcvz968MvtTnL0pzt4UZ2+KszfF2Zsfli8E7n9hmP/nsUO8MD6zeL26PM5bd6+lLVHJW3a1s6Glhq7Gal78vehq4ddNcfamOHtTnL0pzt4UZ2+KszfF2Zvi7E1x9qY4e1OcvXltLiVcSS/8ORNF0VpgFOi8lBePoqic+WDlL0IIf7tweTCKos4QQv/Ctl9DC9f7gO4X3b5u4VofP9hG7PvXD17K+0uSJGnlGUnO8vnHzvHI6VHOjs7QN5GmLAa/fM9W9m9s5oYNTdSUx4nFVl+QIkmSJEm6Mi4lXPlSFEWNwH8CnmL+UPk/erWbFrb8+gxwPITwey8a+iLwYeB3F/78hxdd/0QURfcxf6D95EIA80/Af4yiqGlh3tuBX7+EuiVJknSVy+ULPHZmjG88O8iRvkmGpjP0T2TIFQJb2xNsbqvl43dvpXbiFO9++45SlytJkiRJWiUu5UD731749G8WzkWpCiFMXsJr3wF8CDgSRdH3Fq79BvOhyl9HUfQR4CzwUwtjXwF+FDgJzAA/v/D+Y1EU/TbwxMK83/r+4faSJElaWeZyBZ4bmOLR06M8fW6CR0+PMj6TJR6L2NJWyw3rm6jfXs579nVxw/rGxW2+Dh48XeLKJUmSJEmryauGK1EUPQh8F3gAeOgSgxUWDqYvthfDW15mfgA+XuS1Pgt89lLeV5IkSVeXuVyBp8+N80zvBJ958AyDU7MANNaUc+umFu7Y1sqP7emksaaixJVKkiRJkjTvUrYF+xDwJuAngP8URdEs8EAI4V8taWWSJElacc6PzTA4laF3PM3jPWMc6Z2kZyTF9GwOgG3tCT5xzzbu3NrKxpaaVXkAvSRJkiRp+buUbcHORFGUAeYWPu4Gdi11YZIkSbr6zebyPH1ugkdOjfL33+vj7OjM4lhFPMa+9Y28ZVc7d+1o47quBja3JjyIXpIkSZK07F3KtmCngBHgL5k/oP6XQgiFpS5MkiRJV5dcvsCp4RTnx2aYSGf5+rEBvvvCMLO5+W8d96xr4Jffso196xtprqlgW0eCmopLWUgtSZIkSdLycik/zf7fwJ3AzwD7gO9GUXR/COHUklYmSZKkZW9gMsODJ0f4znNDPHxqhPGZ7OJYfVUZ9167hju2tHLzpmY2uM2XJEmSJGmFuJRtwT4FfCqKogTw88C/B9YB8aUtTZIkSctR30Sap8+N81+/eYKTQ0lgPkjZv7GZt+/uYH1LDa2JSrqbaqiu8FtGSZIkSdLKcynbgv0X5leuJICHgX8LPLDEdUmSJGmZGJzKMDw9y5G+Sb58uJ8HT44AsKm1ln/51m3curmFvd2NVJUbpEiSJEmSVodL2RbsEeD/CiEMLnUxkiRJKr25XIEnesb41vEhvnT4AkPTs4tjicoyPvbmzexb38iBHe0GKpIkSZKkVelStgX7wpUoRJIkSaVzcijJH91/mjMjKU6PpBhJzgcqt21u4RfetIn2uip2rKljS1uCirJYiauVJEmSJKm0LmXliiRJklao5wem+c1/OMrjZ8aoiMfYvibB/g1NHNjRxpu3t7G2sbrUJUqSJEmStOwYrkiSJK1C+ULg/2fvvqOkru7/jz/vLru0pZeld6QqCgiGGEHF3qJRE2O+0cTEmGY0X01vv5hmYkyPxsQaE7HHEntZewMEAaXXpcOyCwtsv78/dkxIvgyMyPDZ8nycs2dm7szOvvZ9hKPz8n7unW+s4gcPzaNlixwuPmoQn/rgAHp2sEyRJEmSJGlvMipXQghHAkNjjDeHELoBBTHGZdmNJkmSpP1t8YZy7plRzN9fW8HWihrG9uvIH84fa6kiSZIkSdJ7sNdyJYTwfWA8MAy4GcgDbgc+mN1okiRJer+2VlQze1UpW3ZUc8+MYp5fuBGAIwZ15qOH9+X0Mb3JzQkJp5QkSZIkqXHJZOfKmcBhwEyAGOOaEEK7rKaSJEnSPqmormXGii08O38DC9Zv44VFm/71XEHLFnx+ymA+dnhf+ndpm2BKSZIkSZIat0zKlaoYYwwhRIAQgv8lLkmSlLBVJTt4dsEGXlq8iWWbtlNdGwHYsLWC7VW15ATo0b4VF04awJFDutKjQyv6d2lDu1Z5CSeXJEmSJKnxy6RcuSuE8CegYwjhs8CngT9nN5YkSZLeVVlTy/y127h7QRW/nvcS76zdSmVNHQCd2uQxuncHOrXJByCvXyc+OKQLxwzvTsfUmiRJkiRJ2r/2Wq7EGK8JIRwHbKX+3JXvxRifzHoySZKkZq50RxW3vbKCW15eTsn2KgD6d6ni3PF96d6uJceOKGRoYQF5uTkJJ5UkSZIkqXnJZOcKMcYnQwivvfv6EELnGGNJVpNJkiQ1QzNXbuG1pSX8/fUVrCrZCcC4/p24fOpQ2pYt5awTj044oSRJkiRJ2mu5EkL4HPD/gAqgDghABAZlN5okSVLzsLp0J9c+sZB5a8qYv24bACN7tueLR/di8kHdmTCwMwBFRcsTTClJkiRJkt6Vyc6VK4DRMcZN2Q4jSZLUlJVsr2Ljtko2l1fy7IINLFhfzoatFcxft40WOYEjBnXhK8f24MOH9WZAlzaEEJKOLEmSJEmSdiOTcmUJsCPbQSRJkpqqiupafvH4Am55eTm1dRGA3JzAwK5t6VbQkksmD+bMw3ozrEe7hJNKkiRJkqRMZFKufBN4OXXmSuW7izHGS7OWSpIkqRFbv7WCVSU7eHXpZl5YtInXltUfVXf6mF4cP6qQ/NwcJgzsTMc2+QknlSRJkiRJ+yKTcuVPwDPAHOrPXJEkSdJ/Ka+s4d4Zxdz+6goWbSj/13q/zm34+MR+nDS6Bx8a2i3BhJIkSZIkaX/JpFzJizF+NetJJEmSGpGK6lpmryplxsotLFi3jSffXs+OqloGdm3Ll48ZwrAe7RjbrxO9OrZOOqokSZIkSdrPMilXHg0hXAw8xH9eFqwka6kkSZIaqLKd1TwwazU3vriMFZvrj6Vrm5/LlGHd+PiE/kwa3IWcHA+ilyRJkiSpKcukXDkvdfvNXdYiMGj/x5EkSWp4Zq0qZfmm7cxYsYX7ZhazvaqWPp1ac+25YxjTtyODuxUkHVGSJEmSJB1Aey1XYowDD0QQSZKkhmbGii1c8/gCXlm6GYAQYMpB3fjsUYOYOLALue5QkSRJkiSpWcpk5wohhNHASKDVu2sxxtuyFUqSJClJa0p38vtnFzPt9ZW0a5XHl44ewmljetGjQys6tM5LOp4kSZIkSUrYXsuVEML3gSnUlyuPACcBLwKWK5IkqUnYWlHN9OUlPDpnHcs3b2fWqlKqayOnj+nFD88YRcc2+UlHlCRJkiRJDUgmO1fOBsYAb8YYPxVCKARuz24sSZKk7KqurWPmii3cOX0VD85aQ01dpGWLHIb3bM8Zh/bmksmDGdLds1QkSZIkSdL/lUm5sjPGWBdCqAkhtAc2AH2znEuSJCkr5q4uY/ryEm56aTkrS3aQlxs449DeTB3RncnDutEmP6OrpkqSJEmSpGYsk08PpocQOgJ/BmYA5cArWU0lSZK0n23YWsH3HpjHY/PWAdCzQyt+fOZoThjVg64FLRNOJ0mSJEmSGpO9lisxxi+k7l4fQngMaB9jfCu7sSRJkt6/2rrIzS8t467pq1i0oZwAXDJ5MOdN6EufTm3IzQlJR5QkSZIkSY1QJgfafxCYFWPcDhwJjA0h/CbGuCLr6SRJkt6jGCOPzV3HX19dwdKN21m3tYKRPdvzmSMHcu74vgwtbJd0REmSJEmS1Mhlclmw64AxIYQxwP8CfwFuAyZnM5gkSVKm6uoiq0t38o83V3PXjFWsKtlJYfuWHNy7A984aTinj+lFjrtUJEmSJEnSfpJJuVITY4whhDOA38cYbwwhXJTtYJIkSZl4fuFGvnnfHFaX7gRgdO/2fPq0gXziiP7k5eYknE6SJEmSJDVFmZQr20II3wQ+ARwVQsgB8rIbS5Ikafd2VNXwzPwN/O3VlSzfvJ21ZRX07tiab588glG92/OBQV0IwV0qkiRJkiQpezIpVz4KfBy4KMa4LoTQD/hFdmNJkiTVq62LPL9oI/NWlzFzZSnPLdxIbV2kU5s8PjS0G8N7tuPCSQNok5/Jv9ZIkiRJkiS9f3v9FCLGuA64dpfHK6k/c0WSJClrKqpr+ekj7/DPOWvZVF4FQGH7lpw+phcnH9yTDw7pYqEiSZIkSZIS4ScSkiSpwdhcXslra2soenAeT8xbx5qyCj40tCsnH9yT40YW0rWgZdIRJUmSJEmSLFckSVKyynZUc+f0ldz2ygqKt9QfSt8iZwUje7Xnqg+P5tgRhQknlCRJkiRJ+k8ZlSshhNZAvxjjgiznkSRJzUCMkaIFG7n/zdU89c56dlTVMqywHZdNHUp+2So+ddoUWufnJh1TkiRJkiRpt/ZaroQQTgOuAfKBgSGEQ4EfxhhPz3Y4SZLUtKwt28kdr6/igVmrWbF5B63zcpkyrBuf+dBAxvXvDEBR0RqLFUmSJEmS1KBlsnPlB8AEoAggxjgrhDAwi5kkSVITU1Nbx++eWcwfixZTXRsZ2bM9P/rwaE4/tBftW+UlHU+SJEmSJOk9yaRcqY4xloUQdl2LWcojSZKakEXrt/G311by4Ow1lGyvYuqI7nz9xOEMLWyXdDRJkiRJkqR9lkm5Mi+E8HEgN4QwFLgUeDm7sSRJUmNTUV3L7FWlTF+xhS3bq3h77VZeXrKZnADjB3TmU5MGcNLBPZOOKUmSJEmS9L5lUq58Gfg2UAncATwOXJXNUJIkqfGYu7qMXz6xgOcWbqQutbe1TX4urfJyuejIgVx81CAK27dKNqQkSZIkSdJ+tNdyJca4g/py5dvZjyNJkhqDGCMPzFrDtDdW8urSElrn5XL+xP58YHAXhvVox+BuBUlHlCRJkiRJypq9lishhIOAK4ABu74+xnhM9mJJkqSGZu7qMn73zCJmrChle2UNO6traZ2XyxemDOaCSQPcnSJJkiRJkpqNTC4LdjdwPfAXoDa7cSRJUkMSY+S2V1bw2Nx1vLZsM/ktcpg6opCuBS05uHcHzjysNzk5IemYkiRJkiRJB1Qm5UpNjPG6rCeRJEkNRtnOamau2MLVj81n/rpt9OnUmo8e3o/Lpw6luztUJEmSJElSM5e2XAkhdE7dfSiE8AXgfuoPtQcgxliS5WySJOkAq6qp4/ZXV/Czx+ZTVVNHpzZ5XPXh0XxiYj9CcIeKJEmSJEkS7HnnygwgAu9+knLlLs9FYFC2QkmSpAOrqqaOW19ezp+eX8qm8komDuzMBZMG8KGhXWnXKi/peJIkSZIkSQ1K2nIlxjgQIITQKsZYsetzIQSvByJJUiNXtqOad9Zt5ZUlm/nrqyso2V7F2H4d+fYpwzn1kF7k5eYkHVGSJEmSJKlByuTMlZeBsRmsSZKkRmBHVQ1/eHYx1xUtoS7Wr43u3Z6fnnUwx48s9PJfkiRJkiRJe7GnM1d6AL2B1iGEw/j35cHaA20OQDZJkrQfle6o4rmFG7nppeXMXlXKiaN6cPyoQiYN7kqPDm5KlSRJkiRJytSedq6cAFwI9AF+yb/Lla3At7IbS5Ik7Q/z1pTx4Kw1PDp3HatLd1JbF2nZIoffnncYpx3S010qkiRJkiRJ+2BPZ67cCtwaQvhIjPHeA5hJkiS9D68vK+Gh2WuYXVzKW8VlA0a1zQAAIABJREFUAEwc2Jljhndn6ohCDu7dgQ5tPKRekiRJkiRpX+31zBWLFUmSGr6qmjr+/MJSXly0iVeWbiY/N4e+nVtz+dSDOGd8H3p1bJ10REmSJEmSpCYjkwPtJUlSA7S6dCfPvLOeypo67plRzPx12+jTqTWfOXIgXz5mqLtTJEmSJEmSssRyRZKkRmLL9iqKFm5g/tptzFy5hTeWb/nXc53a5PG78w7jtDG9EkwoSZIkSZLUPKQtV0IIZ+3pG2OM9+3/OJIkCWDu6jLmri5jy45qXl6yiXfWbmNTeSUAOQH6d2nLRUcO5OxxfejZoRVt8luQ3yIn4dSSJEmSJEnNw552rpyWuu0OTAKeST0+GngZsFyRJGk/Wlu2kzvfWMXry0p4ecnmf613Lchn4qAuDO7alg8d1I3RvTrQOj83waSSJEmSJEnNW9pyJcb4KYAQwhPAyBjj2tTjnsAtBySdJEnNwMtLNvG9B+axeEM5AP27tOEzRw7kE0f0p6BVC7oWtEw4oSRJkiRJknaVyZkrfd8tVlLWA/2ylEeSpCYtxsjO6lrKqyJPvr2eZxds4O+vraRH+1Z86eghnHRwD0b16pB0TEmSJEmSJO1BJuXK0yGEx4E7Uo8/Cjy1t28KIdwEnApsiDGOTq39APgssDH1sm/FGB9JPfdN4CKgFrg0xvh4av1E4DdALvCXGOPPMvvVJElqWF5bupnvPziP+eu2pVamA3DOuD5897SRtG+Vl1w4SZIkSZIkZWyv5UqM8UshhDOBo1JLN8QY78/gvW8Bfg/c9l/rv4oxXrPrQghhJPAxYBTQC3gqhHBQ6uk/AMcBxcAbIYQHY4xvZ/DzJUlqEN5cuYX/99DbzFpVSteCfL5y7FDWFi/nuIljGNmrPb07tk46oiRJkiRJkt6DTHauAMwEtsUYnwohtAkhtIsxbtvTN8QYnw8hDMjw/c8ApsUYK4FlIYTFwITUc4tjjEsBQgjTUq+1XJEkNWh1dZEn3l7HY3PX8Y9Za+jYJo/Lpx7ERR8aSEHLFhQVrWHKyMKkY0qSJEmSJGkfhBjjnl8QwmeBi4HOMcbBIYShwPUxxmP3+ub15crD/3VZsAuBrdRfC+V/Y4xbQgi/B16NMd6eet2NwKOptzkxxviZ1Pr/ABNjjF/azc+6OJWTwsLCcdOmTdtbvGapvLycgoKCpGM0SM5mz5xPes4mveY4m8qayKLSOqbNr6S4PBKAD/VpwbkH5VOQH/71uuY4m0w5m/ScTXrOJj1nk56zSc/ZpOds0nM26Tmb9JxNes4mPWeTnrNJz9mk52zSO/roo2fEGMfv7rlMdq58kfpdJK8BxBgXhRC672OW64CrgJi6/SXw6X18r/8QY7wBuAFg/PjxccqUKfvjbZucoqIinM3uOZs9cz7pOZv0mtNs6uoit7+2gqufmc/2qlq6FrTkx2cO5fQxvWi3m7NUmtNs3itnk56zSc/ZpOds0nM26Tmb9JxNes4mPWeTnrNJz9mk52zSczbpOZv0nM2+yaRcqYwxVoVQ/3/bhhBaUF+OvGcxxvXv3g8h/Bl4OPVwNdB3l5f2Sa2xh3VJkhK3taKaW19azt0zillZsoOx/TryscP7ceLBPTygXpIkSZIkqYnKpFx5LoTwLaB1COE44AvAQ/vyw0IIPWOMa1MPzwTmpu4/CPw9hHAt9QfaDwVeBwIwNIQwkPpS5WPAx/flZ0uStD/U1NaxprSCx+at5daXV1CyvYqd1bUM7taWn3/kEM4e14ecnLD3N5IkSZIkSVKjlUm58g3gImAO8DngkRjjn/f2TSGEO4ApQNcQQjHwfWBKCOFQ6ne+LE+9HzHGeSGEu6g/qL4G+GKMsTb1Pl8CHgdygZtijPPeyy8oSdL+UFFdy40vLuPml5azqbwSgNG923PcyEJOPaQn4wd0TjihJEmSJEmSDpRMypXzgWm7FiohhFNjjA/v4XuIMZ63m+Ub9/D6HwM/3s36I8AjGeSUJGm/27C1gleWbua6oiXMX7eNg3t34JLJg5g4sAuje7fn3ctmSpIkSZIkqfnIpFz5HfC/IYTzYozvpNZ+yL/PS5EkqUmpq4u8s24rN76wjPverD/qq0vbfH7/8cM49ZBeCaeTJEmSJElS0jIpV5ZRf1mwe0IIP4gx3k39WSiSJDUptXWRv7+2gpteWs6yTdsBOG9CP44fWchRB3Uj17NUJEmSJEmSRGblSowxzgwhTAbuCCFMpP78E0mSmozN5ZV84W8zeW1ZCYO6tuVbJw/nhFE96N+lbdLRJEmSJEmS1MBkUq6sBYgxbgohnABcDYzOaipJkg6Qsp3VXPvEAu6ZUUxVbR0/+vBozp/Yz7NUJEmSJEmSlNZey5UY4ym73K8Drkx9SZLUaK3fWsE1jy/gsXnr2FZRw9QRhXz5mCGM6dsx6WiSJEmSJElq4NKWKyGEX8cYLwshPATE/34+xnh6VpNJkrSfVdfWce+MYu6dWcz0FVsIwLEjCrn4qEEcPqBz0vEkSZIkSZLUSOxp58pfU7fXHIggkiRlS01tHU/P38C375/DpvIqenVoxQUfGMB5E/oxrEe7pONJkiRJkiSpkUlbrsQYZ6RunztwcSRJ2n+Kt+zg988s5qHZa9heVUufTq35zccO5fQxvTxTRZIkSZIkSftsr2euhBA+CPwA6J96fQBijHFQdqNJkrRvVpXs4O7pq7jppeVsr6rhxFE9OG5kISeN7knr/Nyk40mSJEmSJKmR22u5AtwIXA7MAGqzG0eSpPfnhueX8JNH5gMwvn8nrj77EAZ3K0g4lSRJkiRJkpqSTMqVshjjo1lPIknSPqqpreOu6cXc9spy5q/bxjHDu/O1E4cxvEf7pKNJkiRJkiSpCcqkXHk2hPAL4D6g8t3FGOPMrKWSJCkDdXWRm19ezt3TVzF/3TYGdGnDV487iC8ePYTcHM9UkSRJkiRJUnZkUq5MTN2O32UtAsfs/ziSJO1dbV3krumr+PVTC1m/tZLeHVtz1YdH84mJ/TyoXpIkSZIkSVm313Ilxnj0gQgiSdLebNlexcNvreH2V1eyYP02RvZsz7dOHsHpY3pZqkiSJEmSJOmA2Wu5EkIoBH4C9IoxnhRCGAl8IMZ4Y9bTSZKateWbtjO7uJRXlmxm+ootLN5QDkDntvlc/ZGDOWtsH/JycxJOKUmSJEmSpOYmk8uC3QLcDHw79XghcCdguSJJyoo5xWX89NF3eHnJZgBa5eVwSJ+OXDJ5MFNHdGdsv07keKaKJEmSJEmSEpJJudI1xnhXCOGbADHGmhBCbZZzSZKamRgj1z+3lLunr2JlyQ5atsjhc5MHcezwQg7p04FWeblJR5QkSZIkSZKAzMqV7SGELtQfYk8I4QigLKupJEnNxguLNvLcgo08/vY6VpXs5IhBnZk8rBuXHjOUTm3zk44nSZIkSZIk/R+ZlCtfBR4EBocQXgK6AWdnNZUkqUmbuXIL98woZt7qMmYX1/f1hw/oxCWTB/PxCf08nF6SJEmSJEkNWiblyhZgMjAMCMAC4NBshpIkNU0xRm54fik/fXQ+ebmBwd0KuPKEYXzs8L50KWiZdDxJkiRJkiQpI5mUK/cAp8cY5wGEEI4C/gAcnM1gkqSmpXRHFZfcPoNXl5YwdUQhvzx3DB1a5yUdS5IkSZIkSXrPMilXLgH+EUI4DRgL/BQ4OaupJElNRkV1LY/PW8eP//kOW3ZU8a2Th3PRkYPIzfHSX5IkSZIkSWqc9lquxBjfCCFcCjwBVABTY4wbs55MktRoVVTX8tqyEm6eW8nlzz/Nlh3V9OrQimkXH8G4/p2TjidJkiRJkiS9L2nLlRDCQ0DcZakNUAbcGEIgxnh6tsNJkhqXmto67p5RzK+eXMiGbZUEYMqwbpw7vi9ThnWndX5u0hElSZIkSZKk921PO1euOWApJEmNWtmOan7yyDs8Nm8dZTurGdi1Lb87dSRVa+bzkZMmJB1PkiRJkiRJ2q/SlisxxufevR9CKAQOTz18Pca4IdvBJEkN37JN27ntleXcPb2Y8soapo4o5KyxvTlxVA9ycgJFWxYmHVGSJEmSJEna7/Z65koI4VzgF0AREIDfhRCujDHek+VskqQGqnRHFT99ZD53Tl8FwOSDunHZ1KEc1q9TwskkSZIkSZKk7NtruQJ8Gzj83d0qIYRuwFOA5YokNTOrS3fy+2cW8/DsNWyrrOG8Cf24ZPIg+ndpm3Q0SZIkSZIk6YDJpFzJ+a/LgG0GcrKUR5LUwJRsr+KO11cya1Upzy/cSHVtHUcP687nJg9mwsDOSceTJEmSJEmSDrhMypXHQgiPA3ekHn8UeDR7kSRJSduwrYI/PbeUNaU7eXr+Bqpq6ujVoRVTRxRy+XFDGdK9XdIRJUmSJEmSpMTstVyJMV4ZQjgLODK1dEOM8f7sxpIkJeXNlVv44t9msrG8km4FLTnl4J5cOGkAY/p2TDqaJEmSJEmS1CBkcqD91THGrwP37WZNktRE7Kyq5cYXl3LtkwvpUtCSuy+ZxKEWKpIkSZIkSdL/kcllwY4D/rtIOWk3a5KkRibGyF3TV/Hi4s08Pm8dVTV1HDO8O788Zwyd2uYnHU+SJEmSJElqkNKWKyGEzwNfAAaFEN7a5al2wEvZDiZJyq7N5ZX85JH53DuzmHYtW3Dy6B6cfHBPpo4oJCcnJB1PkiRJkiRJarD2tHPl79QfXP9T4Bu7rG+LMZZkNZUkKWsqqmu5b+ZqfvroO2yrqOHzUwbztROGEYKFiiRJkiRJkpSJtOVKjLEMKAPOO3BxJEnZsqZ0J/fMKOa2V5azqbyK0b3b851TRnLEoC5JR5MkSZIkSZIalUzOXJEkNWJvrtzCr55axMuLN1FTFzm4dwd+9OHRTB1RSIvcnKTjSZIkSZIkSY2O5YokNUExRooWbuQ3Ty1i1qpS2rdqwUfG9uHiyYMY3K0g6XiSJEmSJElSo7bXciWE0BbYGWOsCyEcBAwHHo0xVmc9nSTpPSvbWc2Vd8/mibfX07FNHpdMHsznjhpEp7b5SUeTJEmSJEmSmoRMdq48D3wohNAJeAJ4A/gocH42g0mS3puiBRu4a/oqHpmzjpwAXz5mCJ/50CA6tM5LOpokSZIkSZLUpGRSroQY444QwkXAH2OMPw8hzMp2MEnS3lXW1PKXF5bx5xeWUrqjmvwWOZxxaC8unDSAw/p1SjqeJEmSJEmS1CRlVK6EED5A/U6Vi1JrudmLJEnakxgjM1eW8tQ767l3RjEbtlUyYUBnThvTk3PG96VVnn9FS5IkSZIkSdmUSblyGfBN4P4Y47wQwiDg2ezGkiT9txgjLyzaxHVFS3hl6WYAxvTtyPdPG8Uph/RMOJ0kSZIkSZLUfOy1XIkxPgc8t8vjpcCl2QwlSfpPZTuqufKe+kPq83NzuPTYoZwzrg99OrUmhJB0PEmSJEmSJKlZSVuuhBAeAmK652OMp2clkSTpP7yzdisX3vw6m8qr+PIxQ/ji0UO89JckSZIkSZKUoD3tXLkmdXsW0AO4PfX4PGB9NkNJkmBnVS03vriU3z2zmA6t85h28REcPqBz0rEkSZIkSZKkZi9tuZK6HBghhF/GGMfv8tRDIYTpWU8mSc3Uis3bueLu2cwuLqOqpo4jBnXmmnPG0KdTm6SjSZIkSZIkSSKzA+3bhhAGpc5aIYQwEGib3ViS1PyU7azmN08tYtobK8kNgTMP7c2pY3ryoaHdko4mSZIkSZIkaReZlCuXAUUhhKVAAPoDF2c1lSQ1M68u3cxXpr3J+q2VTBnWje+eOpLB3QqSjiVJkiRJkiRpN/ZYroQQcoAOwFBgeGp5foyxMtvBJKmpq6uLzFuzlX/OWcufnl9Crw6tuetzH2DCQM9VkSRJkiRJkhqyPZYrMca6EMLXYox3AbMPUCZJavJeX1bC9x6Yy/x12wA4cVQPrj77EDq0zks4mSRJkiRJkqS9yeSyYE+FEK4A7gS2v7sYYyzJWipJaqLeKi7lqoff5o3lW+ha0JLvnTqSDw7pyrAe7ZKOJkmSJEmSJClDmZQrH03dfnGXtQgM2v9xJKlp2lxeyY0vLuOPRUto17IFl089iAsm9adjm/yko0mSJEmSJEl6j/ZarsQYBx6IIJLUFFXX1nH1o/O5+eXl1NZFThhVyNUfOcRSRZIkSZIkSWrE9lquhBDygM8DR6WWioA/xRirs5hLkhq9Reu3ccXds5ldXMYph/TkwkkDGN+/EyGEpKNJkiRJkiRJeh8yuSzYdUAe8MfU4/9JrX0mW6EkqTFbvKGc64qWcO/MYtrk53LtuWM4a2yfpGNJkiRJkiRJ2k8yKVcOjzGO2eXxMyGE2dkKJEmNVXllDbe9spxrn1hITV3k7HF9+PIxQ+jfpW3S0SRJkiRJkiTtR5mUK7UhhMExxiUAIYRBQG12Y0lS47G1KtaXKk8upHRHNZMGd+HqjxxC385tko4mSZIkSZIkKQsyKVeuBJ4NISwFAtAf+FRWU0lSAxdj5JE563hx8Ubunr6Dmrp5DCtsx6/OPZQpw7p5rookSZIkSZLUhKUtV0IIlwEvA88BQ4FhqacWxBgrD0A2SWqQdlbV8u3753Dfm6sBGF+Yy9fPnOBh9ZIkSZIkSVIzsaedK32AXwPDgTnAS9SXLcWA5YqkZmn68hK++PeZrN9ayecmD+LK44fx4gvPc/iAzklHkyRJkiRJknSApC1XYoxXAIQQ8oHxwCTqLwd2QwihNMY48sBElKTkbauo5rdPL+KWl5fTraAlt356ApMP6pZ0LEmSJEmSJEkJyOTMldZAe6BD6msN9TtZJKlZeHnxJq64ezZryio4dnh3rj77ELoWtEw6liRJkiRJkqSE7OnMlRuAUcA24DXqLwl2bYxxywHKJkmJWrZpO9cXLeHO6avo1aEVf//sRCYN7pp0LEmSJEmSJEkJ29POlX5AS2ARsJr6s1ZKM33jEMJNwKnAhhjj6NRaZ+BOYACwHDg3xrgl1J8A/RvgZGAHcGGMcWbqey4AvpN62x/FGG/NNIMk7Yu5q8v49VOLeHr+emKEj47vy3dOHUG7VnlJR5MkSZIkSZLUAOzpzJUTU6XHKOrPW/lfYHQIoQR4Jcb4/b289y3A74Hbdln7BvB0jPFnIYRvpB5/HTgJGJr6mghcB0xMlTHfp/7MlwjMCCE86O4ZSdmwYvN2rnliIY/MWUtuTuD8if343FGD6du5TdLRJEmSJEmSJDUgezxzJcYYgbkhhFKgLPV1KjCB+tJjT9/7fAhhwH8tnwFMSd2/FSiivlw5A7gt9fNeDSF0DCH0TL32yRhjCUAI4UngROCOjH47ScpAVU0d1z+3hN8/u5gYI2eM6cV3Th1J57b5SUeTJEmSJEmS1ACF+j5jN0+EcCn1O1YmAdXUn7ny7tecGGPdXt+8vlx5eJfLgpXGGDum7gdgS4yxYwjhYeBnMcYXU889TX3pMgVoFWP8UWr9u8DOGOM1u/lZFwMXAxQWFo6bNm1ahiNoXsrLyykoKEg6RoPkbPasKc6nLkaKVtXwwJJqyiojIzrncNHBLenaOuc9vU9TnM3+4mzSczbpOZv0nE16ziY9Z5Oes0nP2aTnbNJzNuk5m/ScTXrOJj1nk56zSc/ZpOds0jv66KNnxBjH7+65Pe1cGQDcDVweY1y7v0PFGGMIYffNzr693w3ADQDjx4+PU6ZM2V9v3aQUFRXhbHbP2exZU5rPxm2V3Prych5+aw3LN1cxund7fn7MUE4Y1WOf3q8pzWZ/czbpOZv0nE16ziY9Z5Oes0nP2aTnbNJzNuk5m/ScTXrOJj1nk56zSc/ZpOds0nM2+2ZPZ658NQs/b30IoWeMcW3qsl8bUuurgb67vK5Pam01/76M2LvrRVnIJakZePLt9Tw6Zy3/nLOWypo6xvTtyE8nD+bc8X3JzQlJx5MkSZIkSZLUSOzxzJUseBC4APhZ6vaBXda/FEKYRv2B9mWpAuZx4CchhE6p1x0PfPMAZ5bUyK3fWsF3/zGXJ95eT+u8XCYf1I0vHTOEQ/p0TDqaJEmSJEmSpEYoa+VKCOEO6neddA0hFAPfp75UuSuEcBGwAjg39fJHgJOBxcAO4FMAMcaSEMJVwBup1/3w3cPtJSkT/3xrLd+6fw7llTV8bvIgrjh+GHm57+1MFUmSJEmSJEnaVdbKlRjjeWmeOnY3r43AF9O8z03ATfsxmqRmoKqmjq/eNYuH31rLkO4FTLv4CEb0bJ90LEmSJEmSJElNwIG+LJgkZd0by0v4/gPzeHvtVr549GAuPXYoLVvkJh1LkiRJkiRJUhNhuSKpSdiyvYrH563jjeVbuP/NYgpatuDnZx/CueP7Jh1NkiRJkiRJUhNjuSKp0fvnW2v56l2zqKypIzcncMohvfjRGaPp0CYv6WiSJEmSJEmSmiDLFUmNVl1d5A/PLubapxYyulcHvnPKCMb170QLD6yXJEmSJEmSlEWWK5Iandq6yBPz1vHzxxewbNN2jhtZyG8/dhit8z1XRZIkSZIkSVL2Wa5IalR2VtXy1btm8ejcdXQtaMkvzxnDWWN7E0JIOpokSZIkSZKkZsJyRVKjMXtVKZfdOYtlm7bz1eMO4uKjBtEqz90qkiRJkiRJkg4syxVJDd66sgqufmw+97+5ms5t87nxgvEcO6Iw6ViSJEmSJEmSminLFUkN2owVJXzq5jcor6zhvAl9+doJw+nUNj/pWJIkSZIkSZKaMcsVSQ3W/W8W841759CzQyvuvmQSw3q0SzqSJEmSJEmSJFmuSGp4Nmyr4IcPvc3Db63l4N4duPHC8XRv1yrpWJIkSZIkSZIEWK5IakDeWF7CzS8t45E568gJ8LnJg7ji+GHk5eYkHU2SJEmSJEmS/sVyRVLiynZU87PH3uGO11fRIidw3oS+XDhpoJcBkyRJkiRJktQgWa5IStRzCzdy+Z2zKNlexccn9uPrJwynQ5u8pGNJkiRJkiRJUlqWK5ISUV5Zww3PLeG3zyxmQJc2/OWC8Yzt1ynpWJIkSZIkSZK0V5Yrkg6oGCN3Ty/m54/PZ1N5FSeO6sE1546hoKV/HUmSJEmSJElqHPw0U9IBM3d1GT98+G1eX1bC8B7t+OlZh3Ds8O7k5ISko0mSJEmSJElSxixXJGVd2Y5qfvzI29w1vZi2+blcecIwPj95sKWKJEmSJEmSpEbJckVSVr20eBNfu+ctVpfu5JxxffjmySPo3DY/6ViSJEmSJEmStM8sVyRlRV1d5Kp/vs3NLy2nZ4dW3HnxEUwc1CXpWJIkSZIkSZL0vlmuSNrvlm/azlemvcns4jI+Or4v3zplBB1a5yUdS5IkSZIkSZL2C8sVSfvVU2+v59JpbxKA/3f6KD75gf6E4NkqkiRJkiRJkpoOyxVJ71uMkbfXbuWeGcXc/NJyhvdox/WfGMeArm2TjiZJkiRJkiRJ+53liqR9Vl5Zw4Oz1vCPN1fz+vISAM4a25sfnjGagpb+9SJJkiRJkiSpafLTT0n75Ol31vP1e99iU3kV7Vq24IrjD+LYEYWM6Nk+6WiSJEmSJEmSlFWWK5Lek/nrtvLt++cyY8UWBndryzXnjGHyQd08V0WSJEmSJElSs2G5IikjtXWRax5fwB+LFtM2vwWXTz2Izx41kDb5/jUiSZIkSZIkqXnxU1FJe1RVU8d1RUv47dM7qI2LOXFUD7572kh6d2yddDRJkiRJkiRJSoTliqS0Vmzezhf+NpN5a7YyqksOXzn5MI4f1SPpWJIkSZIkSZKUKMsVSbt1z4xivvfAXAB+e95htN+ykCkWK5IkSZIkSZJkuSLp32rrIg/MWs2vn1rEypIdjOnbkV+dO4ZB3QooKlqYdDxJkiRJkiRJahAsVyQBsGFbBZffOYuXFm+md8fWfOeUEVw4aQAtcnOSjiZJkiRJkiRJDYrlitTMVVTXcveMYn75xAK2V9bw7ZNH8MlJ/WnZIjfpaJIkSZIkSZLUIFmuSM3YvDVlXHL7DFaV7GREz/Zcc84hjOrVIelYkiRJkiRJktSgWa5IzUxtXeT1ZSUULdzAjS8so2ObPK7/xDhOGFVICCHpeJIkSZIkSZLU4FmuSM1EXV3kvjdX85cXljJ/3TYAThhVyA/PGE1h+1YJp5MkSZIkSZKkxsNyRWoGFm8o57I732Tu6q306tCKH54xig8M6sLQwnZJR5MkSZIkSZKkRsdyRWriHn5rDV+75y1ycwI/Petgzh3fl9wcL/8lSZIkSZIkSfvKckVqoiqqa/nRP9/m9ldXMrp3e647fxx9O7dJOpYkSZIkSZIkNXqWK1ITE2Nk5sotfPcf83h77VbOn9iP7546klZ5uUlHkyRJkiRJkqQmwXJFakKqa+u46uG3ue2VFbTJz+UPHx/LKYf0TDqWJEmSJEmSJDUplitSE7Fo/Ta+9Pc3WbB+G+dN6McVxx9El4KWSceSJEmSJEmSpCbHckVq5Cqqa/nrKyv49VMLaZGbw28+diinj+lFCB5aL0mSJEmSJEnZYLkiNWLz123lyrvfYs7qMsb07cjvzzvMQ+slSZIkSZIkKcssV6RG6o3lJXz65jeoqq3jmnPG8JGxvd2tIkmSJEmSJEkHgOWK1MjsqKrhtldWcO2TC+nTsTW3f2YivTq2TjqWJEmSJEmSJDUblitSIxFj5Kl3NvCTR95h2abtjOvfies/MY5u7Ty0XpIkSZIkSZIOJMsVqYHbVF7JH55dzKxVpby5spTC9i25/hPjOGFUoZcBkyRJkiRJkqQEWK5IDdSc4jKueWIBryzdDBF6dWzFlScM49MfHEjr/Nyk40mSJEmSJElSs2W5IjVAj81dx5fvmEmrvFxOO6QXF04awMF9OiQdS5IkSZIkSZKE5YrU4Nw7o5iv3fsWB/fuwA2fHEf3dq2SjiRJkiRJkiRJ2oXlitRAxBj5xeML+GPREibSc9voAAAds0lEQVQO7MyNFx5OQUv/iEqSJEmSJElSQ+Mnt1LCKqprmfb6Su6ZWczc1Vs5e1wffvTh0bTK81wVSZIkSZIkSWqILFekBL28eBOX3zWL9Vsr6de5Dd85ZQQXHTmQEELS0SRJkiRJkiRJaViuSAnYUVXDzS8t59onF1LYriV//uR4jhtZmHQsSZIkSZIkSVIGLFekA2zL9iouvPl1ZheXceSQrlz/P+M8W0WSJEmSJEmSGhE/0ZUOoEfnrOV7D86jbGc1vzxnDGce1pucHC8BJkmSJEmSJEmNieWKdACUbK/im/e9xePz1jOoa1uuO38s4wd0TjqWJEmSJEmSJGkfWK5IWbZ+awXn/+U1lmws58vHDOHLxwwlv0VO0rEkSZIkSZIkSfvIckXKomfmr+erd82muqaOOz57BEcM6pJ0JEmSJEmSJEnS++T/Pi9lyWNz13LxbTPo1CafOy62WJEkSZIkSZKkpsKdK1IWPDR7DZfdOYsxfTpwy6cn0L5VXtKRJEmSJEmSJEn7ieWKtB/FGPlj0RJ+8fgCJgzozE2fOpyClv4xkyRJkiRJkqSmJJHLgoUQlocQ5oQQZoUQpqfWOocQngwhLErddkqthxDCb0MIi0MIb4UQxiaRWdqbGCNXP7aAXzy+gBNGFXLLpy1WJEmSJEmSJKkpSvLMlaNjjIfGGMenHn8DeDrGOBR4OvUY4CRgaOrrYuC6A55U2os1pTu54OY3uP65JZw/sR/XnT+ONvkWK5IkSZIkSZLUFDWkT3/PAKak7t8KFAFfT63fFmOMwKshhI4hhJ4xxrWJpJR2EWPknhnF/PDht6moruWyqUP5yrFDCSEkHU2SJEmSJEmSlCVJlSsReCKEEIE/xRhvAAp3KUzWAYWp+72BVbt8b3FqzXJFiYoxctXD73DTS8sY2r2AP5w/loMK2yUdS5IkSZIkSZKUZaF+Q8gB/qEh9I4xrg4hdAeeBL4MPBhj7LjLa7bEGDuFEB4GfhZjfDG1/jTw9Rjj9P96z4upv2wYhYWF46ZNm3agfp1Gpby8nIKCgqRjNEjvZTZ1MXLrvCqeK67h2H4tOH9EPjlNfLeK/+yk52zSczbpOZv0nE16ziY9Z5Oes0nP2aTnbNJzNuk5m/ScTXrOJj1nk56zSc/ZpOds0nM26R199NEzdjna5D8ksnMlxrg6dbshhHA/MAFY/+7lvkIIPYENqZevBvru8u19Umv//Z43ADcAjB8/Pk6ZMiWLv0HjVVRUhLPZvUxns62ims/eNp1Xi3fw+SmD+doJw5rFZcD8Zyc9Z5Oes0nP2aTnbNJzNuk5m/ScTXrOJj1nk56zSc/ZpOds0nM26Tmb9JxNes4mPWeTnrPZNwf8QPsQQtsQQrt37wPHA3OBB4ELUi+7AHggdf9B4JOh3hFAmeetKCmLN2zjpN+8wPTlW7jqw6ObTbEiSZIkSZIkSfq3JHauFAL3pz6QbgH8Pcb4WAjhDeCuEMJFwArg3NTrHwFOBhYDO4BPHfjIEjwzfz1fuWMWLXIDt356Ah8c0jXpSJIkSZIkSZKkBBzwciXGuBQYs5v1zcCxu1mPwBcPQDQprYdmr+HyO2cxoGtbbrxgPP27tE06kiRJkiRJkiQpIYmcuSI1FjW1dVz75EKuf24J4/t35sYLx9OuVV7SsSRJkiRJkiRJCbJckdIo3VHFpdNm8fzCjUwd0Z3fnncYbfL9IyNJkiRJkiRJzZ2fFEu7sXjDNi7+6wyWbdrOVWeM4n8+MCDpSJIkSZIkSZKkBsJyRdrFtopqfv/sYv703FLatWrBHZ89giMGdUk6liRJkiRJkiSpAbFckVLWba/jxF+/wOrSnZw4qgffPHm4B9dLkiRJkiRJkv4PyxU1e3V1kZteWsavXt1Jy/x8/vQ/4zh+ZCEhhKSjSZIkSZIkSZIaIMsVNWvvrN3KlffMZu7qrfQpCNxy8REM6d4u6ViSJEmSJEmSpAbMckXNUnVtHd++fw53TS+mXasWXP2Rg+levsRiRZIkSZIkSZK0V5YranZKtlfxyZteY+7qrZw3oS+XTT2IwvatKCpamnQ0SZIkSZIkSVIjYLmiZmXDtgo+8ZfXWLF5B7/66BjOPKxP0pEkSZIkSZIkSY2M5Yqajbmry/jcX2ewZUcVN194OJOGdE06kiRJkiRJkiSpEcpJOoCUbTFGbn15OWf84SUqa+q47dMTLFYkSZIkSZIkSfvMnStq0jZsreDiv85g1qpSjhzSlWs/Oobu7VolHUuSJEmSJEmS1IhZrqjJWrKxnItueYP1Wyv53qkj+eQH+tMi181akiRJkiRJkqT3x3JFTdLj89bxv3fNJifA3z47kbH9OiUdSZIkSZIkSZLURFiuqMn5ywtL+dE/32F4j3Zc94lxDOzaNulIkiRJkiRJkqQmxHJFTUaMkV8/tYjfPL2I40cW8puPHUbr/NykY0mSJEmSJEmSmhjLFTUJVTV1fPWuWTz81lrOPKw3vzj7EM9XkSRJkiRJkiRlheWKGr2N2yr5zG3Tmb2qlK8cO5RLjx1Kbk5IOpYkSZIkSZIkqYmyXFGjtrZsJ+f/+TWKt+zk2nPHcNbYPklHkiRJkiRJkiQ1cZYrapTq6iJXPz6fPz+/lLb5LfjbZydy+IDOSceSJEmSJEmSJDUDlitqdKpq6vjGvW9x35urOWZ4d644fhgje7VPOpYkSZIkSZIkqZmwXFGjsq2imk/f8gZvLN/CZVOH8pVjhxKC56tIkiRJkiRJkg4cy5X/3969R8tVlnkC/r0kJHJRLpEOIghBbQUVuQSDio5Itw2ODdPqKLYIijYztnZLO06r4xova2Z6xr7Y2tMuaRQEbyDijVbbVlpQR+VOCCACAdSAkYtyEUEN8M0ftYMn8eyTHEyoc7KfZ61aZ9dXO1Xf/vFW1abe2ruYNe78xaocfdL5WXbDHfnrF+2Vl+y/y7inBAAAAADAAGmuMCvcetcvc8zJF+TKlXfm/X+8bw558o7jnhIAAAAAAAOlucKMd/EPb8trP3ZRbvv5qhx/5H45eI+F454SAAAAAAADprnCjLXyjnvy/rOX59TzV2SHrefn1GOXZL9dtx/3tAAAAAAAGDjNFWaki394W1738Yuz8o5f5AV7PSrvOuxJWbD1/HFPCwAAAAAANFeYWVpr+b9fW573fPXq7PDw+fnSnz8re+70iHFPCwAAAAAAHqC5woxx3/0t7zzzinz03B/kkCftmL964VOy/Vbzxj0tAAAAAABYg+YKM8IvVt2X//TRi/L1q2/JMc9clP/+gj1SVeOeFgAAAAAA/AbNFcbu7l/dm9eccmG+c91P8vYX7JlXPXM3jRUAAAAAAGYszRXG6obb7s6fnXpJLl1xe97zkqfmj/bZedxTAgAAAACAKWmuMDZfumxl3nj60tx3f8v7jtgnf/jUncY9JQAAAAAAWCfNFR5yrbW896xr8r5/uyZ77bxN3vvSvbP7DluPe1oAAAAAALBeNFd4SLXW8u4vX5Xjv35tDnvqTnn3i/bKFvPmjHtaAAAAAACw3jRXeMjc9ct78z+/8N2cdsGKvHzJY/I/Dn9yNtvMD9cDAAAAADC7aK7wkLj6pp/lTz9+cZbffFde+Yzd8o4/3DNVGisAAAAAAMw+mitsdJ+95Ia89TOXZfPNNssJr9gvz3vSjuOeEgAAAAAAPGiaK2xUH/nO9/P2z1+Rp+6ybY4/ct88apstxj0lAAAAAAD4rWiusNEc//Vr83/+5Xv5vT0W5v0v3yfz5/rhegAAAAAAZj/NFTa4++5vedtnL8tpF6zI85+yY9770n0yb+5m454WAAAAAABsEJorbFCr7rs/f/HJpfnCspV59YGL8tZDn5i5czRWAAAAAADYdGiusMHccc+qHH3S+Vm64va8+ZAn5rXPeey4pwQAAAAAABuc5gobxB13r8orTjovV668M3/z4r3yHxfvMu4pAQAAAADARqG5wm/ttp//KkeeeF6uuemuHH/kfjl4j4XjnhIAAAAAAGw0miv8Vn74k7tzzCkX5Ic/vTv/dNR+OegJvzPuKQEAAAAAwEalucKDdt0td+VlHzw3d95zbz501OI8+3d3GPeUAAAAAABgo9Nc4UG59pa78rITzs1997d87nXPzBN2fPi4pwQAAAAAAA8JzRWmbfnNoyNWWms59dgD8rsLNVYAAAAAABgOzRWm5eqbfpaXf+i8tJac+icH5PEaKwAAAAAADMxm454As8e3r701h/3j/0tryWnHLtFYAQAAAABgkBy5wnr59vJbc8wpF2SnbbfIh1+5f3ZdsNW4pwQAAAAAAGOhucI6fWv5rXn1KRdk1+23ysf/ZEkeufX8cU8JAAAAAADGxmnBmNK3lt+aY04eNVY+obECAAAAAACaK/Q756qbc8zJF2TRI0eNlQUaKwAAAAAAoLnC5E6/cEVe1TVWPv4ajRUAAAAAAFjNb67wGz514Yq8+dPLsmTR9vmnIxdnmy03H/eUAAAAAABgxtBcYQ1nXHRD/vLTy3Lg4x6ZDx61OA/bfM64pwQAAAAAADOK04LxgE9fdEP+6xmX5pmP1VgBAAAAAIA+miskST57yQ150xmX5hmPXaCxAgAAAAAAU9BcIZ+75Mb8l9MvzdN3X5APHbV/tpinsQIAAAAAAH00Vwbu80tvzBtPX5olixbkxKM1VgAAAAAAYF38oP2AnfLt7+dd/3xFnrZo+5z4ysUaKwAAAAAAsB5mzZErVXVIVV1VVcur6i3jns9s976zrsk7zrwiSxYtyEmv3D9bztNnAwAAAACA9TErmitVNSfJ+5McmmTPJC+rqj3HO6vZqbWW93zlqvz9WVfnRfvunI+9ZonGCgAAAAAATMNs+VT9aUmWt9auS5KqOi3J4Um+O9ZZzTKttZxx9ap88frleeniXfK/X/iUbLZZjXtaAAAAAAAwq8yKI1eSPDrJignXb+jGmIZ/XrYyX7x+Vf54yWM0VgAAAAAA4EGq1tq457BOVfXiJIe01l7TXX9FkiWttddPWOfYJMcmycKFC/c77bTTxjLXmey++1vOvv7nOXj3rVKlsbK2u+66K1tvvfW4pzFjyaefbPrJpp9s+smmn2z6yaafbPrJpp9s+smmn2z6yaafbPrJpp9s+smmn2z6yabfQQcddFFrbfFkt82W04LdmGSXCdd37sYe0Fo7IckJSbJ48eL2nOc85yGb3Gwy55xzIpvJnSObKcmnn2z6yaafbPrJpp9s+smmn2z6yaafbPrJpp9s+smmn2z6yaafbPrJpp9s+snmwZktpwW7IMnjq2pRVc1LckSSM8c8JwAAAAAAYIBmxZErrbV7q+r1Sf41yZwkJ7XWrhjztAAAAAAAgAGaFc2VJGmtfSnJl8Y9DwAAAAAAYNhmy2nBAAAAAAAAZgTNFQAAAAAAgGnQXAEAAAAAAJgGzRUAAAAAAIBp0FwBAAAAAACYBs0VAAAAAACAadBcAQAAAAAAmAbNFQAAAAAAgGnQXAEAAAAAAJgGzRUAAAAAAIBp0FwBAAAAAACYBs0VAAAAAACAadBcAQAAAAAAmAbNFQAAAAAAgGnQXAEAAAAAAJgGzRUAAAAAAIBp0FwBAAAAAACYhmqtjXsOG1xV3ZLkB+Oexwz1yCS3jnsSM5RspiaffrLpJ5t+suknm36y6SebfrLpJ5t+suknm36y6SebfrLpJ5t+suknm36y6Sebfru21naY7IZNsrlCv6q6sLW2eNzzmIlkMzX59JNNP9n0k00/2fSTTT/Z9JNNP9n0k00/2fSTTT/Z9JNNP9n0k00/2fSTTT/ZPDhOCwYAAAAAADANmisAAAAAAADToLkyPCeMewIzmGymJp9+suknm36y6SebfrLpJ5t+suknm36y6SebfrLpJ5t+suknm36y6SebfrLpJ5sHwW+uAAAAAAAATIMjVwAAAAAAAKZBc2VAquqQqrqqqpZX1VvGPZ9xqKrvV9VlVbW0qi7sxravqq9W1TXd3+268aqqf+jyWlZV+4539htWVZ1UVTdX1eUTxqadRVUd3a1/TVUdPY5t2dB6snlnVd3Y1c7Sqnr+hNve2mVzVVX9wYTxTe45V1W7VNXZVfXdqrqiqt7QjQ++dqbIZvC1U1UPq6rzq+rSLpt3deOLquq8bjs/WVXzuvH53fXl3e27TbivSTObrabI5uSqun5C3ezdjQ/mObVaVc2pqkuq6gvd9cHXzWqTZKNusuH29waUzeDfp5KkqratqjOq6ntVdWVVPV3djPRkM/i6qaonTNj+pVV1Z1Udp26mzGbwdZMkVfUXNdrvu7yqTq3R/uCisn/Tl439myRV9YYulyuq6rhubPCvN0lvNoN8vamN/FlfVe1Xo33J5d2/rYd2C2eg1prLAC5J5iS5NsnuSeYluTTJnuOe1xhy+H6SR6419tdJ3tItvyXJu7vl5yf5lySV5IAk5417/hs4i2cn2TfJ5Q82iyTbJ7mu+7tdt7zduLdtI2XzziRvmmTdPbvn0/wki7rn2ZxN9TmX5FFJ9u2WH57k6i6DwdfOFNkMvna6//5bd8ubJzmvq4fTkxzRjR+f5LXd8p8mOb5bPiLJJ6fKbNzbt5GyOTnJiydZfzDPqQnb/MYkn0jyhe764OtmimzUTdsw+3sDy+adGfj7VLe9pyR5Tbc8L8m26mbKbNTNmts9J8mPk+yqbqbMZvB1k+TRSa5PskV3/fQkr4z9m6myOTkD379J8uQklyfZMsncJGcleZzXmymzGeTrTTbyZ31Jzu/Wre7fHjrubR73xZErw/G0JMtba9e11n6V5LQkh495TjPF4Rn9D0O6v/9hwvhH2si5SbatqkeNY4IbQ2vtG0l+utbwdLP4gyRfba39tLV2W5KvJjlk489+4+rJps/hSU5rrf2ytXZ9kuUZPd82yedca21la+3ibvlnSa7MaCd48LUzRTZ9BlM73X//u7qrm3eXluS5Sc7oxteum9X1dEaSg7tvxPRlNmtNkU2fwTynkqSqdk7y75N8qLteUTdJfjObdRhU3fQY/PvUgzCY96mq2iajDyNOTJLW2q9aa7dH3UyVTZ/B1M1aDk5ybWvtB1E3a5uYTZ+h1c3cJFtU1dyMPhBeGfs3q62dzY+mWHdIz6k9Mvrg++7W2r1Jvp7khfF6k/Rn02eTfr3ZmJ/1dbc9orV2bmutJfnIhPsaLM2V4Xh0khUTrt+QqT/021S1JF+pqouq6thubGFrbWW3/OMkC7vlIWY23SyGltHru0MlT1p9GGUGnE13SPo+GX3TXu1MsFY2idpZffqipUluzmjn7Nokt3c7wMma2/lABt3tdyRZkIFk01pbXTf/q6ubv6+q+d3YoOomyXuT/GWS+7vrC6JuVls7m9XUzYbZ3xtSNon3qUVJbkny4Rqdau9DVbVV1E3Sn02ibiY6Ismp3bK6WdPEbJKB101r7cYkf5vkhxk1Ve5IclHs30yaTWvtK93NQ9+/uTzJs6pqQVVtmdERB7vE603Sn00y8NebCTZUnTy6W157fNA0VxiaA1tr+yY5NMnrqurZE2/sOq9TfWN4MGTxGz6Q5LFJ9s5oR+/vxjud8aqqrZN8OslxrbU7J9429NqZJBu1k6S1dl9rbe8kO2f0raAnjnlKM8ba2VTVk5O8NaOM9s/ocOw3j3GKY1FVL0hyc2vtonHPZaaZIpvB103H/l6/ybLxPjX6pvS+ST7QWtsnyc8zOm3GAwZcN33ZqJtOjX4b47Akn1r7tgHXTZJJsxl83XQf8B6eUeNypyRbZfYfObBBTJZNVR0Z+zdprV2Z5N1JvpLky0mWJrlvrXUG+XozRTaDf72ZzFDrZGPSXBmOG/Przm0y+gDnxjHNZWy6b0KktXZzks9m9AHfTatP99X9vblbfYiZTTeLwWTUWrup+wD0/iQfzK8PuR5cNlW1eUbNg4+31j7TDaudTJ6N2llTdyqRs5M8PaPDjud2N03czgcy6G7fJslPMpxsDmmj08y11tovk3w4w6ybZyY5rKq+n9Fh+c9N8r6om2SSbKrqY+pmZAPt7w0mG+9TSUbfvLxhwpGDZ2TUUFA3PdmomzUcmuTi1tpN3XV182trZKNukiS/l+T61totrbVVST6T0fu6/ZvJs3mG/ZuR1tqJrbX9WmvPTnJbRr/x6fUmk2fj9WYNG6pObuyW1x4fNM2V4bggyeOralH37ZEjkpw55jk9pKpqq6p6+OrlJM/L6PDBM5Mc3a12dJLPd8tnJjmqRg7I6JDUldm0TTeLf03yvKrarvuWyfO6sU1Orfl7O3+UUe0ko2yOqKr5VbUoyeMz+oGvTfI5153f98QkV7bW3jPhpsHXTl82aiepqh2qattueYskv5/Rb9KcneTF3Wpr183qenpxkq9137Dpy2zW6snmexN2fiuj89hOrJtBPKdaa29tre3cWtsto+fB11prL4+66cvmSHWzQff3BpON96mktfbjJCuq6gnd0MFJvht105uNulnDy7Lmaa8GXzcTrJGNukkyOuXVAVW1Zfd+vfr1ZvD7N5k8myvt34xU1e90fx+T0W+KfCJeb5JMno3XmzVskDrpbruzqg7ono9HTbiv4Wrr8av3LpvGJaPzDl6d0Xnu3zbu+Yxh+3dPcml3uWJ1Bhmdr/TfklyT5Kwk23fjleT9XV6XJVk87m3YwHmcmtGhkasy+kbaqx9MFkmOyegHwJYnedW4t2sjZvPRbtuXZfQG9KgJ67+ty+aqJIdOGN/knnNJDszoENJlGR1uu7TbzsHXzhTZDL52kuyV5JIug8uTvL0b3z2jHdnlGZ0uYn43/rDu+vLu9t3XldlsvUyRzde6urk8yceSbN2ND+Y5tVZOz0nyBXWzzmwGXzfZgPt7A8pm8O9T3TbtneTCLofPJdlO3UyZjboZbdNWGR1FsM2EMXXTn426GW3Tu5J8L6P3648mmR/7N1NlM/j9m26bvplRI+7SJAd3Y15v+rMZ5OtNNvJnfUkWd8/Fa5P8Y5Ia9zaP+1JdMAAAAAAAAKwHpwUDAAAAAACYBs0VAAAAAACAadBcAQAAAAAAmAbNFQAAAAAAgGnQXAEAAAAAAJgGzRUAAGBGqKoFVbW0u/y4qm6ccH3eWuseV1Vbrsd9nlNVizferNd4rN2q6vKH4rEAAIDxmjvuCQAAACRJa+0nSfZOkqp6Z5K7Wmt/27P6cUk+luTuh2Z2v6mq5rbW7h3X4wMAAOPjyBUAAGDGqqqDq+qSqrqsqk6qqvlV9edJdkpydlWd3a33gaq6sKquqKp3reM+96+qz3TLh1fVPVU1r6oeVlXXdeN7V9W5VbWsqj5bVdt14+dU1Xur6sIkb6iq/arq0qq6NMnrJjzGk6rq/O6om2VV9fiNkxAAADAOmisAAMBM9bAkJyd5aWvtKRkdef/a1to/JPlRkoNaawd1676ttbY4yV5J/l1V7TXF/V6S7giZJM9KcnmS/ZMsSXJeN/6RJG9ure2V5LIk75jw7+e11ha31v4uyYeT/Flr7alrPcZ/TvK+1treSRYnuWF6mw4AAMxkmisAAMBMNSfJ9a21q7vrpyR5ds+6L6mqizNqnDwpyZ59d9qdyuvaqtojydOSvKe732cl+WZVbZNk29ba13se95NJUlXbdut9oxv/6IR1vpPkv1XVm5Ps2lq7Z302GAAAmB00VwAAgFmtqhYleVOSg7sjTb6Y0VEvU/lGkkOTrEpyVpIDu8s31+Mhf76uFVprn0hyWJJ7knypqp67HvcLAADMEporAADATHVfkt2q6nHd9VckWX00yc+SPLxbfkRGDY87qmphRk2TdflmkuOSfKe1dkuSBUmekOTy1todSW6rqmdN8rgPaK3dnuT2qjqwG3r56tuqavck13WnMPt8RqcrAwAANhFzxz0BAACAHr9I8qokn6qquUkuSHJ8d9sJSb5cVT9qrR1UVZck+V6SFUm+tR73fV6ShRkdwZIky5Ls2Fpr3fWjkxxfVVsmua6bx2ReleSkqmpJvjJh/CVJXlFVq5L8OMlfrcecAACAWaJ+/f8OAAAAAAAArIvTggEAAAAAAEyD5goAAAAAAMA0aK4AAAAAAABMg+YKAAAAAADANGiuAAAAAAAATIPmCgAAAAAAwDRorgAAAAAAAEyD5goAAAAAAMA0/H/Rqc29f02GNQAAAABJRU5ErkJggg==%0A">
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>['Marion'] ['marion'] ['Marion'] ['Mar', 'ion'] ['marion']</p>
+<p>All: 2184</p>
+<p>Lower: 3055</p>
+<p>['b', 'ap', 'tist'] ['baptist'] ['ba', 'ptis', 't'] ['b', 'apt', 'ist'] ['baptist']</p>
+<p>['n', 'ug', 'gets'] ['nu', 'gg', 'ets'] ['nu', 'gge', 'ts'] ['n', 'uggets'] ['nu', 'g', 'gets']</p>
+<p>763</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">bert_cased</span><span class="o">.</span><span class="n">tokenize</span><span class="p">(</span><span class="s2">"tokenization"</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>['token', '##ization']</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">gpt2</span><span class="o">.</span><span class="n">tokenize</span><span class="p">(</span><span class="s2">"tokenization"</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>['token', 'ization']</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">xlm</span><span class="o">.</span><span class="n">tokenize</span><span class="p">(</span><span class="s2">"tokenization"</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>['to', 'ken', 'ization&lt;/w&gt;']</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+</div>
+
+<script type="application/vnd.jupyter.widget-state+json">
+{"451f5dbc7141482187635b3b700e3c20": {"model_module": "@jupyter-widgets/controls", "model_name": "HBoxModel", "state": {"_view_name": "HBoxView", "_dom_classes": [], "_model_name": "HBoxModel", "_view_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_view_count": null, "_view_module_version": "1.5.0", "box_style": "", "layout": "IPY_MODEL_68e42d382f5b45ebab3afe8ed6717bbd", "_model_module": "@jupyter-widgets/controls", "children": ["IPY_MODEL_844b42a393da4c71a2fb993d1919d6d7", "IPY_MODEL_a28af4ebf64f4a78afc21fc92b111b83"]}}, "68e42d382f5b45ebab3afe8ed6717bbd": {"model_module": "@jupyter-widgets/base", "model_name": "LayoutModel", "state": {"_view_name": "LayoutView", "grid_template_rows": null, "right": null, "justify_content": null, "_view_module": "@jupyter-widgets/base", "overflow": null, "_model_module_version": "1.2.0", "_view_count": null, "flex_flow": null, "width": null, "min_width": null, "border": null, "align_items": null, "bottom": null, "_model_module": "@jupyter-widgets/base", "top": null, "grid_column": null, "overflow_y": null, "overflow_x": null, "grid_auto_flow": null, "grid_area": null, "grid_template_columns": null, "flex": null, "_model_name": "LayoutModel", "justify_items": null, "grid_row": null, "max_height": null, "align_content": null, "visibility": null, "align_self": null, "height": null, "min_height": null, "padding": null, "grid_auto_rows": null, "grid_gap": null, "max_width": null, "order": null, "_view_module_version": "1.2.0", "grid_template_areas": null, "object_position": null, "object_fit": null, "grid_auto_columns": null, "margin": null, "display": null, "left": null}}, "844b42a393da4c71a2fb993d1919d6d7": {"model_module": "@jupyter-widgets/controls", "model_name": "FloatProgressModel", "state": {"_view_name": "ProgressView", "style": "IPY_MODEL_a4eee03e53aa45b7b851d35a7ffcc017", "_dom_classes": [], "description": "Downloading: 100%", "_model_name": "FloatProgressModel", "bar_style": "success", "max": 231508, "_view_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "value": 231508, "_view_count": null, "_view_module_version": "1.5.0", "orientation": "horizontal", "min": 0, "description_tooltip": null, "_model_module": "@jupyter-widgets/controls", "layout": "IPY_MODEL_f943adbf89724253b44ae95d5f11691a"}}, "a28af4ebf64f4a78afc21fc92b111b83": {"model_module": "@jupyter-widgets/controls", "model_name": "HTMLModel", "state": {"_view_name": "HTMLView", "style": "IPY_MODEL_9f29201d0dfa4d90b985bfcd59f3b77e", "_dom_classes": [], "description": "", "_model_name": "HTMLModel", "placeholder": "\u200b", "_view_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "value": " 232k/232k [00:00&lt;00:00, 724kB/s]", "_view_count": null, "_view_module_version": "1.5.0", "description_tooltip": null, "_model_module": "@jupyter-widgets/controls", "layout": "IPY_MODEL_e3751792fb894765a1cf4ba92fb1f888"}}, "a4eee03e53aa45b7b851d35a7ffcc017": {"model_module": "@jupyter-widgets/controls", "model_name": "ProgressStyleModel", "state": {"_view_name": "StyleView", "_model_name": "ProgressStyleModel", "description_width": "initial", "_view_module": "@jupyter-widgets/base", "_model_module_version": "1.5.0", "_view_count": null, "_view_module_version": "1.2.0", "bar_color": null, "_model_module": "@jupyter-widgets/controls"}}, "f943adbf89724253b44ae95d5f11691a": {"model_module": "@jupyter-widgets/base", "model_name": "LayoutModel", "state": {"_view_name": "LayoutView", "grid_template_rows": null, "right": null, "justify_content": null, "_view_module": "@jupyter-widgets/base", "overflow": null, "_model_module_version": "1.2.0", "_view_count": null, "flex_flow": null, "width": null, "min_width": null, "border": null, "align_items": null, "bottom": null, "_model_module": "@jupyter-widgets/base", "top": null, "grid_column": null, "overflow_y": null, "overflow_x": null, "grid_auto_flow": null, "grid_area": null, "grid_template_columns": null, "flex": null, "_model_name": "LayoutModel", "justify_items": null, "grid_row": null, "max_height": null, "align_content": null, "visibility": null, "align_self": null, "height": null, "min_height": null, "padding": null, "grid_auto_rows": null, "grid_gap": null, "max_width": null, "order": null, "_view_module_version": "1.2.0", "grid_template_areas": null, "object_position": null, "object_fit": null, "grid_auto_columns": null, "margin": null, "display": null, "left": null}}, "9f29201d0dfa4d90b985bfcd59f3b77e": {"model_module": "@jupyter-widgets/controls", "model_name": "DescriptionStyleModel", "state": {"_view_name": "StyleView", "_model_name": "DescriptionStyleModel", "description_width": "", "_view_module": "@jupyter-widgets/base", "_model_module_version": "1.5.0", "_view_count": null, "_view_module_version": "1.2.0", "_model_module": "@jupyter-widgets/controls"}}, "e3751792fb894765a1cf4ba92fb1f888": {"model_module": "@jupyter-widgets/base", "model_name": "LayoutModel", "state": {"_view_name": "LayoutView", "grid_template_rows": null, "right": null, "justify_content": null, "_view_module": "@jupyter-widgets/base", "overflow": null, "_model_module_version": "1.2.0", "_view_count": null, "flex_flow": null, "width": null, "min_width": null, "border": null, "align_items": null, "bottom": null, "_model_module": "@jupyter-widgets/base", "top": null, "grid_column": null, "overflow_y": null, "overflow_x": null, "grid_auto_flow": null, "grid_area": null, "grid_template_columns": null, "flex": null, "_model_name": "LayoutModel", "justify_items": null, "grid_row": null, "max_height": null, "align_content": null, "visibility": null, "align_self": null, "height": null, "min_height": null, "padding": null, "grid_auto_rows": null, "grid_gap": null, "max_width": null, "order": null, "_view_module_version": "1.2.0", "grid_template_areas": null, "object_position": null, "object_fit": null, "grid_auto_columns": null, "margin": null, "display": null, "left": null}}, "e8d6a2ccecc545239068d9136f834e01": {"model_module": "@jupyter-widgets/controls", "model_name": "HBoxModel", "state": {"_view_name": "HBoxView", "_dom_classes": [], "_model_name": "HBoxModel", "_view_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_view_count": null, "_view_module_version": "1.5.0", "box_style": "", "layout": "IPY_MODEL_c6e1326757804f9e98de8582ae5405fd", "_model_module": "@jupyter-widgets/controls", "children": ["IPY_MODEL_e8862d031a66469e90c128a19e0a5f1b", "IPY_MODEL_bbf49099248c49b3b75c83c674448b1f"]}}, "c6e1326757804f9e98de8582ae5405fd": {"model_module": "@jupyter-widgets/base", "model_name": "LayoutModel", "state": {"_view_name": "LayoutView", "grid_template_rows": null, "right": null, "justify_content": null, "_view_module": "@jupyter-widgets/base", "overflow": null, "_model_module_version": "1.2.0", "_view_count": null, "flex_flow": null, "width": null, "min_width": null, "border": null, "align_items": null, "bottom": null, "_model_module": "@jupyter-widgets/base", "top": null, "grid_column": null, "overflow_y": null, "overflow_x": null, "grid_auto_flow": null, "grid_area": null, "grid_template_columns": null, "flex": null, "_model_name": "LayoutModel", "justify_items": null, "grid_row": null, "max_height": null, "align_content": null, "visibility": null, "align_self": null, "height": null, "min_height": null, "padding": null, "grid_auto_rows": null, "grid_gap": null, "max_width": null, "order": null, "_view_module_version": "1.2.0", "grid_template_areas": null, "object_position": null, "object_fit": null, "grid_auto_columns": null, "margin": null, "display": null, "left": null}}, "e8862d031a66469e90c128a19e0a5f1b": {"model_module": "@jupyter-widgets/controls", "model_name": "FloatProgressModel", "state": {"_view_name": "ProgressView", "style": "IPY_MODEL_dcc4b9cded11463baafec281d391df9f", "_dom_classes": [], "description": "Downloading: 100%", "_model_name": "FloatProgressModel", "bar_style": "success", "max": 213450, "_view_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "value": 213450, "_view_count": null, "_view_module_version": "1.5.0", "orientation": "horizontal", "min": 0, "description_tooltip": null, "_model_module": "@jupyter-widgets/controls", "layout": "IPY_MODEL_8c4d972cb43649a28acdedbfa62d0a69"}}, "bbf49099248c49b3b75c83c674448b1f": {"model_module": "@jupyter-widgets/controls", "model_name": "HTMLModel", "state": {"_view_name": "HTMLView", "style": "IPY_MODEL_962a706542b6400499da8b98c219b556", "_dom_classes": [], "description": "", "_model_name": "HTMLModel", "placeholder": "\u200b", "_view_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "value": " 213k/213k [00:00&lt;00:00, 675kB/s]", "_view_count": null, "_view_module_version": "1.5.0", "description_tooltip": null, "_model_module": "@jupyter-widgets/controls", "layout": "IPY_MODEL_33fc09624f504c8b93bab97e5569fdc3"}}, "dcc4b9cded11463baafec281d391df9f": {"model_module": "@jupyter-widgets/controls", "model_name": "ProgressStyleModel", "state": {"_view_name": "StyleView", "_model_name": "ProgressStyleModel", "description_width": "initial", "_view_module": "@jupyter-widgets/base", "_model_module_version": "1.5.0", "_view_count": null, "_view_module_version": "1.2.0", "bar_color": null, "_model_module": "@jupyter-widgets/controls"}}, "8c4d972cb43649a28acdedbfa62d0a69": {"model_module": "@jupyter-widgets/base", "model_name": "LayoutModel", "state": {"_view_name": "LayoutView", "grid_template_rows": null, "right": null, "justify_content": null, "_view_module": "@jupyter-widgets/base", "overflow": null, "_model_module_version": "1.2.0", "_view_count": null, "flex_flow": null, "width": null, "min_width": null, "border": null, "align_items": null, "bottom": null, "_model_module": "@jupyter-widgets/base", "top": null, "grid_column": null, "overflow_y": null, "overflow_x": null, "grid_auto_flow": null, "grid_area": null, "grid_template_columns": null, "flex": null, "_model_name": "LayoutModel", "justify_items": null, "grid_row": null, "max_height": null, "align_content": null, "visibility": null, "align_self": null, "height": null, "min_height": null, "padding": null, "grid_auto_rows": null, "grid_gap": null, "max_width": null, "order": null, "_view_module_version": "1.2.0", "grid_template_areas": null, "object_position": null, "object_fit": null, "grid_auto_columns": null, "margin": null, "display": null, "left": null}}, "962a706542b6400499da8b98c219b556": {"model_module": "@jupyter-widgets/controls", "model_name": "DescriptionStyleModel", "state": {"_view_name": "StyleView", "_model_name": "DescriptionStyleModel", "description_width": "", "_view_module": "@jupyter-widgets/base", "_model_module_version": "1.5.0", "_view_count": null, "_view_module_version": "1.2.0", "_model_module": "@jupyter-widgets/controls"}}, "33fc09624f504c8b93bab97e5569fdc3": {"model_module": "@jupyter-widgets/base", "model_name": "LayoutModel", "state": {"_view_name": "LayoutView", "grid_template_rows": null, "right": null, "justify_content": null, "_view_module": "@jupyter-widgets/base", "overflow": null, "_model_module_version": "1.2.0", "_view_count": null, "flex_flow": null, "width": null, "min_width": null, "border": null, "align_items": null, "bottom": null, "_model_module": "@jupyter-widgets/base", "top": null, "grid_column": null, "overflow_y": null, "overflow_x": null, "grid_auto_flow": null, "grid_area": null, "grid_template_columns": null, "flex": null, "_model_name": "LayoutModel", "justify_items": null, "grid_row": null, "max_height": null, "align_content": null, "visibility": null, "align_self": null, "height": null, "min_height": null, "padding": null, "grid_auto_rows": null, "grid_gap": null, "max_width": null, "order": null, "_view_module_version": "1.2.0", "grid_template_areas": null, "object_position": null, "object_fit": null, "grid_auto_columns": null, "margin": null, "display": null, "left": null}}, "17535071944540e8afd06637ea7d6212": {"model_module": "@jupyter-widgets/controls", "model_name": "HBoxModel", "state": {"_view_name": "HBoxView", "_dom_classes": [], "_model_name": "HBoxModel", "_view_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_view_count": null, "_view_module_version": "1.5.0", "box_style": "", "layout": "IPY_MODEL_9a4128f09f0741d1a7bf0e37a5104b94", "_model_module": "@jupyter-widgets/controls", "children": ["IPY_MODEL_01060de757c84f36a8511235786fb8e8", "IPY_MODEL_6dba7b513f0e498e9472ea6e4448ae96"]}}, "9a4128f09f0741d1a7bf0e37a5104b94": {"model_module": "@jupyter-widgets/base", "model_name": "LayoutModel", "state": {"_view_name": "LayoutView", "grid_template_rows": null, "right": null, "justify_content": null, "_view_module": "@jupyter-widgets/base", "overflow": null, "_model_module_version": "1.2.0", "_view_count": null, "flex_flow": null, "width": null, "min_width": null, "border": null, "align_items": null, "bottom": null, "_model_module": "@jupyter-widgets/base", "top": null, "grid_column": null, "overflow_y": null, "overflow_x": null, "grid_auto_flow": null, "grid_area": null, "grid_template_columns": null, "flex": null, "_model_name": "LayoutModel", "justify_items": null, "grid_row": null, "max_height": null, "align_content": null, "visibility": null, "align_self": null, "height": null, "min_height": null, "padding": null, "grid_auto_rows": null, "grid_gap": null, "max_width": null, "order": null, "_view_module_version": "1.2.0", "grid_template_areas": null, "object_position": null, "object_fit": null, "grid_auto_columns": null, "margin": null, "display": null, "left": null}}, "01060de757c84f36a8511235786fb8e8": {"model_module": "@jupyter-widgets/controls", "model_name": "FloatProgressModel", "state": {"_view_name": "ProgressView", "style": "IPY_MODEL_95046fa4fc304afa89f614bb947c43b3", "_dom_classes": [], "description": "Downloading: 100%", "_model_name": "FloatProgressModel", "bar_style": "success", "max": 995526, "_view_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "value": 995526, "_view_count": null, "_view_module_version": "1.5.0", "orientation": "horizontal", "min": 0, "description_tooltip": null, "_model_module": "@jupyter-widgets/controls", "layout": "IPY_MODEL_9e3acb2e8fc4438cafa2549babfcd972"}}, "6dba7b513f0e498e9472ea6e4448ae96": {"model_module": "@jupyter-widgets/controls", "model_name": "HTMLModel", "state": {"_view_name": "HTMLView", "style": "IPY_MODEL_f8d3dde09fb74ee381e15c797154aec1", "_dom_classes": [], "description": "", "_model_name": "HTMLModel", "placeholder": "\u200b", "_view_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "value": " 996k/996k [00:00&lt;00:00, 1.51MB/s]", "_view_count": null, "_view_module_version": "1.5.0", "description_tooltip": null, "_model_module": "@jupyter-widgets/controls", "layout": "IPY_MODEL_a2cafdc1b556433c9d82898a230a5ee2"}}, "95046fa4fc304afa89f614bb947c43b3": {"model_module": "@jupyter-widgets/controls", "model_name": "ProgressStyleModel", "state": {"_view_name": "StyleView", "_model_name": "ProgressStyleModel", "description_width": "initial", "_view_module": "@jupyter-widgets/base", "_model_module_version": "1.5.0", "_view_count": null, "_view_module_version": "1.2.0", "bar_color": null, "_model_module": "@jupyter-widgets/controls"}}, "9e3acb2e8fc4438cafa2549babfcd972": {"model_module": "@jupyter-widgets/base", "model_name": "LayoutModel", "state": {"_view_name": "LayoutView", "grid_template_rows": null, "right": null, "justify_content": null, "_view_module": "@jupyter-widgets/base", "overflow": null, "_model_module_version": "1.2.0", "_view_count": null, "flex_flow": null, "width": null, "min_width": null, "border": null, "align_items": null, "bottom": null, "_model_module": "@jupyter-widgets/base", "top": null, "grid_column": null, "overflow_y": null, "overflow_x": null, "grid_auto_flow": null, "grid_area": null, "grid_template_columns": null, "flex": null, "_model_name": "LayoutModel", "justify_items": null, "grid_row": null, "max_height": null, "align_content": null, "visibility": null, "align_self": null, "height": null, "min_height": null, "padding": null, "grid_auto_rows": null, "grid_gap": null, "max_width": null, "order": null, "_view_module_version": "1.2.0", "grid_template_areas": null, "object_position": null, "object_fit": null, "grid_auto_columns": null, "margin": null, "display": null, "left": null}}, "f8d3dde09fb74ee381e15c797154aec1": {"model_module": "@jupyter-widgets/controls", "model_name": "DescriptionStyleModel", "state": {"_view_name": "StyleView", "_model_name": "DescriptionStyleModel", "description_width": "", "_view_module": "@jupyter-widgets/base", "_model_module_version": "1.5.0", "_view_count": null, "_view_module_version": "1.2.0", "_model_module": "@jupyter-widgets/controls"}}, "a2cafdc1b556433c9d82898a230a5ee2": {"model_module": "@jupyter-widgets/base", "model_name": "LayoutModel", "state": {"_view_name": "LayoutView", "grid_template_rows": null, "right": null, "justify_content": null, "_view_module": "@jupyter-widgets/base", "overflow": null, "_model_module_version": "1.2.0", "_view_count": null, "flex_flow": null, "width": null, "min_width": null, "border": null, "align_items": null, "bottom": null, "_model_module": "@jupyter-widgets/base", "top": null, "grid_column": null, "overflow_y": null, "overflow_x": null, "grid_auto_flow": null, "grid_area": null, "grid_template_columns": null, "flex": null, "_model_name": "LayoutModel", "justify_items": null, "grid_row": null, "max_height": null, "align_content": null, "visibility": null, "align_self": null, "height": null, "min_height": null, "padding": null, "grid_auto_rows": null, "grid_gap": null, "max_width": null, "order": null, "_view_module_version": "1.2.0", "grid_template_areas": null, "object_position": null, "object_fit": null, "grid_auto_columns": null, "margin": null, "display": null, "left": null}}, "6c8c544db35e4ab38669d31daa2debcc": {"model_module": "@jupyter-widgets/controls", "model_name": "HBoxModel", "state": {"_view_name": "HBoxView", "_dom_classes": [], "_model_name": "HBoxModel", "_view_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_view_count": null, "_view_module_version": "1.5.0", "box_style": "", "layout": "IPY_MODEL_df061e7d4e3e4f89b42102c3bd744042", "_model_module": "@jupyter-widgets/controls", "children": ["IPY_MODEL_43ce349ac6314dc098aa818d08d572fd", "IPY_MODEL_ceb0ec1007264b3f83c51c25552d885b"]}}, "df061e7d4e3e4f89b42102c3bd744042": {"model_module": "@jupyter-widgets/base", "model_name": "LayoutModel", "state": {"_view_name": "LayoutView", "grid_template_rows": null, "right": null, "justify_content": null, "_view_module": "@jupyter-widgets/base", "overflow": null, "_model_module_version": "1.2.0", "_view_count": null, "flex_flow": null, "width": null, "min_width": null, "border": null, "align_items": null, "bottom": null, "_model_module": "@jupyter-widgets/base", "top": null, "grid_column": null, "overflow_y": null, "overflow_x": null, "grid_auto_flow": null, "grid_area": null, "grid_template_columns": null, "flex": null, "_model_name": "LayoutModel", "justify_items": null, "grid_row": null, "max_height": null, "align_content": null, "visibility": null, "align_self": null, "height": null, "min_height": null, "padding": null, "grid_auto_rows": null, "grid_gap": null, "max_width": null, "order": null, "_view_module_version": "1.2.0", "grid_template_areas": null, "object_position": null, "object_fit": null, "grid_auto_columns": null, "margin": null, "display": null, "left": null}}, "43ce349ac6314dc098aa818d08d572fd": {"model_module": "@jupyter-widgets/controls", "model_name": "FloatProgressModel", "state": {"_view_name": "ProgressView", "style": "IPY_MODEL_bf5c0ba3c1404de7a47bcb1736c44055", "_dom_classes": [], "description": "Downloading: 100%", "_model_name": "FloatProgressModel", "bar_style": "success", "max": 646181, "_view_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "value": 646181, "_view_count": null, "_view_module_version": "1.5.0", "orientation": "horizontal", "min": 0, "description_tooltip": null, "_model_module": "@jupyter-widgets/controls", "layout": "IPY_MODEL_6e23c28226b647d1a2c9553201c3c2ec"}}, "ceb0ec1007264b3f83c51c25552d885b": {"model_module": "@jupyter-widgets/controls", "model_name": "HTMLModel", "state": {"_view_name": "HTMLView", "style": "IPY_MODEL_6d81e5ef575944f894aef92fea5ee83a", "_dom_classes": [], "description": "", "_model_name": "HTMLModel", "placeholder": "\u200b", "_view_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "value": " 646k/646k [00:01&lt;00:00, 353kB/s]", "_view_count": null, "_view_module_version": "1.5.0", "description_tooltip": null, "_model_module": "@jupyter-widgets/controls", "layout": "IPY_MODEL_f36ebd4e25f545d9b9172fe9e42cfbe5"}}, "bf5c0ba3c1404de7a47bcb1736c44055": {"model_module": "@jupyter-widgets/controls", "model_name": "ProgressStyleModel", "state": {"_view_name": "StyleView", "_model_name": "ProgressStyleModel", "description_width": "initial", "_view_module": "@jupyter-widgets/base", "_model_module_version": "1.5.0", "_view_count": null, "_view_module_version": "1.2.0", "bar_color": null, "_model_module": "@jupyter-widgets/controls"}}, "6e23c28226b647d1a2c9553201c3c2ec": {"model_module": "@jupyter-widgets/base", "model_name": "LayoutModel", "state": {"_view_name": "LayoutView", "grid_template_rows": null, "right": null, "justify_content": null, "_view_module": "@jupyter-widgets/base", "overflow": null, "_model_module_version": "1.2.0", "_view_count": null, "flex_flow": null, "width": null, "min_width": null, "border": null, "align_items": null, "bottom": null, "_model_module": "@jupyter-widgets/base", "top": null, "grid_column": null, "overflow_y": null, "overflow_x": null, "grid_auto_flow": null, "grid_area": null, "grid_template_columns": null, "flex": null, "_model_name": "LayoutModel", "justify_items": null, "grid_row": null, "max_height": null, "align_content": null, "visibility": null, "align_self": null, "height": null, "min_height": null, "padding": null, "grid_auto_rows": null, "grid_gap": null, "max_width": null, "order": null, "_view_module_version": "1.2.0", "grid_template_areas": null, "object_position": null, "object_fit": null, "grid_auto_columns": null, "margin": null, "display": null, "left": null}}, "6d81e5ef575944f894aef92fea5ee83a": {"model_module": "@jupyter-widgets/controls", "model_name": "DescriptionStyleModel", "state": {"_view_name": "StyleView", "_model_name": "DescriptionStyleModel", "description_width": "", "_view_module": "@jupyter-widgets/base", "_model_module_version": "1.5.0", "_view_count": null, "_view_module_version": "1.2.0", "_model_module": "@jupyter-widgets/controls"}}, "f36ebd4e25f545d9b9172fe9e42cfbe5": {"model_module": "@jupyter-widgets/base", "model_name": "LayoutModel", "state": {"_view_name": "LayoutView", "grid_template_rows": null, "right": null, "justify_content": null, "_view_module": "@jupyter-widgets/base", "overflow": null, "_model_module_version": "1.2.0", "_view_count": null, "flex_flow": null, "width": null, "min_width": null, "border": null, "align_items": null, "bottom": null, "_model_module": "@jupyter-widgets/base", "top": null, "grid_column": null, "overflow_y": null, "overflow_x": null, "grid_auto_flow": null, "grid_area": null, "grid_template_columns": null, "flex": null, "_model_name": "LayoutModel", "justify_items": null, "grid_row": null, "max_height": null, "align_content": null, "visibility": null, "align_self": null, "height": null, "min_height": null, "padding": null, "grid_auto_rows": null, "grid_gap": null, "max_width": null, "order": null, "_view_module_version": "1.2.0", "grid_template_areas": null, "object_position": null, "object_fit": null, "grid_auto_columns": null, "margin": null, "display": null, "left": null}}, "a5a46a6b7a1d4f3b838170c1bc7c0205": {"model_module": "@jupyter-widgets/controls", "model_name": "HBoxModel", "state": {"_view_name": "HBoxView", "_dom_classes": [], "_model_name": "HBoxModel", "_view_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_view_count": null, "_view_module_version": "1.5.0", "box_style": "", "layout": "IPY_MODEL_7933f432d6f2456581ae685f8a0688c4", "_model_module": "@jupyter-widgets/controls", "children": ["IPY_MODEL_3217632036ac40928a5ae83210212b2f", "IPY_MODEL_8e9a24ea2e56468dbbf943cc0078a65b"]}}, "7933f432d6f2456581ae685f8a0688c4": {"model_module": "@jupyter-widgets/base", "model_name": "LayoutModel", "state": {"_view_name": "LayoutView", "grid_template_rows": null, "right": null, "justify_content": null, "_view_module": "@jupyter-widgets/base", "overflow": null, "_model_module_version": "1.2.0", "_view_count": null, "flex_flow": null, "width": null, "min_width": null, "border": null, "align_items": null, "bottom": null, "_model_module": "@jupyter-widgets/base", "top": null, "grid_column": null, "overflow_y": null, "overflow_x": null, "grid_auto_flow": null, "grid_area": null, "grid_template_columns": null, "flex": null, "_model_name": "LayoutModel", "justify_items": null, "grid_row": null, "max_height": null, "align_content": null, "visibility": null, "align_self": null, "height": null, "min_height": null, "padding": null, "grid_auto_rows": null, "grid_gap": null, "max_width": null, "order": null, "_view_module_version": "1.2.0", "grid_template_areas": null, "object_position": null, "object_fit": null, "grid_auto_columns": null, "margin": null, "display": null, "left": null}}, "3217632036ac40928a5ae83210212b2f": {"model_module": "@jupyter-widgets/controls", "model_name": "FloatProgressModel", "state": {"_view_name": "ProgressView", "style": "IPY_MODEL_1d072653c5c6449d8d744f3a39355aa3", "_dom_classes": [], "description": "Downloading: 100%", "_model_name": "FloatProgressModel", "bar_style": "success", "max": 486639, "_view_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "value": 486639, "_view_count": null, "_view_module_version": "1.5.0", "orientation": "horizontal", "min": 0, "description_tooltip": null, "_model_module": "@jupyter-widgets/controls", "layout": "IPY_MODEL_15997995606b433d9bc8f4e73eb0b384"}}, "8e9a24ea2e56468dbbf943cc0078a65b": {"model_module": "@jupyter-widgets/controls", "model_name": "HTMLModel", "state": {"_view_name": "HTMLView", "style": "IPY_MODEL_85c62a9154244718a2abcddcd3f87fe1", "_dom_classes": [], "description": "", "_model_name": "HTMLModel", "placeholder": "\u200b", "_view_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "value": " 487k/487k [00:00&lt;00:00, 981kB/s]", "_view_count": null, "_view_module_version": "1.5.0", "description_tooltip": null, "_model_module": "@jupyter-widgets/controls", "layout": "IPY_MODEL_15ad4085eb7c40648c3305d82e09faa3"}}, "1d072653c5c6449d8d744f3a39355aa3": {"model_module": "@jupyter-widgets/controls", "model_name": "ProgressStyleModel", "state": {"_view_name": "StyleView", "_model_name": "ProgressStyleModel", "description_width": "initial", "_view_module": "@jupyter-widgets/base", "_model_module_version": "1.5.0", "_view_count": null, "_view_module_version": "1.2.0", "bar_color": null, "_model_module": "@jupyter-widgets/controls"}}, "15997995606b433d9bc8f4e73eb0b384": {"model_module": "@jupyter-widgets/base", "model_name": "LayoutModel", "state": {"_view_name": "LayoutView", "grid_template_rows": null, "right": null, "justify_content": null, "_view_module": "@jupyter-widgets/base", "overflow": null, "_model_module_version": "1.2.0", "_view_count": null, "flex_flow": null, "width": null, "min_width": null, "border": null, "align_items": null, "bottom": null, "_model_module": "@jupyter-widgets/base", "top": null, "grid_column": null, "overflow_y": null, "overflow_x": null, "grid_auto_flow": null, "grid_area": null, "grid_template_columns": null, "flex": null, "_model_name": "LayoutModel", "justify_items": null, "grid_row": null, "max_height": null, "align_content": null, "visibility": null, "align_self": null, "height": null, "min_height": null, "padding": null, "grid_auto_rows": null, "grid_gap": null, "max_width": null, "order": null, "_view_module_version": "1.2.0", "grid_template_areas": null, "object_position": null, "object_fit": null, "grid_auto_columns": null, "margin": null, "display": null, "left": null}}, "85c62a9154244718a2abcddcd3f87fe1": {"model_module": "@jupyter-widgets/controls", "model_name": "DescriptionStyleModel", "state": {"_view_name": "StyleView", "_model_name": "DescriptionStyleModel", "description_width": "", "_view_module": "@jupyter-widgets/base", "_model_module_version": "1.5.0", "_view_count": null, "_view_module_version": "1.2.0", "_model_module": "@jupyter-widgets/controls"}}, "15ad4085eb7c40648c3305d82e09faa3": {"model_module": "@jupyter-widgets/base", "model_name": "LayoutModel", "state": {"_view_name": "LayoutView", "grid_template_rows": null, "right": null, "justify_content": null, "_view_module": "@jupyter-widgets/base", "overflow": null, "_model_module_version": "1.2.0", "_view_count": null, "flex_flow": null, "width": null, "min_width": null, "border": null, "align_items": null, "bottom": null, "_model_module": "@jupyter-widgets/base", "top": null, "grid_column": null, "overflow_y": null, "overflow_x": null, "grid_auto_flow": null, "grid_area": null, "grid_template_columns": null, "flex": null, "_model_name": "LayoutModel", "justify_items": null, "grid_row": null, "max_height": null, "align_content": null, "visibility": null, "align_self": null, "height": null, "min_height": null, "padding": null, "grid_auto_rows": null, "grid_gap": null, "max_width": null, "order": null, "_view_module_version": "1.2.0", "grid_template_areas": null, "object_position": null, "object_fit": null, "grid_auto_columns": null, "margin": null, "display": null, "left": null}}, "8418af1b8323404eb65c552a3ae98024": {"model_module": "@jupyter-widgets/controls", "model_name": "HBoxModel", "state": {"_view_name": "HBoxView", "_dom_classes": [], "_model_name": "HBoxModel", "_view_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_view_count": null, "_view_module_version": "1.5.0", "box_style": "", "layout": "IPY_MODEL_8f6e5bcf82964c7599db3392ea580d50", "_model_module": "@jupyter-widgets/controls", "children": ["IPY_MODEL_bb86a1380f614a639aee6c21539833c6", "IPY_MODEL_ffb1dd4b7f314ab3a33868c0e2027dbd"]}}, "8f6e5bcf82964c7599db3392ea580d50": {"model_module": "@jupyter-widgets/base", "model_name": "LayoutModel", "state": {"_view_name": "LayoutView", "grid_template_rows": null, "right": null, "justify_content": null, "_view_module": "@jupyter-widgets/base", "overflow": null, "_model_module_version": "1.2.0", "_view_count": null, "flex_flow": null, "width": null, "min_width": null, "border": null, "align_items": null, "bottom": null, "_model_module": "@jupyter-widgets/base", "top": null, "grid_column": null, "overflow_y": null, "overflow_x": null, "grid_auto_flow": null, "grid_area": null, "grid_template_columns": null, "flex": null, "_model_name": "LayoutModel", "justify_items": null, "grid_row": null, "max_height": null, "align_content": null, "visibility": null, "align_self": null, "height": null, "min_height": null, "padding": null, "grid_auto_rows": null, "grid_gap": null, "max_width": null, "order": null, "_view_module_version": "1.2.0", "grid_template_areas": null, "object_position": null, "object_fit": null, "grid_auto_columns": null, "margin": null, "display": null, "left": null}}, "bb86a1380f614a639aee6c21539833c6": {"model_module": "@jupyter-widgets/controls", "model_name": "FloatProgressModel", "state": {"_view_name": "ProgressView", "style": "IPY_MODEL_d0cd124ff895438e822fd61de7adf88e", "_dom_classes": [], "description": "Downloading: 100%", "_model_name": "FloatProgressModel", "bar_style": "success", "max": 1042301, "_view_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "value": 1042301, "_view_count": null, "_view_module_version": "1.5.0", "orientation": "horizontal", "min": 0, "description_tooltip": null, "_model_module": "@jupyter-widgets/controls", "layout": "IPY_MODEL_65e57ee023cc451d8fc0f6d191292ed3"}}, "ffb1dd4b7f314ab3a33868c0e2027dbd": {"model_module": "@jupyter-widgets/controls", "model_name": "HTMLModel", "state": {"_view_name": "HTMLView", "style": "IPY_MODEL_4865aad29a6b4436a6d7b324c3e3afad", "_dom_classes": [], "description": "", "_model_name": "HTMLModel", "placeholder": "\u200b", "_view_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "value": " 1.04M/1.04M [00:01&lt;00:00, 604kB/s]", "_view_count": null, "_view_module_version": "1.5.0", "description_tooltip": null, "_model_module": "@jupyter-widgets/controls", "layout": "IPY_MODEL_603d329d84a146d79e3fc3a0d61efe16"}}, "d0cd124ff895438e822fd61de7adf88e": {"model_module": "@jupyter-widgets/controls", "model_name": "ProgressStyleModel", "state": {"_view_name": "StyleView", "_model_name": "ProgressStyleModel", "description_width": "initial", "_view_module": "@jupyter-widgets/base", "_model_module_version": "1.5.0", "_view_count": null, "_view_module_version": "1.2.0", "bar_color": null, "_model_module": "@jupyter-widgets/controls"}}, "65e57ee023cc451d8fc0f6d191292ed3": {"model_module": "@jupyter-widgets/base", "model_name": "LayoutModel", "state": {"_view_name": "LayoutView", "grid_template_rows": null, "right": null, "justify_content": null, "_view_module": "@jupyter-widgets/base", "overflow": null, "_model_module_version": "1.2.0", "_view_count": null, "flex_flow": null, "width": null, "min_width": null, "border": null, "align_items": null, "bottom": null, "_model_module": "@jupyter-widgets/base", "top": null, "grid_column": null, "overflow_y": null, "overflow_x": null, "grid_auto_flow": null, "grid_area": null, "grid_template_columns": null, "flex": null, "_model_name": "LayoutModel", "justify_items": null, "grid_row": null, "max_height": null, "align_content": null, "visibility": null, "align_self": null, "height": null, "min_height": null, "padding": null, "grid_auto_rows": null, "grid_gap": null, "max_width": null, "order": null, "_view_module_version": "1.2.0", "grid_template_areas": null, "object_position": null, "object_fit": null, "grid_auto_columns": null, "margin": null, "display": null, "left": null}}, "4865aad29a6b4436a6d7b324c3e3afad": {"model_module": "@jupyter-widgets/controls", "model_name": "DescriptionStyleModel", "state": {"_view_name": "StyleView", "_model_name": "DescriptionStyleModel", "description_width": "", "_view_module": "@jupyter-widgets/base", "_model_module_version": "1.5.0", "_view_count": null, "_view_module_version": "1.2.0", "_model_module": "@jupyter-widgets/controls"}}, "603d329d84a146d79e3fc3a0d61efe16": {"model_module": "@jupyter-widgets/base", "model_name": "LayoutModel", "state": {"_view_name": "LayoutView", "grid_template_rows": null, "right": null, "justify_content": null, "_view_module": "@jupyter-widgets/base", "overflow": null, "_model_module_version": "1.2.0", "_view_count": null, "flex_flow": null, "width": null, "min_width": null, "border": null, "align_items": null, "bottom": null, "_model_module": "@jupyter-widgets/base", "top": null, "grid_column": null, "overflow_y": null, "overflow_x": null, "grid_auto_flow": null, "grid_area": null, "grid_template_columns": null, "flex": null, "_model_name": "LayoutModel", "justify_items": null, "grid_row": null, "max_height": null, "align_content": null, "visibility": null, "align_self": null, "height": null, "min_height": null, "padding": null, "grid_auto_rows": null, "grid_gap": null, "max_width": null, "order": null, "_view_module_version": "1.2.0", "grid_template_areas": null, "object_position": null, "object_fit": null, "grid_auto_columns": null, "margin": null, "display": null, "left": null}}, "458632b060574d8aaff7ae4f3844f280": {"model_module": "@jupyter-widgets/controls", "model_name": "HBoxModel", "state": {"_view_name": "HBoxView", "_dom_classes": [], "_model_name": "HBoxModel", "_view_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "_view_count": null, "_view_module_version": "1.5.0", "box_style": "", "layout": "IPY_MODEL_9fc138e70c3a4646973b8ec7b9144dd3", "_model_module": "@jupyter-widgets/controls", "children": ["IPY_MODEL_dd152d5c3dff4cc7ba2f09459d446079", "IPY_MODEL_c506fbe00f274439bd57bd7bb250245c"]}}, "9fc138e70c3a4646973b8ec7b9144dd3": {"model_module": "@jupyter-widgets/base", "model_name": "LayoutModel", "state": {"_view_name": "LayoutView", "grid_template_rows": null, "right": null, "justify_content": null, "_view_module": "@jupyter-widgets/base", "overflow": null, "_model_module_version": "1.2.0", "_view_count": null, "flex_flow": null, "width": null, "min_width": null, "border": null, "align_items": null, "bottom": null, "_model_module": "@jupyter-widgets/base", "top": null, "grid_column": null, "overflow_y": null, "overflow_x": null, "grid_auto_flow": null, "grid_area": null, "grid_template_columns": null, "flex": null, "_model_name": "LayoutModel", "justify_items": null, "grid_row": null, "max_height": null, "align_content": null, "visibility": null, "align_self": null, "height": null, "min_height": null, "padding": null, "grid_auto_rows": null, "grid_gap": null, "max_width": null, "order": null, "_view_module_version": "1.2.0", "grid_template_areas": null, "object_position": null, "object_fit": null, "grid_auto_columns": null, "margin": null, "display": null, "left": null}}, "dd152d5c3dff4cc7ba2f09459d446079": {"model_module": "@jupyter-widgets/controls", "model_name": "FloatProgressModel", "state": {"_view_name": "ProgressView", "style": "IPY_MODEL_df2c7311be124da4aed26e53203cf0bc", "_dom_classes": [], "description": "Downloading: 100%", "_model_name": "FloatProgressModel", "bar_style": "success", "max": 456318, "_view_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "value": 456318, "_view_count": null, "_view_module_version": "1.5.0", "orientation": "horizontal", "min": 0, "description_tooltip": null, "_model_module": "@jupyter-widgets/controls", "layout": "IPY_MODEL_2567ad648da84eccb79ebf30e119fe49"}}, "c506fbe00f274439bd57bd7bb250245c": {"model_module": "@jupyter-widgets/controls", "model_name": "HTMLModel", "state": {"_view_name": "HTMLView", "style": "IPY_MODEL_b1927e9fb2ee4e08b29e2cc64c0eed4e", "_dom_classes": [], "description": "", "_model_name": "HTMLModel", "placeholder": "\u200b", "_view_module": "@jupyter-widgets/controls", "_model_module_version": "1.5.0", "value": " 456k/456k [00:00&lt;00:00, 1.08MB/s]", "_view_count": null, "_view_module_version": "1.5.0", "description_tooltip": null, "_model_module": "@jupyter-widgets/controls", "layout": "IPY_MODEL_860cbb040f3a483da112e7f3d9d38d45"}}, "df2c7311be124da4aed26e53203cf0bc": {"model_module": "@jupyter-widgets/controls", "model_name": "ProgressStyleModel", "state": {"_view_name": "StyleView", "_model_name": "ProgressStyleModel", "description_width": "initial", "_view_module": "@jupyter-widgets/base", "_model_module_version": "1.5.0", "_view_count": null, "_view_module_version": "1.2.0", "bar_color": null, "_model_module": "@jupyter-widgets/controls"}}, "2567ad648da84eccb79ebf30e119fe49": {"model_module": "@jupyter-widgets/base", "model_name": "LayoutModel", "state": {"_view_name": "LayoutView", "grid_template_rows": null, "right": null, "justify_content": null, "_view_module": "@jupyter-widgets/base", "overflow": null, "_model_module_version": "1.2.0", "_view_count": null, "flex_flow": null, "width": null, "min_width": null, "border": null, "align_items": null, "bottom": null, "_model_module": "@jupyter-widgets/base", "top": null, "grid_column": null, "overflow_y": null, "overflow_x": null, "grid_auto_flow": null, "grid_area": null, "grid_template_columns": null, "flex": null, "_model_name": "LayoutModel", "justify_items": null, "grid_row": null, "max_height": null, "align_content": null, "visibility": null, "align_self": null, "height": null, "min_height": null, "padding": null, "grid_auto_rows": null, "grid_gap": null, "max_width": null, "order": null, "_view_module_version": "1.2.0", "grid_template_areas": null, "object_position": null, "object_fit": null, "grid_auto_columns": null, "margin": null, "display": null, "left": null}}, "b1927e9fb2ee4e08b29e2cc64c0eed4e": {"model_module": "@jupyter-widgets/controls", "model_name": "DescriptionStyleModel", "state": {"_view_name": "StyleView", "_model_name": "DescriptionStyleModel", "description_width": "", "_view_module": "@jupyter-widgets/base", "_model_module_version": "1.5.0", "_view_count": null, "_view_module_version": "1.2.0", "_model_module": "@jupyter-widgets/controls"}}, "860cbb040f3a483da112e7f3d9d38d45": {"model_module": "@jupyter-widgets/base", "model_name": "LayoutModel", "state": {"_view_name": "LayoutView", "grid_template_rows": null, "right": null, "justify_content": null, "_view_module": "@jupyter-widgets/base", "overflow": null, "_model_module_version": "1.2.0", "_view_count": null, "flex_flow": null, "width": null, "min_width": null, "border": null, "align_items": null, "bottom": null, "_model_module": "@jupyter-widgets/base", "top": null, "grid_column": null, "overflow_y": null, "overflow_x": null, "grid_auto_flow": null, "grid_area": null, "grid_template_columns": null, "flex": null, "_model_name": "LayoutModel", "justify_items": null, "grid_row": null, "max_height": null, "align_content": null, "visibility": null, "align_self": null, "height": null, "min_height": null, "padding": null, "grid_auto_rows": null, "grid_gap": null, "max_width": null, "order": null, "_view_module_version": "1.2.0", "grid_template_areas": null, "object_position": null, "object_fit": null, "grid_auto_columns": null, "margin": null, "display": null, "left": null}}}
+</script>
+
+
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="sparklingness/blog"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/blog/tokenizer/2020/05/13/Transformer_Tokenizer.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/blog/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/blog/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/blog/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>An Blog for a wise NLP development.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/sparklingness" title="sparklingness"><svg class="svg-icon grey"><use xlink:href="/blog/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/-" title="-"><svg class="svg-icon grey"><use xlink:href="/blog/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
